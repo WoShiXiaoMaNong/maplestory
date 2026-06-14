@@ -1,0 +1,7 @@
+.vscode/
+.dist/
+out/
+.idea/
+config/
+target/
+logs/
