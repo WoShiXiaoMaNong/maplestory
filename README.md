@@ -23,7 +23,8 @@ GRANT ALL PRIVILEGES ON maple.* TO 'db_user_name'@'%';
 FLUSH PRIVILEGES;
 ```
 5. 导入 `sql/ms_20210813_234816.sql` 中的数据库结构和数据。
-
+> 注意，将 db_user_name ， db_user_password 改成你自己的用户名和密码
+> 确保 `config/db.properties` 中使用正确的用户名和密码
 ### 2. 配置服务器
 1. 复制 `config-temp/`整个目录, 并重命名为 `config/`
 2. 编辑 `config/server.properties`，根据需要调整服务器端口和其他运行参数。
