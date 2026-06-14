@@ -31,7 +31,15 @@ FLUSH PRIVILEGES;
 3. 修改 `config/db.properties` 中的数据库连接信息。
 > 确保 `config/db.properties` 中使用正确的用户名和密码
 
-### 3. 启动服务
+
+### 3.编译
+执行：
+
+```shell
+mvn clean install
+```
+
+### 4. 启动服务
 
 执行：
 
@@ -39,7 +47,7 @@ FLUSH PRIVILEGES;
 ./start.sh
 ```
 
-### 4. 常见端口
+### 5. 常见端口
 
 - 服务器端口：9595
 - 网关端口：8600
