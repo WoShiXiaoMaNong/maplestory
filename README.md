@@ -9,7 +9,20 @@
 ### 1. 准备数据库
 
 1. 安装 MySQL。
-2. 导入 `sql/ms_20210813_234816.sql` 中的数据库结构和数据。
+2. 创建数据库： maple
+```sql
+CREATE DATABASE maple;
+```
+3. 创建本地用户
+```sql
+CREATE USER 'db_user_name'@'%' IDENTIFIED WITH mysql_native_password BY 'db_user_password';
+```
+4. 赋予权限
+```sql
+GRANT ALL PRIVILEGES ON maple.* TO 'db_user_name'@'%';
+FLUSH PRIVILEGES;
+```
+5. 导入 `sql/ms_20210813_234816.sql` 中的数据库结构和数据。
 
 ### 2. 配置服务器
 1. 复制 `config-temp/`整个目录, 并重命名为 `config/`
