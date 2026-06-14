@@ -13,7 +13,7 @@
 ```sql
 CREATE DATABASE maple;
 ```
-3. 创建本地用户
+3. 创建本地用户 (将 db_user_name ， db_user_password 改成你自己的用户名和密码)
 ```sql
 CREATE USER 'db_user_name'@'%' IDENTIFIED WITH mysql_native_password BY 'db_user_password';
 ```
