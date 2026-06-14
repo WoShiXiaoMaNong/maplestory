@@ -1,6 +1,6 @@
 # MapleStory
 
-一个基于用于学习MapleStory源码的项目
+一个用于学习MapleStory源码的项目
 
 ## 快速开始
 
