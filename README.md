@@ -17,7 +17,7 @@ CREATE DATABASE maple;
 ```sql
 CREATE USER 'db_user_name'@'%' IDENTIFIED WITH mysql_native_password BY 'db_user_password';
 ```
-4. 赋予权限
+4. 赋予权限(将 db_user_name 改成你自己的用户名和密码)
 ```sql
 GRANT ALL PRIVILEGES ON maple.* TO 'db_user_name'@'%';
 FLUSH PRIVILEGES;
