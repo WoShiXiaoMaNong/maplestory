@@ -1,11 +1,9 @@
-function enter(pi) {
-    if (pi.getJob() >= 1000) {
-	if (pi.haveItem(4032179)) { // Search warrent
-	    pi.playerMessage("The erev search begins.");
-	}
-	pi.playPortalSE();
-	pi.warp(130010000, 3);
-    } else {
-	pi.playerMessage("Only the knights of Cygnus may enter.");
-    }
-}
+function enter(pi) { 
+         if (pi.getPlayer().getJob().getId() >= 1000) { 
+                 pi.warp(130010000, "east00"); 
+         } else { 
+                 pi.playerMessage("只有骑士团职业才可以入场!"); 
+                 return false; 
+         } 
+         return true; 
+} 

@@ -1,8 +1,8 @@
 function enter(pi) {
-    if (pi.getQuestStatus(21011) == 2) {
-	pi.playPortalSE();
+	if (!pi.isQuestFinished(21011)) {
+		pi.playerMessage("Äã±ØĞëÍê³ÉÈÎÎñºó£¬²ÅÄÜ½øÈëÏÂÒ»¸öµØÍ¼£¡");
+		return false;
+	}
 	pi.warp(140090300, 1);
-    } else {
-	pi.playerMessage(5, "å†é€²å…¥ä¸‹ä¸€å¼µåœ°åœ–ä¹‹å‰ï¼Œè«‹å…ˆå®Œæˆä»»å‹™ã€‚");
-    }
+	return true;
 }

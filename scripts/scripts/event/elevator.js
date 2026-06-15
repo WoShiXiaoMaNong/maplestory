@@ -1,70 +1,103 @@
-var goingUpTask;
-var onUpTask;
-var goingDownTask;
-var onDownTask;
-var goingUpOpen = false;
-var onUpOpen = false;
-var goingDownOpen = false;
-var onDownOpen = false;
+/*
+	This file is part of the OdinMS Maple Story Server
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
+					   Matthias Butz <matze@odinms.de>
+					   Jan Christian Meyer <vimes@odinms.de>
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation version 3 as published by
+    the Free Software Foundation. You may not use, modify or distribute
+    this program under any other version of the GNU Affero General Public
+    License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+-- Odin JavaScript --------------------------------------------------------------------------------
+	Ludibrium Elevator
+-- By ---------------------------------------------------------------------------------------------
+	Information
+-- Version Info -----------------------------------------------------------------------------------
+	1.3 - Complete fix [Angel-SL]
+	1.2 - Some fixes ^__^ [Sadiq]
+	1.1 - Remove unused statement [Information]
+	1.0 - First Version by Information
+---------------------------------------------------------------------------------------------------
+**/
+
+importPackage(net.sf.odinms.client);
+importPackage(net.sf.odinms.scripting.reactor);
+importPackage(java.util);
+var elevator_s;
+var elevator_m;
+var returnMap;
+var arrive;
 
 function init() {
-    scheduleNew();
-	goingUpOpen = false;
-	onUpOpen = false;
-	goingDownOpen = false;
-	onDownOpen = false;
-}
-
-function scheduleNew() {
-    em.setProperty("isUp","true");
-    em.setProperty("isDown","true");
-    onDown();
+	elevator_m = em.getChannelServer().getMapFactory().getMap(222020211);
+	em.setProperty("isUp","false");
+	em.setProperty("isDown","false");
+	//em.getChannelServer().getMapFactory().getMap(222020200).setReactorState();
+	onDown();
 }
 
 function onDown() {
-    em.getChannelServer().getMapFactory().getMap(222020100).resetReactors();
-    em.warpAllPlayer(222020210, 222020211);
-    em.setProperty("isDown","true");
-    goingUpTask = em.schedule("goingUp", 60000);
-	goingUpOpen = true;
+	em.getChannelServer().getMapFactory().getMap(222020100).resetReactors();
+	arrive = em.getChannelServer().getMapFactory().getMap(222020100);
+	returnMap = em.getChannelServer().getMapFactory().getMap(222020100);
+	warpToD();
+	elevator_s = em.getChannelServer().getMapFactory().getMap(222020110);
+	elevator_m = em.getChannelServer().getMapFactory().getMap(222020111);
+	em.setProperty("isDown","true");
+	em.schedule("goingUp", 60000);
 }
 
 function goingUp() {
-    em.warpAllPlayer(222020110, 222020111);
-    em.setProperty("isDown","false");
-    onUpTask = em.schedule("onUp", 50000);
-	onUpOpen = true;
-    em.getChannelServer().getMapFactory().getMap(222020100).setReactorState();
+	warpToM();
+	em.setProperty("isDown","false");
+	em.schedule("onUp", 50000);
+	//em.getChannelServer().getMapFactory().getMap(222020100).setReactorState();
 }
 
 function onUp() {
-    em.getChannelServer().getMapFactory().getMap(222020200).resetReactors();
-    em.warpAllPlayer(222020111, 222020200);
-    em.setProperty("isUp","true");
-    goingDownTask = em.schedule("goingDown", 60000);
-	goingDownOpen = true;
+	em.getChannelServer().getMapFactory().getMap(222020200).resetReactors();
+	arrive = em.getChannelServer().getMapFactory().getMap(222020200);
+	returnMap = em.getChannelServer().getMapFactory().getMap(222020200);
+	warpToD();
+	elevator_s = em.getChannelServer().getMapFactory().getMap(222020210);
+	elevator_m = em.getChannelServer().getMapFactory().getMap(222020211);
+	em.setProperty("isUp","true");
+	em.schedule("goingDown", 60000);
 }
 
 function goingDown() {
-    em.warpAllPlayer(222020211, 222020100);
-    em.setProperty("isUp","false");
-    onDownTask = em.schedule("onDown", 50000);
-	onDownOpen = true;
-    em.getChannelServer().getMapFactory().getMap(222020200).setReactorState();
+	warpToM();
+	em.setProperty("isUp","false");
+	em.schedule("onDown", 50000);
+	//em.getChannelServer().getMapFactory().getMap(222020200).setReactorState();
+}
+
+function warpToD() {
+	var iter = elevator_m.getCharacters().iterator();
+	while(iter.hasNext()) {
+		iter.next().changeMap(arrive, arrive.getPortal(0));
+	}
+}
+
+function warpToM() {
+	var iter = elevator_s.getCharacters().iterator();
+	while(iter.hasNext()) {
+		iter.next().changeMap(elevator_m, elevator_m.getPortal(0));
+	}
 }
 
 function cancelSchedule() {
-	if( goingUpOpen ) {
-		goingUpTask.cancel(true);
-	}
-	if( onUpOpen ) {
-		onUpTask.cancel(true);
-	}
-	if( goingDownOpen ) {
-		goingDownTask.cancel(true);
-	}
-	if( onDownOpen ) {
-		onDownTask.cancel(true);
-	}
 }

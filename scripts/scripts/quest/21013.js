@@ -1,52 +1,58 @@
+importPackage(net.sf.odinms.client);
+
 var status = -1;
 
 function start(mode, type, selection) {
-    if (mode == 1) {
-        status++;
-    } else {
-        if (status == 1) {
-            qm.sendNext("对英雄很有帮助的礼物。请不要拒绝。");
-            qm.dispose();
-            return;
-        }
-        status--;
-    }
-    if (status == 0) {
-        qm.sendSimple("啊，英雄...我好想你喔！  \r\n#b#L0#(害羞的样子)#l");
-    } else if (status == 1) {
-        qm.askAcceptDecline("我从以前就决定遇见英雄要送您一个礼物...我知道您忙着回村庄，可是...可以收下我诚心的礼物吗？");
-    } else if (status == 2) {
-        qm.forceStartQuest();
-        qm.sendNextS("礼物的材料就放在这附近的箱子里面。虽然有点麻烦，可是请您将箱子打破后，里面的材料 #b#t4032309##k 和 #b#t4032310##k带回来。我就会立刻帮您组装。", 1);
-    } else if (status == 3) {
-        qm.summonMsg(18);
-        qm.dispose();
-    }
+	if (mode == -1) {
+		qm.sendNext("I'm sure it will come in handy during your journey. Please, don't decline my offer.");
+        	qm.dispose();
+    	} else {
+        	if (mode > 0)
+            		status++;
+        	else
+            		status--;
+		if (status == 0) {
+			qm.sendSimple("英、英雄大人……我一直都很想见你。 \r\n#b#L0#（做腼腆状。）#l");
+		} else if (status == 1) {
+			qm.sendAcceptDecline("我从很久以前就想送英雄大人一件礼物……既然今天遇见了英雄，不知英雄能否赏脸收下我这份薄礼？");
+		} else if (status == 2) {
+			if (!qm.isQuestActive(21013)) {
+				qm.startQuest();
+			}
+			qm.sendNext("制作礼物的材料放在这附近的箱子里了。劳烦英雄大人找到这个箱子，把 #b#t4032309##k 和 #b#t4032310##k 带来给我。然后我就能立刻把礼物做好。", 1);
+		} else if (status == 3) {
+			qm.sendNext("不过因为目前系统有点问题，所以管理员直接会把 #b#t4032309##k 和 #b#t4032310##k 给你，你直接给我就可以了！", 1);
+		} else if (status == 4) {
+			qm.gainItem(4032309, 1);
+			qm.gainItem(4032310, 1);
+			qm.displayGuide(18);
+			qm.dispose();
+		}
+	}
 }
 
 function end(mode, type, selection) {
-    if (mode == 1) {
-        status++;
-    } else {
-        if (status == 0) {
-            qm.dispose();
-            return;
-        }
-        status--;
-    }
-    if (status == 0) {
-        qm.sendNext("材料都带回来了吗？那么请您等一下，只要这样组装一下... \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i3010062# 1 #t3010062# \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 95 经验值");
-    } else if (status == 1) {
-        if (qm.getQuestStatus(21013) == 1) {
-            qm.gainItem(3010062, 1);
-            qm.gainExp(95);
-            qm.forceCompleteQuest();
-        }
-        qm.sendNextPrevS("好了，椅子做好了！嘿嘿！就算是英雄也有疲劳的时候，因此我从很早以前就想送英雄一把椅子当作礼物。", 1);
-    } else if (status == 2) {
-        qm.sendNextPrevS("就算是英雄也不可能永远都很强大。英雄应该也有疲劳吃力的时候，有时也会感到脆弱。可是能够克服那些的人才配当英雄不是吗？", 1);
-    } else if (status == 3) {
-        qm.summonMsg(19);
-        qm.dispose();
-    }
+	if (mode == -1) {
+        	qm.dispose();
+    	} else {
+        	if (mode > 0)
+            		status++;
+        	else
+            		status--;
+		if (status == 0) {
+			qm.sendNext("嗯……看好了。礼物已经制作完成了！怎么样。很不错的椅子吧！希望大家能希望本服务器！ \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i3010062# 1 #t3010062# \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 95 exp");
+		} else if (status == 1) {
+			if (qm.isQuestActive(21013)) {
+				qm.gainItem(3010062, 1);
+				qm.completeQuest();
+				qm.getPlayer().gainExp(95, true, true);
+			}
+			qm.sendNextPrev("在这里，一个完全组装好的椅子，只为你！我一直想给你一个椅子作为礼物，因为我知道一个英雄可以偶尔使用一些很好的休息。", 1);
+		} else if (status == 2) {
+			qm.sendNextPrev("英雄是不可战胜的。英雄是人。我相信你将面临的挑战，有时甚至动摇。但是，你是一个英雄，因为你有克服任何障碍的能力！", 1)
+		} else if (status == 3) {
+			qm.displayGuide(19);
+			qm.dispose();
+		}
+	}
 }

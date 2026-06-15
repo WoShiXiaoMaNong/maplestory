@@ -1,7 +1,43 @@
-importPackage(Packages.tools);
+/*
+	This file is part of the OdinMS Maple Story Server
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+					   Matthias Butz <matze@odinms.de>
+					   Jan Christian Meyer <vimes@odinms.de>
 
-var closeTime = 120000; //The time to close the gate
-var beginTime = 120000; //The time to begin the ride
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation version 3 as published by
+    the Free Software Foundation. You may not use, modify or distribute
+    this program under any other version of the GNU Affero General Public
+    License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+-- Odin JavaScript --------------------------------------------------------------------------------
+	Subway Train between Kerning City and New Leaf City
+-- By ---------------------------------------------------------------------------------------------
+	Information
+-- Version Info -----------------------------------------------------------------------------------
+	1.2 - Fix timer map [Information]
+	1.1 - Fix for infinity looping [Information]
+	1.0 - First Version by Information
+	    - Thanks for Shogi for the whole information
+---------------------------------------------------------------------------------------------------
+**/
+
+importPackage(net.sf.odinms.tools);
+
+//Time Setting is in millisecond
+var closeTime = 240000; //The time to close the gate
+var beginTime = 300000; //The time to begin the ride
 var rideTime = 60000; //The time that require move to destination
 var KC_Waiting;
 var Subway_to_KC;
@@ -9,82 +45,66 @@ var KC_docked;
 var NLC_Waiting;
 var Subway_to_NLC;
 var NLC_docked;
-
-var stopEntryTask;
-var stopEntryOpen;
-var takeoffTask;
-var takeoffOpen;
-var arrivedTask;
-var arrivedOpen;
-
+var toggleMsg = true;
 
 function init() {
-    KC_Waiting = em.getChannelServer().getMapFactory().getMap(600010004);
-    NLC_Waiting = em.getChannelServer().getMapFactory().getMap(600010002);
-    Subway_to_KC = em.getChannelServer().getMapFactory().getMap(600010003);
-    Subway_to_NLC = em.getChannelServer().getMapFactory().getMap(600010005);
-    KC_docked = em.getChannelServer().getMapFactory().getMap(103000100);
-    NLC_docked = em.getChannelServer().getMapFactory().getMap(600010001);
-	stopEntryOpen = false;
-	takeoffOpen = false;
-	arrivedOpen = false;
-    scheduleNew();
+	KC_Waiting = em.getChannelServer().getMapFactory().getMap(600010004);
+	NLC_Waiting = em.getChannelServer().getMapFactory().getMap(600010002);
+	Subway_to_KC = em.getChannelServer().getMapFactory().getMap(600010003);
+	Subway_to_NLC = em.getChannelServer().getMapFactory().getMap(600010005);
+	KC_docked = em.getChannelServer().getMapFactory().getMap(103000100);
+	NLC_docked = em.getChannelServer().getMapFactory().getMap(600010001);
+	scheduleNew();
 }
 
 function scheduleNew() {
-    em.setProperty("docked", "true");
-    em.setProperty("entry", "true");
-    KC_docked.broadcastMessage(MaplePacketCreator.serverNotice(6, "Âú∞ÈêµÂàóËªäÂà∞Á´ô‰∫Ü„ÄÇ"));
-    NLC_docked.broadcastMessage(MaplePacketCreator.serverNotice(6, "Âú∞ÈêµÂàóËªäÂà∞Á´ô‰∫Ü„ÄÇ"));
-    stopEntryTask = em.schedule("stopEntry", closeTime);
-	stopEntryOpen = true;
-    takeoffTask = em.schedule("takeoff", beginTime);
-	takeoffOpen = true;
+	em.setProperty("docked", "true");
+	em.setProperty("entry", "true");
+	if(toggleMsg) {
+		KC_docked.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(5, "[µÿÃ˙] ¡–≥µ“—æ≠µΩ’æ£¨«Î–Ë“™¿Îø™µƒÀŸ∂»…œ≥µ£°"));
+		NLC_docked.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(5, "[µÿÃ˙] ¡–≥µ“—æ≠µΩ’æ£¨«Î–Ë“™¿Îø™µƒÀŸ∂»…œ≥µ£°"));
+	}
+	setupTask1 = em.schedule("stopEntry", closeTime);
+	setupTask2 = em.schedule("takeoff", beginTime);
 }
 
 function stopEntry() {
-    em.setProperty("entry","false");
+	em.setProperty("entry","false");
 }
 
 function takeoff() {
-    em.setProperty("docked","false");
-    var temp1 = KC_Waiting.getCharacters().iterator();
-    while(temp1.hasNext()) {
-        temp1.next().changeMap(Subway_to_NLC, Subway_to_NLC.getPortal(0));
-    }
-    var temp2 = NLC_Waiting.getCharacters().iterator();
-    while(temp2.hasNext()) {
-        temp2.next().changeMap(Subway_to_KC, Subway_to_KC.getPortal(0));
-    }
-    KC_docked.broadcastMessage(MaplePacketCreator.serverNotice(6, "Âú∞ÈêµÂàóËªäÂ∑≤Á∂ìÈõ¢Èñã‰∫Ü."));
-    NLC_docked.broadcastMessage(MaplePacketCreator.serverNotice(6, "Âú∞ÈêµÂàóËªäÂ∑≤Á∂ìÈõ¢Èñã‰∫Ü."));
-    var temp = rideTime / 1000;
-    Subway_to_KC.broadcastMessage(MaplePacketCreator.getClock(temp));
-    Subway_to_NLC.broadcastMessage(MaplePacketCreator.getClock(temp));
-    arrivedTask = em.schedule("arrived", rideTime);
-	arrivedOpen = true;
+	em.setProperty("docked","false");
+	var temp1 = KC_Waiting.getCharacters().iterator();
+	while(temp1.hasNext()) {
+		temp1.next().changeMap(Subway_to_NLC, Subway_to_NLC.getPortal(0));
+	}
+	var temp2 = NLC_Waiting.getCharacters().iterator();
+	while(temp2.hasNext()) {
+		temp2.next().changeMap(Subway_to_KC, Subway_to_KC.getPortal(0));
+	}
+	if(toggleMsg) {
+		KC_docked.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(5, "[µÿÃ˙] ¡–≥µ“—æ≠≥ˆ∑¢£¨Œ¥…œ≥µµƒ¬√øÕ«Îµ»¥˝œ¬¥Œ¡–≥µ£°"));
+		NLC_docked.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(5, "[µÿÃ˙] ¡–≥µ“—æ≠≥ˆ∑¢£¨Œ¥…œ≥µµƒ¬√øÕ«Îµ»¥˝œ¬¥Œ¡–≥µ£°"));
+	}
+	var temp = rideTime / 1000;
+	Subway_to_KC.broadcastMessage(Packages.tools.MaplePacketCreator.getClock(temp));
+	Subway_to_NLC.broadcastMessage(Packages.tools.MaplePacketCreator.getClock(temp));
+	em.schedule("arrived", rideTime);
 }
 
 function arrived() {
-    var temp1 = Subway_to_KC.getCharacters().iterator();
-    while(temp1.hasNext()) {
-        temp1.next().changeMap(KC_docked, KC_docked.getPortal(0));
-    }
-    var temp2 = Subway_to_NLC.getCharacters().iterator();
-    while(temp2.hasNext()) {
-        temp2.next().changeMap(NLC_docked, NLC_docked.getPortal(0));
-    }
-    scheduleNew();
+	var temp1 = Subway_to_KC.getCharacters().iterator();
+	while(temp1.hasNext()) {
+		temp1.next().changeMap(KC_docked, KC_docked.getPortal(0));
+	}
+	var temp2 = Subway_to_NLC.getCharacters().iterator();
+	while(temp2.hasNext()) {
+		temp2.next().changeMap(NLC_docked, NLC_docked.getPortal(0));
+	}
+	scheduleNew();
 }
 
 function cancelSchedule() {
-	if( stopEntryOpen ) {
-		stopEntryTask.cancel(true);
-	}
-	if( takeoffOpen ) {
-		takeoffTask.cancel(true);
-	}
-	if( arrivedOpen ) {
-		arrivedTask.cancel(true);
-	}
+	setupTask1.cancel(true);
+	setupTask2.cancel(true);
 }

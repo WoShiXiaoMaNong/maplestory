@@ -1,91 +1,148 @@
-var minPlayers = 3;
+// yay for HenesysPQ <- probably useless.. :P Masoud
+importPackage(net.sf.odinms.client);
+importPackage(net.sf.odinms.net);
+importPackage(net.sf.odinms.tools);
+
+var exitMap;
+var instanceId;
+var minPlayers = 0;
+var pqTime = 600;
 
 function init() {
-em.setProperty("state", "0");
-	em.setProperty("leader", "true");
+    instanceId = 1;
 }
 
-function setup(eim, leaderid) {
-em.setProperty("state", "1");
-	em.setProperty("leader", "true");
-    var eim = em.newInstance("HenesysPQ" + leaderid);
-	em.setProperty("stage", "0");
-        var map = eim.setInstanceMap(910010000);
-        map.resetFully();
-	map.setSpawns(false);
-    eim.startEventTimer(600000); //10 分
+function monsterValue(eim, mobId) {
+    return 1;
+}
+
+function setup() {
+    exitMap = em.getChannelServer().getMapFactory().getMap(910010300);
+    var instanceName = "HenesysPQ" + instanceId;
+    var eim = em.newInstance(instanceName);
+    var mf = eim.getMapFactory();
+    instanceId++;
+    var map = mf.getMap(910010300);
+    map.shuffleReactors();
+    eim.addMapInstance(910010300,map);
+    var firstPortal = eim.getMapInstance(910010000).getPortal("next00");
+    firstPortal.setScriptName("hpq1");
     return eim;
 }
 
 function playerEntry(eim, player) {
-    var map = eim.getMapInstance(0);
+    var map = eim.getMapInstance(910010300);
     player.changeMap(map, map.getPortal(0));
-    player.tryPartyQuest(1200);
 }
 
-function playerRevive(eim, player) {
-}
-
-function scheduledTimeout(eim) {
-    end(eim);
-}
-
-function changedMap(eim, player, mapid) {
-    if (mapid != 910010000) {
-	eim.unregisterPlayer(player);
-
-	if (eim.disposeIfPlayerBelow(0, 0)) {
-		em.setProperty("state", "0");
-		em.setProperty("leader", "true");
-	}
+function playerDead(eim, player) {
+    if (player.isAlive()) { //trigger on manual revive
+        if (eim.isLeader(player)) { //it checks for party leader
+            //boot whole party and end
+            var party = eim.getPlayers();
+            for (var i = 0; i < party.size(); i++) {
+                playerExit(eim, party.get(i));
+            }
+            eim.dispose();
+        }
+        else { //boot dead player
+            // if its only 2 ppl left its uncompletable:
+            var party = eim.getPlayers();
+            if (party.size() < minPlayers) {
+                for (var i = 0; i < party.size(); i++) {
+                    playerExit(eim,party.get(i));
+                }
+                eim.dispose();
+            }
+            else
+                playerExit(eim, player);
+        }
     }
 }
 
 function playerDisconnected(eim, player) {
-    return 0;
+    if (eim.isLeader(player)) { //checks for party leader again:
+        //boot whole party and end
+        var party = eim.getPlayers();
+        for (var i = 0; i < party.size(); i++) {
+            if (party.get(i).equals(player)) {
+                removePlayer(eim, player);
+            }
+            else {
+                playerExit(eim, party.get(i));
+            }
+        }
+        eim.dispose();
+    }
+    else { //boot d/ced player
+        // if its only 2 ppl left its uncompletable:
+        var party = eim.getPlayers();
+        if (party.size() < minPlayers) {
+            for (var i = 0; i < party.size(); i++) {
+                playerExit(eim,party.get(i));
+            }
+            eim.dispose();
+        }
+        else
+            playerExit(eim, player);
+    }
 }
 
-function monsterValue(eim, mobId) {
-    if (mobId == 9300061) {
-	eim.broadcastPlayerMsg(5, "月兔被殺死了 嗚嗚");
-	end(eim);
+function leftParty(eim, player) {			
+    // If only 2 players are left, uncompletable:
+    var party = eim.getPlayers();
+    if (party.size() < minPlayers) {
+        for (var i = 0; i < party.size(); i++) {
+            playerExit(eim,party.get(i));
+        }
+        eim.dispose();
     }
-    return 1;
+    else
+        playerExit(eim, player);
+}
+
+function disbandParty(eim) {
+    //boot whole party and end
+    var party = eim.getPlayers();
+    for (var i = 0; i < party.size(); i++) {
+        playerExit(eim, party.get(i));
+    }
+    eim.dispose();
 }
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
-
-    if (eim.disposeIfPlayerBelow(0, 0)) {
-	em.setProperty("state", "0");
-		em.setProperty("leader", "true");
-	}
+    player.changeMap(exitMap, exitMap.getPortal(0));
 }
 
-function end(eim) {
-    eim.disposeIfPlayerBelow(100, 910010300);
-	em.setProperty("state", "0");
-		em.setProperty("leader", "true");
+//for offline players
+function removePlayer(eim, player) {
+    eim.unregisterPlayer(player);
+    player.getMap().removePlayer(player);
+    player.setMap(exitMap);
 }
 
 function clearPQ(eim) {
-    end(eim);
-}
-
-function allMonstersDead(eim) {
-}
-
-function leftParty (eim, player) {
-    // If only 2 players are left, uncompletable:
+    //like gms if you complete only XP as reward no items/bonus:
     var party = eim.getPlayers();
-    if (party.size() < minPlayers) {
-	end(eim);
+    for (var i = 0; i < party.size(); i++) {
+        playerExit(eim, party.get(i));
     }
-    else
-	playerExit(eim, player);
+    eim.dispose();
 }
-function disbandParty (eim) {
-	end(eim);
+
+
+
+function cancelSchedule() {
 }
-function playerDead(eim, player) {}
-function cancelSchedule() {}
+
+function timeOut(eim) {
+	if (eim.getPlayerCount() > 0) {
+            var pIter = eim.getPlayers().iterator();
+            while (pIter.hasNext()) {
+                playerExit(eim, pIter.next());
+            }
+        }
+        eim.dispose();
+
+}

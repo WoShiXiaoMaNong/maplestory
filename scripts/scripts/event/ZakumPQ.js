@@ -1,152 +1,147 @@
-//ZPQ maps, center area then 1-1 through 16-6 increasing gradually
-var mapList = new Array(280010000, 280010010, 280010011, 280010020, 280010030, 280010031, 280010040, 280010041, 280010050, 280010060,
-    280010070, 280010071, 280010080, 280010081, 280010090, 280010091, 280010100, 280010101, 280010110, 280010120, 280010130, 280010140,
-    280010150, 280011000, 280011001, 280011002, 280011003, 280011004, 280011005, 280011006);
+/* 
+ * This file is part of the OdinMS Maple Story Server
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+                       Matthias Butz <matze@odinms.de>
+                       Jan Christian Meyer <vimes@odinms.de>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License version 3
+    as published by the Free Software Foundation. You may not use, modify
+    or distribute this program under any other version of the
+    GNU Affero General Public License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * @Author Lerk
+ * 
+ * Zakum Party Quest 
+ */
+ 
+importPackage(net.sf.odinms.world);
+
+var exitMap;
+var instanceId;
 
 function init() {
-    em.setProperty("started", "false");
+	instanceId = 1;
+        em.setProperty("shuffleReactors","true");
 }
 
 function monsterValue(eim, mobId) {
-    return 1;
+	return 1;
 }
 
 function setup() {
-    em.setProperty("started", "true");
-
-    var eim = em.newInstance("ZakumPQ");
-
-    for (var i = 0; i < mapList.length; i++) {
-	eim.setInstanceMap(mapList[i]).resetFully();
-    }
-    eim.getMapFactory().getMap(280010000).shuffleReactors();
-
-    eim.startEventTimer(1800000);
-	
-    return eim;
+	exitMap = em.getChannelServer().getMapFactory().getMap(280090000); //room of tragedy
+	var instanceName = "ZakumPQ" + instanceId;
+	var eim = em.newInstance(instanceName);	
+	var mf = eim.getMapFactory();
+	instanceId++;
+	var map = mf.getMap(280010000);
+	map.shuffleReactors();
+	var eventTime = 30 * (1000 * 60);
+	eim.schedule("timeOut", eventTime);
+	eim.startEventTimer(eventTime);
+	return eim;
 }
 
 function playerEntry(eim, player) {
-    var map = em.getMapFactory().getMap(280010000);
-    player.changeMap(map, map.getPortal(0));
+	var map = eim.getMapInstance(280010000);
+	player.changeMap(map, map.getPortal(0));
 }
 
 function playerRevive(eim, player) {
+	if (eim.isLeader(player)) { //check for party leader
+		//boot whole party and end
+		var party = eim.getPlayers();
+		for (var i = 0; i < party.size(); i++) {
+			playerExit(eim, party.get(i));
+		}
+		eim.dispose();
+	} else { //boot dead player
+		playerExit(eim, player);
+	}
+	return false; // don't execute the standard reviving code
 }
 
 function playerDead(eim, player) {
 }
 
-function scheduledTimeout(eim) {
-    disposePlayerBelow(eim, 100, 280090000);
-}
-
-function changedMap(eim, player, mapid) {
-    switch (mapid) {
-	case 280010000:
-	case 280010010:
-	case 280010011:
-	case 280010020:
-	case 280010030:
-	case 280010031:
-	case 280010040:
-	case 280010041:
-	case 280010050:
-	case 280010060:
-	case 280010070:
-	case 280010071:
-	case 280010080:
-	case 280010081:
-	case 280010090:
-	case 280010091:
-	case 280010100:
-	case 280010101:
-	case 280010110:
-	case 280010120:
-	case 280010130:
-	case 280010140:
-	case 280010150:
-	case 280011000:
-	case 280011001:
-	case 280011002:
-	case 280011003:
-	case 280011004:
-	case 280011005:
-	case 280011006:
-	    return;
-    }
-    eim.unregisterPlayer(player);
-
-    disposePlayerBelow(eim,0, 0);
-}
-
 function playerDisconnected(eim, player) {
-    return -4;
+	if (eim.isLeader(player)) { //check for party leader
+		//boot whole party and end
+		var party = eim.getPlayers();
+		for (var i = 0; i < party.size(); i++) {
+			if (party.get(i).equals(player)) {
+				removePlayer(eim, player);
+			} else {
+				playerExit(eim, party.get(i));
+			}
+		}
+		eim.dispose();
+	} else { //boot d/ced player
+		removePlayer(eim, player);
+	}
 }
 
 function leftParty(eim, player) {
-    playerExit(eim, player);
+	playerExit(eim, player);
 }
 
 function disbandParty(eim) {
-    //boot whole party and end
-    disposePlayerBelow(eim,100, 280090000);
+	//boot whole party and end
+	var party = eim.getPlayers();
+	for (var i = 0; i < party.size(); i++) {
+		playerExit(eim, party.get(i));
+	}
+	eim.dispose();
 }
 
 function playerExit(eim, player) {
-    eim.unregisterPlayer(player);
-
-    var map = eim.getMapFactory().getMap(280090000);
-    player.changeMap(map, map.getPortal(0));
-
-	disposePlayerBelow(eim,0, 0);
+	eim.unregisterPlayer(player);
+	player.changeMap(exitMap, exitMap.getPortal(0));
 }
 
 //for offline players
 function removePlayer(eim, player) {
-    eim.unregisterPlayer(player);
+	eim.unregisterPlayer(player);
+	player.getMap().removePlayer(player);
+	player.setMap(exitMap);
 }
 
 function clearPQ(eim) {
-    //ZPQ does nothing special with winners
-    disposePlayerBelow(eim,100, 280090000);
-}
-
-function players(eim) { //not efficient
-	var z = em.newCharList();
-	for (var i = 0; i < mapList.length; i++) {
-		var map = eim.getMapFactory().getMap(mapList[i]);
-		if (map != null) {
-			var iter = map.getCharactersThreadsafe().iterator();
-			while (iter.hasNext()) {
-				var chaz = iter.next();
-				if (chaz.getEventInstance() != null && chaz.getEventInstance().getName().equals("ZakumPQ")) {
-					z.add(chaz);
-				}
-			}
-		}
+	//ZPQ does nothing special with winners
+	var party = eim.getPlayers();
+	for (var i = 0; i < party.size(); i++) {
+		playerExit(eim, party.get(i));
 	}
-	return z;
+	eim.dispose();
 }
 
-function disposePlayerBelow(eim, size, mapid) {
-	var z = players(eim);
-	var map = eim.getMapFactory().getMap(mapid);
-	if (z.size() <= size) {
-		var iter = z.iterator();
-		while (iter.hasNext()) {
-			var cha = iter.next();
-			eim.unregisterPlayer(cha);
-			if (mapid > 0) {
-				cha.changeMap(map, map.getPortal(0));
+function allMonstersDead(eim) {
+}
+
+function cancelSchedule() {
+}
+
+function timeOut() {
+	var iter = em.getInstances().iterator();
+	while (iter.hasNext()) {
+		var eim = iter.next();
+		if (eim.getPlayerCount() > 0) {
+			var pIter = eim.getPlayers().iterator();
+			while (pIter.hasNext()) {
+				playerExit(eim, pIter.next());
 			}
 		}
-		em.setProperty("started", "false");
 		eim.dispose();
-		return true;
 	}
-	return false;
 }
-
-function allMonstersDead(eim) {}
-function cancelSchedule() {}

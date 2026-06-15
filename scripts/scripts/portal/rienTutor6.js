@@ -1,6 +1,9 @@
 function enter(pi) {
-    if (pi.getInfoQuest(21019).equals("helper=clear")) {
-	pi.updateInfoQuest(21019, "miss=o;helper=clear");
-	pi.playerSummonHint(false);
-    }
+	if (pi.getAranIntroState("miss=o")) {
+		return false;
+	}
+	pi.updateAranIntroState2("miss=o;helper=clear");
+	pi.blockPortal();
+	pi.removeTutorialSummon();
+	return true;
 }

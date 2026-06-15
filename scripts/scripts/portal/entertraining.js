@@ -1,13 +1,13 @@
 function enter(pi) {
-    if (pi.getQuestStatus(1041) == 1) {
-	pi.warp(1010100, 4);
-    } else if (pi.getQuestStatus(1042) == 1) {
-	pi.warp(1010200, 4);
-    } else if (pi.getQuestStatus(1043) == 1) {
-	pi.warp(1010300, 4);
-    } else if (pi.getQuestStatus(1044) == 1) {
-	pi.warp(1010400, 4);
-    } else {
-	pi.playerMessage(5, "åªæœ‰æ¥å—éº¦åŠ çš„è®­ç»ƒæ‰èƒ½è¿›å…¥ã€‚");
-    }
+	if (pi.isQuestActive(1041))
+		pi.warp(1010100, 4);
+	else if (pi.isQuestActive(1042))
+		pi.warp(1010200, 4);
+	else if (pi.isQuestActive(1043))
+		pi.warp(1010300, 4);
+	else if (pi.isQuestActive(1044))
+		pi.warp(1010400, 4);
+	else
+		pi.playerMessage("½ÓÊÜÂó¼ÓµÄĞŞÁ¶µÄÃ°ÏÕ¼Ò²Å¿ÉÒÔÈë³¡.");
+	return false;
 }

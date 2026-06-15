@@ -1,3 +1,3 @@
-function act(){
-	rm.killMonster(6090000);
+function act() {
+	rm.spawnMonster(9400711, 1);
 }

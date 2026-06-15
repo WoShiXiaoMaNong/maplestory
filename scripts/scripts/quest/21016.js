@@ -1,25 +1,30 @@
+importPackage(net.sf.odinms.client);
+
 var status = -1;
 
 function start(mode, type, selection) {
-    if (mode == 1) {
-        status++;
-    } else {
-        if (status == 0) {
-            qm.sendNext("您还没准备好猎杀 #o0100132#吗？ 最好把该准备的都准备好再去狩猎比较好。如果不好好准备，在途中一命呜呼了，那只会让人遗浅罢了！");
-            qm.dispose();
-            return;
-        }
-        status--;
-    }
-    if (status == 0) {
-        qm.askAcceptDecline("那么要继续基础体力锻炼吗？准备好了吗？请您在确认剑是否装备好了，技能和药是否已经放入快捷栏内，然后就开始吧！");
-    } else if (status == 1) {
-        qm.forceStartQuest();
-        qm.showWZEffect("Effect/OnUserEff.img/guideEffect/aranTutorial/tutorialArrow3", 1);
-        qm.dispose();
-    }
+	if (mode == -1) {
+		qm.sendNext("还没做好准备吗？那么准备好后再来跟我说一声。");
+        	qm.dispose();
+    	} else {
+        	if (mode > 0)
+            		status++;
+        	else
+            		status--;
+		if (status == 0) {
+			qm.sendAcceptDecline("开始基础体力锻炼吧？准备好了？再确认一下剑是否装备好了？技能和药水是否已经托到了快捷栏中？");
+		} else if (status == 1) {
+			if (!qm.isQuestActive(21016)) {
+				qm.startQuest();
+			}
+			qm.sendNext("很好。下面要去打猎的#r#o0100132#s#k，是比#o0100131#s更厉害一些的怪兽。去#b#m140020100##k抓#r15只#k，这将有助于你的体力提高。体力就是冒险动力的来源！快出去吧！", 1);
+		} else if (status == 2) {
+			qm.showWZEffect("Effect/OnUserEff.img/guideEffect/aranTutorial/tutorialArrow3", 1);
+			qm.dispose();
+		}
+	}
 }
 
 function end(mode, type, selection) {
-    qm.dispose();
+
 }

@@ -1,3 +1,5 @@
-锘縡unction enter(pi) {
-    pi.summonMsg("鎴樼锛屽墿涓嬬殑璺紝浣犲緱鑷繁璧颁笅鍘讳簡锛屾垜杩樻湁浜嬶紝涓嶈兘涓�鐩撮櫔浣犱簡銆傚啀瑙侊紒")
+function enter(pi) {
+	pi.tutorialSpeechBubble("好了战神，再往那边走一点就有城镇了，我有事先走了！以后的路要靠你自己了！");
+	pi.blockPortal();
+	return true;
 }

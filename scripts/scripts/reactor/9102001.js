@@ -20,15 +20,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
--- Odin JavaScript --------------------------------------------------------------------------------
-	Drop Maple History Book 3
--- By ---------------------------------------------------------------------------------------------
-	Information
--- Version Info -----------------------------------------------------------------------------------
-	1.0 - First Version by Information
----------------------------------------------------------------------------------------------------
-**/
+/* @Author xQuasar
+ * 
+ * Drops Maple History Books
+ * 
+*/
 
 function act() {
 	rm.dropItems();

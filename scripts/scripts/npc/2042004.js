@@ -1,18 +1,15 @@
 var status = 0;
+var request;
+
 function start() {
-    cm.sendYesNo("请问你想要离开？？");
+    status = -1;
+    action(1, 0, 0);
 }
 
+
 function action(mode, type, selection) {
-    if (mode != 1) {
-        if (mode == 0)
-            cm.sendOk("改变主意再来找我。");
-        cm.dispose();
-        return;
-    }
-    status++;
-    if (status == 1) {
-        cm.warp(980000000, 0);
-        cm.dispose();
-    }
+    cm.warp(980000000,4);
+    cm.dispose();
 }
+
+

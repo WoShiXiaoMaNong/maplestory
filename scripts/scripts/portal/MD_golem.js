@@ -1,5 +1,5 @@
 /*
-        This file is part of the OdinMS Maple Story Server
+	This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
                        Matthias Butz <matze@odinms.de>
                        Jan Christian Meyer <vimes@odinms.de>
@@ -28,16 +28,16 @@ var dungeonid = 105040320;
 var dungeons = 30;
 
 function enter(pi) {
-        if (pi.getMapId() == baseid) {
-            for(var i = 0; i < dungeons; i++) {
-                if (pi.getPlayerCount(dungeonid + i) == 0) {
-                    pi.warp(dungeonid + i, 0);
-                    return true;
-                }
-            }
-            pi.playerMessage(5, "所有的地下城都在使用中，請稍後再嘗試。");
-        } else {
-        pi.warp(baseid, "MD00");
-        }
-        return true;
+	if (pi.getMapId() == baseid) {
+	    for(var i = 0; i < dungeons; i++) {
+		if (pi.getPlayerCount(dungeonid + i) == 0) {
+		    pi.warp(dungeonid + i, 0);
+		    return true;
+		}
+	    }
+	    pi.playerMessage(5, "All of the Mini-Dungeons are in use right now, please try again later.");
+	} else {
+	pi.warp(baseid, "MD00");
+	}
+	return true;
 }

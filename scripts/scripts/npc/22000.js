@@ -1,57 +1,57 @@
+/* 
+	NPC Name: 		桑克斯
+	Map(s): 		Maple Road : Southperry (60000)
+	Description: 		Brings you to Victoria Island
+*/
 var status = 0;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (status >= 0 && mode == 0) {
-			cm.sendOk("嗯... 我猜你还有什么别的事情要在这里做吧？");
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendYesNo("如果你想离开这里，你需要付给我 #e150 金币#n  我会带你去 #b明珠港岛#k. 但关键的是，你一旦离开，你就可以再回到这里来。你是不是想要去明珠港岛？");
-		} else if (status == 1) {
-			if (cm.haveItem(4031801)) {
-				cm.sendNext("好, 现在给我 150 金币... 嗯, 那是什么？ 是路卡斯的推荐信？ 嘿, 你应该告诉我. 伟大的冒险家。我似乎已经看到你的将来。");
-			} else {
-				cm.sendNext("确定要离开吗? 那么... 先付我 #e150 金币#n 吧...");
-			}
-		} else if (status == 2) {
-			if (cm.haveItem(4031801)) {
-				cm.sendNextPrev("既然你有推荐信，我也不会向你收任何费用的。好了。我们现在就向明珠港岛出发。船可能会有点动荡，坐好了...");
-			} else {
-				if (cm.getLevel() >= 7) {
-					if (cm.getMeso() < 150) {
-						cm.sendOk("什么？你想去明珠港但你没有钱？你是一个怪人...");
-						cm.dispose();
-					} else {
-						cm.sendNext("很好! #e150#n 金币! 那么，我们现在就向明珠港岛出发吧!");
-					}
-				} else {
-					cm.sendOk("来让我看看，我不认为你有足够的资格去明珠港岛。你至少等级在7级或者7级以上。");
-					cm.dispose();
-				}
-			}
-		} else if (status == 3) {
-			if (cm.haveItem(4031801)) {
-				cm.gainItem(4031801, -1);
-				cm.warp(2010000);
-				cm.dispose();
-			} else {
-				cm.gainMeso(-150);
-				cm.warp(2010000);
-				cm.dispose();
-			}
-		}
-	}
+    if (status >= 0 && mode == 0) {
+        cm.sendOk("哼...还有些事没有处理完吧？");
+        cm.dispose();
+        return;
+    }
+    if (mode == 1) {
+        status++;
+    } else {
+        status--;
+    }
+    if (status == 0) {
+        cm.sendYesNo("哼...你想去金银岛吗？");
+    } else if (status == 1) {
+        if (cm.haveItem(4031801)) {
+            cm.sendNext("Okay, now give me 150 mesos... Hey, what's that? Is that the recommendation letter from Lucas, the chief of Amherst? Hey, you should have told me you had this. I, Shanks, recognize greatness when I see one, and since you have been recommended by Lucas, I see that you have a great, great potential as an adventurer. No way would I charge you for this trip!");
+        } else {
+            cm.sendNext("你是不是已经厌倦了这里? 好... 先收个 #e150 金币#n...");
+        }
+    } else if (status == 2) {
+        if (cm.haveItem(4031801)) {
+            cm.sendNextPrev("Since you have the recommendation letter, I won't charge you for this. Alright, buckle up, because we're going to head to Victoria Island right now, and it might get a bit turbulent!!");
+        } else {
+            if (cm.getLevel()> 7) {
+                if (cm.getMeso() < 150) {
+                    cm.sendOk("What? You're telling me you wanted to go without any money? You're one weirdo...");
+                    cm.dispose();
+                } else {
+                    cm.sendNext("非常好! 收到了#e150 金币#n ! 好~ 现在开始向 #b金银岛#k出发~!");
+                }
+            } else {
+                cm.sendOk("Let's see... I don't think you are strong enough. You'll have to be at least Level 7 to go to Victoria Island.");
+                cm.dispose();
+            }
+        }
+    } else if (status == 3) {
+        if (cm.haveItem(4031801)) {
+            cm.gainItem(4031801, -1);
+        } else {
+            cm.gainMeso( - 150);
+        }
+        cm.warp(104000000);
+        cm.dispose();
+    }
 }

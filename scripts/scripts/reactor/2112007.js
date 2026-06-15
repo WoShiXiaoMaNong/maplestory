@@ -26,5 +26,7 @@
 */
 
 function act(){
-	rm.dropItems();
+	if (rm.getQuestStatus(2074).equals(net.sf.odinms.client.MapleQuestStatus.Status.STARTED)) {
+		rm.dropItems();
+	}
 }

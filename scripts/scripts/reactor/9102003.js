@@ -1,8 +1,8 @@
 /*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-		       Matthias Butz <matze@odinms.de>
-		       Jan Christian Meyer <vimes@odinms.de>
+	This file is part of the odinms Maple Story Server
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+					   Matthias Butz <matze@odinms.de>
+					   Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -19,11 +19,12 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/**
- * @author BubblesDev
- * @purpose Drops Purple Seeds (4001096)
- * @map Primrose Hill
- */
+
+/* @Author Jvlaple
+ * 
+ * Drops all primrose seed <3
+*/
+
 function act() {
-    rm.dropItems();
+	rm.dropItems();
 }

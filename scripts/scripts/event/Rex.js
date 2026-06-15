@@ -1,32 +1,32 @@
-var minPlayers = 3;
+/*
+ *	组队任务：侏儒怪皇帝的复活
+ */
+
+var minPlayers = 2;
 
 function init() {
-	em.setProperty("instanceId", "1");
+    em.setProperty("state", "0");
+    em.setProperty("leader", "true");
 }
 
-function setup(eim, leaderid) {
-    var eim = em.newInstance("Rex" + leaderid + em.getProperty("instanceId"));
-	em.setProperty("instanceId", parseInt(em.getProperty("instanceId")) + 1);
-        eim.createInstanceMap(921120005).resetFully();
-        eim.createInstanceMap(921120100).resetFully();
-        eim.createInstanceMap(921120200).resetFully();
-        eim.createInstanceMap(921120300).resetFully();
-        eim.createInstanceMap(921120400).resetFully();
-        eim.createInstanceMap(921120500).resetFully();
-        eim.createInstanceMap(921120600).resetFully();
-	eim.setProperty("HP", "50000");
+function setup(level, leaderid) {
+    em.setProperty("state", "1");
+    em.setProperty("leader", "true");
+    var eim = em.newInstance("Rex" + leaderid);
+    eim.setInstanceMap(921120005).resetPQ(level);
+    eim.setInstanceMap(921120100).resetPQ(level);
+    eim.setInstanceMap(921120200).resetPQ(level);
+    eim.setInstanceMap(921120300).resetPQ(level);
+    eim.setInstanceMap(921120400).resetPQ(level);
 
-    eim.schedule("talkMob", 5000);
-    eim.startEventTimer(1800000); //30 mins
+    var map = eim.getMapInstance(3);
+    var mob = em.getMonster(9300281);
+    eim.registerMonster(mob);
+    mob.changeLevel(level);
+    map.spawnMonsterOnGroundBelow(mob, map.getPortal(0).getPosition());
+    eim.startEventTimer(1200000); //20 mins
     return eim;
 }
-
-function talkMob(eim) {
-	var map = eim.getMapInstance(0);
-	var mob = em.getMonster(9300275);
-	eim.registerMonster(mob);
-	map.spawnMonsterWithEffectBelow(mob, new java.awt.Point(-451, 154), 12);
-} 
 
 function playerEntry(eim, player) {
     var map = eim.getMapInstance(0);
@@ -35,19 +35,25 @@ function playerEntry(eim, player) {
 
 function playerRevive(eim, player) {
     eim.unregisterPlayer(player);
-    eim.disposeIfPlayerBelow(0, 0);
+    if (eim.disposeIfPlayerBelow(0, 0)) {
+        em.setProperty("state", "0");
+        em.setProperty("leader", "true");
+    }
     return true;
 }
 
 function scheduledTimeout(eim) {
-    eim.disposeIfPlayerBelow(100, 921120001);
+    end(eim);
 }
 
 function changedMap(eim, player, mapid) {
-    if (mapid < 921120005 || mapid > 921120600) {
+    if (mapid < 921120005 || mapid > 921120400) {
         eim.unregisterPlayer(player);
 
-        eim.disposeIfPlayerBelow(0, 0);
+        if (eim.disposeIfPlayerBelow(0, 0)) {
+            em.setProperty("state", "0");
+            em.setProperty("leader", "true");
+        }
     }
 }
 
@@ -61,32 +67,30 @@ function monsterValue(eim, mobId) {
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
-
-    eim.disposeIfPlayerBelow(0, 0);
+    player.changeMap(em.getChannelServer().getMapFactory().getMap(211000002), em.getChannelServer().getMapFactory().getMap(211000002).getPortal(0));
+    if (eim.disposeIfPlayerBelow(0, 0)) {
+        em.setProperty("state", "0");
+        em.setProperty("leader", "true");
+    }
 }
 
 function end(eim) {
-    eim.disposeIfPlayerBelow(100, 921120001);
+    eim.disposeIfPlayerBelow(100, 211000002);
+    em.setProperty("state", "0");
+    em.setProperty("leader", "true");
 }
 
 function clearPQ(eim) {
-    eim.disposeIfPlayerBelow(100, 921120001);
+    end(eim);
 }
 
-function allMonstersDead(eim) {
-}
+function allMonstersDead(eim) {}
 
-function leftParty (eim, player) {
-    // If only 2 players are left, uncompletable:
-    var party = eim.getPlayers();
-    if (party.size() < minPlayers) {
-	eim.disposeIfPlayerBelow(100, 921120001);
-    }
-    else
-	playerExit(eim, player);
+function leftParty(eim, player) {
+    end(eim);
 }
-function disbandParty (eim) {
-	eim.disposeIfPlayerBelow(100, 921120001);
+function disbandParty(eim) {
+    end(eim);
 }
 function playerDead(eim, player) {}
 function cancelSchedule() {}

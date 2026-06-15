@@ -1,3 +1,15 @@
+/*
+	九灵龙蛋任务 -- 反应脚本
+	
+	by 芯碎王子
+*/
 function act() {
-    rm.spawnNpc(2081008);
+	if (rm.getPlayer().getMaxHp() > 100) {		
+		rm.getPlayer().getMap().getReactorById(2406000).setState(1);		
+		rm.getPlayer().getMap().broadcastMessage(Packages.tools.MaplePacketCreator.spawnReactor(rm.getPlayer().getMap().getReactorById(2406000)));				
+		rm.getReactor().setState(1);
+	}
+	else {
+		rm.getReactor().setState(0);
+	}
 }

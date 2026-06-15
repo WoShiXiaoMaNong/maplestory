@@ -18,7 +18,7 @@ function setup() {
     var map = eim.setInstanceMap(912010000);
     map.resetFully();
     map.respawn(true);
-    eim.startEventTimer(240000);
+    eim.startEventTimer(180000);
 
     return eim;
 }
@@ -26,28 +26,26 @@ function setup() {
 function playerEntry(eim, player) {
     var map = eim.getMapFactory().getMap(912010000);
     player.changeMap(map, map.getPortal(0));
-    player.dropMessage(6, "你必須忍耐2分鐘！！");
+    player.dropMessage(6, "You must endure Kyrin's attacks for more than 2 minutes!");
 }
 
-function playerDead(eim, player) {
-}
+function playerDead(eim, player) {}
 
-function playerRevive(eim, player) {
-}
+function playerRevive(eim, player) {}
 
 function scheduledTimeout(eim) {
-    eim.disposeIfPlayerBelow(100, 120000101);
+    eim.disposeIfPlayerBelow(100, 912010200);
 
     em.setProperty("started", "false");
 }
 
 function changedMap(eim, player, mapid) {
     if (mapid != 912010000) {
-	eim.unregisterPlayer(player);
+        eim.unregisterPlayer(player);
 
-	if (eim.disposeIfPlayerBelow(0, 0)) {
-	    em.setProperty("started", "false");
-	}
+        if (eim.disposeIfPlayerBelow(0, 0)) {
+            em.setProperty("started", "false");
+        }
     }
 }
 
@@ -80,8 +78,7 @@ function clearPQ(eim) {
 }
 
 function allMonstersDead(eim) {
-//has nothing to do with monster killing
+    //has nothing to do with monster killing
 }
 
-function cancelSchedule() {
-}
+function cancelSchedule() {}

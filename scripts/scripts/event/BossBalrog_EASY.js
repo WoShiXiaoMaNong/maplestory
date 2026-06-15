@@ -1,4 +1,4 @@
-var fullhp = 6000000;
+var fullhp = 2000000000;
 
 function init() {
     em.setProperty("state", "0");
@@ -12,8 +12,8 @@ function setup(eim, leaderid) {
     em.setProperty("leader", "true");
     // Setup the instance when invoked, EG : start PQ
     var eim = em.newInstance("BossBalrog_EASY" + leaderid);
-    eim.setInstanceMap(105100300).resetFully();
-    eim.setInstanceMap(105100301).resetFully();
+    eim.setInstanceMap(105100400).resetFully();
+    eim.setInstanceMap(105100401).resetFully();
 
     eim.schedule("spawn", 5000);
     eim.schedule("checkHP", 305000);
@@ -23,7 +23,7 @@ function setup(eim, leaderid) {
 function spawn(eim) {
     var map = eim.getMapInstance(0);
     var mob1 = em.getMonster(8830007);
-    var mob2 = em.getMonster(8830001); //left hand is invincible at first
+    var mob2 = em.getMonster(8830011); //left hand is invincible at first
     var mob3 = em.getMonster(8830009);
     var modified1 = em.newMonsterStats();
     modified1.setOHp(fullhp);
@@ -56,7 +56,7 @@ function playerEntry(eim, player) {
 }
 
 function changedMap(eim, player, mapid) {
-    if (mapid != 105100300 && mapid != 105100301) {
+    if (mapid != 105100400 && mapid != 105100401) {
         playerExit(eim, player);
     }
 }
@@ -166,7 +166,7 @@ function checkHP(eim) {
         var mob = em.getMonster(8830013);
         eim.registerMonster(mob);
         map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(416, 258));
-        map.killMonster(8830001);
+        map.killMonster(8830011);
         map.killMonster(8830013);
         var mob1 = em.getMonster(8830007); //purple state not used
         var mob2 = em.getMonster(8830008);
@@ -181,7 +181,7 @@ function checkHP(eim) {
         map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(416, 258));
         em.setProperty("balrogState", "1");
     } else {
-        eim.broadcastPlayerMsg(6, "扎昆太强，消灭了你.");
+        eim.broadcastPlayerMsg(6, "Balrog was too strong and has overcome you.");
         end(eim);
     }
 }

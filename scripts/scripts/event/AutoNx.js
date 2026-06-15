@@ -1,14 +1,17 @@
 var setupTask;
-//var 数量 = Math.floor(Math.random() * 100);;
+
 function init() {
 	scheduleNew();
 }
 
 function scheduleNew() {
 	var cal = java.util.Calendar.getInstance();
+	cal.set(java.util.Calendar.HOUR, 0);
+	cal.set(java.util.Calendar.MINUTE, 3);
+	cal.set(java.util.Calendar.SECOND, 0);
 	var nextTime = cal.getTimeInMillis();
 	while (nextTime <= java.lang.System.currentTimeMillis()) {
-		nextTime += 10000;
+		nextTime += 60000;
 	}
 	setupTask = em.scheduleAtTimestamp("start", nextTime);
 }
@@ -19,5 +22,5 @@ function cancelSchedule() {
 
 function start() {
 	scheduleNew();
-	em.getChannelServer().AutoNx(Math.floor(Math.random() * 100)+1);
+	em.getChannelServer().AutoNx(1);
 } 

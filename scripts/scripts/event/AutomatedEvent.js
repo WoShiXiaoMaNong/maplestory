@@ -2,15 +2,17 @@ var setupTask;
 var nextTime;
 
 function init() {
-    	var cal = java.util.Calendar.getInstance();
-    	cal.set(java.util.Calendar.HOUR, 4);
-    	cal.set(java.util.Calendar.MINUTE, 0);
-    	cal.set(java.util.Calendar.SECOND, 0);
-    	nextTime = cal.getTimeInMillis();
+    if (em.getChannel() == 10) { //lol
+        var cal = java.util.Calendar.getInstance();
+        cal.set(java.util.Calendar.HOUR, 2);
+        cal.set(java.util.Calendar.MINUTE, 22); //5 mins = time to register
+        cal.set(java.util.Calendar.SECOND, 22);
+        nextTime = cal.getTimeInMillis();
         while (nextTime <= java.lang.System.currentTimeMillis()) {
-	    nextTime += 1000 * 60 * 240; // 4小時
+            nextTime += 1000 * 60 * 142; // 2:22
         }
-    	scheduleNew();
+        scheduleNew();
+    }
 }
 
 function scheduleNew() {
@@ -19,13 +21,13 @@ function scheduleNew() {
 }
 
 function cancelSchedule() {
-	if (setupTask != null) {
-		setupTask.cancel(true);
-	}
+    if (setupTask != null) {
+        setupTask.cancel(true);
+    }
 }
 
 function setup() {
-    //em.scheduleRandomEvent();
-    setupTask = em.schedule("scheduleNew", 120000); // 2分
-    nextTime += 1000 * 60 * 240; // 4小時
+    em.scheduleRandomEvent();
+    setupTask = em.schedule("scheduleNew", 120000);
+    nextTime += 1000 * 60 * 142; // 2:22
 }

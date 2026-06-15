@@ -1,12 +1,14 @@
 /*
-Leave the Cave of Life - Entrance Map and go back to the Peak of the Big Nest (240040600) should probably cancel the HT morph buff
+-- ---------------------
+     黑龙王脚本
+-------------------------
+      亲亲冒险岛专用
+----- Version Info ------
+      芯碎王子修复
+-------------------------
 */
 
 function enter(pi) {
-    var morph = pi.getMorphState();
-    if (morph == 2210003) {
-	pi.cancelItem(2210003);
-    }
-    pi.playPortalSE();
-    pi.warp(240040600, "east00");
+	pi.warp(240040600, "st00");
+	return true;
 }

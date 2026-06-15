@@ -1,7 +1,11 @@
 function enter(pi) {
-    if (pi.getInfoQuest(21002).equals("arr0=o;mo1=o;mo2=o;mo3=o")) {
-        pi.playerMessage(5, "Çë°´Ctrl¼ü³¢ÊÔÆÕÍ¨¹¥»÷.");
-        pi.updateInfoQuest(21002, "normal=o;arr0=o;mo1=o;mo2=o;mo3=o");
-        pi.showWZEffect("Effect/OnUserEff.img/guideEffect/aranTutorial/tutorialGuide1", 1);
-    }
+	if (pi.getAranIntroState("normal=o")) {
+		pi.blockPortal();
+		return false;
+	}
+	pi.playerMessage("Ã°ÏÕµºÌáÊ¾£º°´Ò»ÏÂCTRL¼ü£¬ÄÜ¹»¶Ô¹ÖÎï½øÐÐÒ»°ã¹¥»÷¡£");
+	pi.updateAranIntroState("normal=o;arr0=o;mo1=o;mo2=o;mo3=o");
+	pi.blockPortal();
+	pi.showWZEffect("Effect/OnUserEff.img/guideEffect/aranTutorial/tutorialGuide1", 1);
+	return true;
 }

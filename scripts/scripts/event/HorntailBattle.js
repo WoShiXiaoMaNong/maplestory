@@ -1,76 +1,41 @@
+/* 
+ * ÆÕÍ¨ºÚÁú
+ */
+
+
 function init() {
     // 0 = Not started, 1 = started, 2 = first head defeated, 3 = second head defeated
     em.setProperty("state", "0");
-	em.setProperty("leader", "true");
-    em.setProperty("preheadCheck", "0");
-// 0 = First head not summoned
-// 1 = Pending, to summon first head
-// 2 = Second head not summoned
-// 3 = Pending, to summon second head
+    em.setProperty("leader", "true");
 }
 
 function setup(eim, leaderid) {
     em.setProperty("state", "1");
     em.setProperty("preheadCheck", "0");
-	em.setProperty("leader", "true");
-
+    em.setProperty("leader", "true");
     var eim = em.newInstance("HorntailBattle");
-
-    eim.setInstanceMap(240060000).resetFully();
-    eim.setInstanceMap(240060100).resetFully();
-    eim.setInstanceMap(240060200).resetFully();
-
-    eim.startEventTimer(60 * 1000 * 720); //now changed to 2 hours
-
-    eim.schedule("CheckHorntailHead", 3000);
+    var map = eim.setInstanceMap(240060200); //ÉèÖÃ»î¶¯½Å±¾µÄµØÍ¼
+    map.resetFully(); //ÖØÖÃµØÍ¼
+    var mob = em.getMonster(9999999); //»Æ½ğµ°
+    map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(-550, 260)); //Ë¢³öÕâ¸ö¹ÖÎï
+    eim.startEventTimer(4500000); //1Ğ¡Ê±15·ÖÖÓ
     return eim;
 }
 
-function CheckHorntailHead(eim) {
-    var prop = em.getProperty("preheadCheck");
-
-    if (prop.equals("0")) {
-	eim.schedule("CheckHorntailHead", 3000);
-    }
-    else if (prop.equals("1")) {
-	em.setProperty("preheadCheck", "2");
-
-	var mob = em.getMonster(8810024); // First HT Head
-	eim.registerMonster(mob);
-	eim.getMapFactory().getMap(240060000).spawnMonsterOnGroundBelow(mob, new java.awt.Point(890, 230));
-
-	eim.schedule("CheckHorntailHead", 3000);
-    }
-    else if (prop.equals("2")) {
-	eim.schedule("CheckHorntailHead", 3000);
-    }
-    else if (prop.equals("3")) {
-	em.setProperty("preheadCheck", "4");
-
-	var mob = em.getMonster(8810025); // Second HT Head
-	eim.registerMonster(mob);
-	eim.getMapFactory().getMap(240060100).spawnMonsterOnGroundBelow(mob, new java.awt.Point(-360, 230));
-    }
-}
-
 function playerEntry(eim, player) {
-    var map = eim.getMapFactory().getMap(240060000);
+    var map = eim.getMapFactory().getMap(240060200);
     player.changeMap(map, map.getPortal(0));
-	player.setBossLog("æ™®é€šé»‘é¾™",1);  //è®¾ç½®é»‘é¾™BossçŠ¶æ€1
 }
 
 function changedMap(eim, player, mapid) {
     switch (mapid) {
-	case 240060000:
-	case 240060100:
-	case 240060200:
-	    return;
+    case 240060200:
+        return;
     }
     eim.unregisterPlayer(player);
-	player.resetBossLog("æ™®é€šé»‘é¾™"); //æ¸…é™¤é»‘é¾™BossçŠ¶æ€
     if (eim.disposeIfPlayerBelow(0, 0)) {
-	em.setProperty("state", "0");
-		em.setProperty("leader", "true");
+        em.setProperty("state", "0");
+        em.setProperty("leader", "true");
     }
 }
 
@@ -81,15 +46,14 @@ function playerDisconnected(eim, player) {
 function scheduledTimeout(eim) {
     eim.disposeIfPlayerBelow(100, 240050400);
     em.setProperty("state", "0");
-	em.setProperty("leader", "true");
+    em.setProperty("leader", "true");
 }
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
-
     if (eim.disposeIfPlayerBelow(0, 0)) {
-		em.setProperty("state", "0");
-		em.setProperty("leader", "true");
+        em.setProperty("state", "0");
+        em.setProperty("leader", "true");
     }
 }
 
@@ -97,23 +61,14 @@ function monsterValue(eim, mobId) {
     return 1;
 }
 
-function allMonstersDead(eim) {
-	//ç–‘ä¼¼æ— æ•ˆ
-    var state = em.getProperty("state");
-
-    if (state.equals("1")) {
-		em.setProperty("state", "2");
-    } else if (state.equals("2")) {
-		em.setProperty("state", "3");
-    }
-}
+function allMonstersDead(eim) {}
 
 function playerRevive(eim, player) {
     return false;
 }
 
 function clearPQ(eim) {}
-function leftParty (eim, player) {}
-function disbandParty (eim) {}
+function leftParty(eim, player) {}
+function disbandParty(eim) {}
 function playerDead(eim, player) {}
 function cancelSchedule() {}

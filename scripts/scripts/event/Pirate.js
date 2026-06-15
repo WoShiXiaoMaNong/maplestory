@@ -14,10 +14,10 @@ function setup(level, leaderid) {
     em.setProperty("stage3a", "0");
     em.setProperty("stage4", "0");
     em.setProperty("stage5", "0");
-    eim.setInstanceMap(925100000).resetFully();
-    eim.setInstanceMap(925100100).resetFully();
+    eim.setInstanceMap(925100000).resetPQ(level);
+    eim.setInstanceMap(925100100).resetPQ(level);
     var map = eim.setInstanceMap(925100200);
-    map.resetFully();
+    map.resetPQ(level);
     for (var i = 0; i < 5; i++) {
         var mob = em.getMonster(9300124);
         var mob2 = em.getMonster(9300125);
@@ -27,58 +27,78 @@ function setup(level, leaderid) {
         eim.registerMonster(mob2);
         eim.registerMonster(mob3);
         eim.registerMonster(mob4);
-        //mob.changeLevel(level);
-        //mob2.changeLevel(level);
-        //mob3.changeLevel(level);
-       // mob4.changeLevel(level);
+        mob.changeLevel(level);
+        mob2.changeLevel(level);
+        mob3.changeLevel(level);
+        mob4.changeLevel(level);
         map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(430, 75));
         map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(1600, 75));
         map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(430, 238));
         map.spawnMonsterOnGroundBelow(mob4, new java.awt.Point(1600, 238));
     }
     map = eim.setInstanceMap(925100201);
+    map.resetPQ(level);
     for (var i = 0; i < 10; i++) {
         var mob = em.getMonster(9300112);
         var mob2 = em.getMonster(9300113);
         eim.registerMonster(mob);
         eim.registerMonster(mob2);
+        mob.changeLevel(level);
+        mob2.changeLevel(level);
         map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(0, 238));
         map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(1700, 238));
     }
-    eim.setInstanceMap(925100202);
+    eim.setInstanceMap(925100202).resetPQ(level);
     map = eim.setInstanceMap(925100300);
-   map.resetFully();
-
+    map.resetPQ(level);
     for (var i = 0; i < 5; i++) {
         var mob = em.getMonster(9300124);
         var mob2 = em.getMonster(9300125);
-
         var mob3 = em.getMonster(9300124);
-	
         var mob4 = em.getMonster(9300125);
         eim.registerMonster(mob);
         eim.registerMonster(mob2);
         eim.registerMonster(mob3);
         eim.registerMonster(mob4);
+        mob.changeLevel(level);
+        mob2.changeLevel(level);
+        mob3.changeLevel(level);
+        mob4.changeLevel(level);
         map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(430, 75));
         map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(1600, 75));
         map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(430, 238));
         map.spawnMonsterOnGroundBelow(mob4, new java.awt.Point(1600, 238));
     }
     map = eim.setInstanceMap(925100301);
+    map.resetPQ(level);
     for (var i = 0; i < 10; i++) {
         var mob = em.getMonster(9300112);
         var mob2 = em.getMonster(9300113);
         eim.registerMonster(mob);
         eim.registerMonster(mob2);
+        mob.changeLevel(level);
+        mob2.changeLevel(level);
         map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(0, 238));
         map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(1700, 238));
     }
-    eim.setInstanceMap(925100302);
-    eim.setInstanceMap(925100400).resetFully();
-    eim.setInstanceMap(925100500);
+    eim.setInstanceMap(925100302).resetPQ(level);
+    eim.setInstanceMap(925100400).resetPQ(level);
+    var map1 = eim.setInstanceMap(925100500);
+    map1.resetFully();
+    map1.killMonster(9300119);
+    map1.killMonster(9300105);
+    map1.killMonster(9300106);
+    map1.killMonster(9300107);
+    var mob = em.getMonster(9300119);
+    eim.registerMonster(mob);
+    mob.changeLevel(level);
+    var modified = em.newMonsterStats();
+    modified.setOHp(mob.getMobMaxHp() * 350);
+    mob.setOverrideStats(modified);
+    map1.spawnMonsterOnGroundBelow(mob, new java.awt.Point(328, 238));
+    
 
-    eim.startEventTimer(3000000); //20 mins
+    eim.startEventTimer(1800000); //30 mins
     return eim;
 }
 
@@ -123,7 +143,7 @@ function playerExit(eim, player) {
 }
 
 function end(eim) {
-    eim.disposeIfPlayerBelow(100, 925100700);
+    eim.disposeIfPlayerBelow(100, 910000000);
     em.setProperty("state", "0");
     em.setProperty("leader", "true");
 }

@@ -1,5 +1,4 @@
 function enter(pi) {
-	pi.playPortalSE();
-    pi.warp(100000201, 0);
+	pi.warp(100000201, 1);
 	return true;
 }

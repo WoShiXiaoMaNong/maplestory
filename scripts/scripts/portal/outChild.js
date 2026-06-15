@@ -1,8 +1,9 @@
 function enter(pi) {
-    pi.playPortalSE();
-    if (pi.getQuestStatus(21001) == 0) {
-	pi.warp(914000220, 2);
-    } else {
-	pi.warp(914000400, 2);
-    }
+	if (!pi.isQuestActive(21001)) {
+		pi.warp(914000220, 2);
+		return true;
+	} else {
+		pi.warp(914000400, 2);
+		return true;
+	}
 }

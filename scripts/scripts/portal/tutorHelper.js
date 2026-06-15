@@ -1,8 +1,7 @@
 function enter(pi) {
-    if (pi.getQuestStatus(20021) == 0) {
-	pi.playerSummonHint(true);
-	pi.summonMsg("æ­¡è¿ä¾†åˆ°æ¥“ä¹‹è°·çš„ä¸–ç•Œ! æˆ‘çš„åå­—æ˜¯ æé…·, æˆ‘æœƒæ˜¯ä½ çš„æŒ‡å°è€å¸«ï¼ æˆ‘æœƒåœ¨é€™è£¡å›ç­”ä½ çš„å•é¡Œï¼Œä¸¦æŒ‡å°ä½ ç›´åˆ°ç­‰ç´š10ç­‰ï¼Œæˆç‚ºé¨å£«åœ˜ä¹‹å‰å¦‚æœä½ æœ‰ä»»ä½•ç–‘å•ï¼Œå¯ä»¥é»æ“Šæˆ‘ï¼");
-//	pi.forceCompleteQuest(20100);
-	pi.forceCompleteQuest(20021);
-    }
+	pi.spawnTutorialSummon();
+	pi.tutorialSpeechBubble("»¶Ó­À´µ½Ã°ÏÕµºÊÀ½ç£¡ÎÒÊÇ¸ºÔğÒıµ¼µÄ¿â£¡ÔÚÄã³ÉÎª10¼¶µÄĞŞÁ¶ÆïÊ¿Ö®Ç°£¬Èç¹ûÓĞÊ²Ã´²»ÖªµÀµÄ¡£¿ÉÒÔ¹ıÀ´ÎÊÎÒ¡£Èç¹ûÄãÓĞÊ²Ã´ÒÉÎÊ£¬ÇëË«»÷ÎÒ£¡");
+	pi.updateCygnusIntroState("helper=clear");
+	pi.blockPortal();
+	return true;
 }
