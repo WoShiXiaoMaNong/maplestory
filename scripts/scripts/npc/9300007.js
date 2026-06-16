@@ -20,7 +20,7 @@ function action(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        cm.sendSimple("这里结婚的红鸾宫门口。你想做什么？\r\n#b#L0#我想进去红鸾宫。#l\r\n#L1#请告诉我关于结婚的信息。#l\r\n#L2#我是贺客。我想去宴客堂。#l\r\n#L3#请告诉我关于离婚的说明。#l\r\n#L4#我想进去孤星殿。#l\r\n#L5#我想回家。#l");
+        cm.sendSimple("这里结婚的红鸾宫门口。你想做什么？\r\n(PS:结婚后夫妻组队打怪#r享受30%经验加成#k哦！)\r\n#b#L0#我想进去红鸾宫。#l\r\n#L1#请告诉我关于结婚的信息。#l\r\n#L2#我是贺客。我想去宴客堂。#l\r\n#L5#我想回家。#l");
     } else if (status == 1) {
         if (selection == 0) { //我想进去红鸾宫
             if (cm.getParty() == null || !cm.isLeader()) {
@@ -35,10 +35,10 @@ function action(mode, type, selection) {
         } else if (selection == 2) { //我是贺客。我想去宴客堂。
             status = 9;
             cm.sendNext("你要去宴客堂吗？要去宴客堂必须有请柬，才可以进去。");
-        } else if (selection == 3) { //请告诉我关于离婚的说明。
+        //} else if (selection == 3) { //请告诉我关于离婚的说明。
             status = 11;
             cm.sendNext("你想离婚吗？你再想想吧。");
-        } else if (selection == 4) { //我想进去孤星殿。
+        //} else if (selection == 4) { //我想进去孤星殿。
             status = 14;
             cm.sendNext("你想去孤星殿吗？要进去你一定要有结婚戒指和离婚手续费。");
         } else if (selection == 5) { //我想进去孤星殿。
@@ -48,7 +48,7 @@ function action(mode, type, selection) {
     } else if (status == 2) {
         cm.sendNext("好！我看看你是否满足结婚的条件后，就送你到宫殿里。")
     } else if (status == 3) {
-        if (!cm.getParty().getMembers().size() == 1) { //判断组队成员是否达到2人。
+        if (!cm.getParty().getMembers().size() == 2) { //判断组队成员是否达到2人。
             cm.sendNext("组队人员不能超过两个人。不是你们两个人结婚吗？")
             cm.dispose();
         } else if (!cm.isLeader()) { // 不是队长
@@ -73,7 +73,7 @@ function action(mode, type, selection) {
             cm.sendNext("组队成员中有人没有结婚戒指。")
             cm.dispose();
         } else  { 
-            var maps = Array(700000100, 700000200, 700000300);
+            var maps = Array(700000100, 700000200);
             for (var i = 0; i < maps.length; i++) {
                 if (cm.getMap(maps[i]).getCharactersSize() > 0) {
                     cm.sendNext("结婚地图现在有别的玩家正在举行婚礼，请稍后在试。");
@@ -95,17 +95,17 @@ function action(mode, type, selection) {
     } else if (status == 7) {
         cm.sendNextPrev("要穿的衣服是这样。男士:#b#b#t1050121##k或#b#b#t1050122##k或#b#b#t1050113##k，女士:#b#t1051129##k或#b#t1051130##k或#b#t1051114##k。其中#b#t1050121##k，#b#t1051129##k，#b#t1050113##k，#b#t1051114##k,这些道具在冒险商城可以购买，#b#t1050122##k和#b#t1051130##k是在那边那位红线女那里卖。");
     } else if (status == 8) {
-        cm.sendNextPrev("另外你要结婚一定要付结婚登记费，要10万金币。这是必须的哦。呵呵。");
+        cm.sendNextPrev("另外你要结婚一定要付结婚登记费，要520w金币。这是必须的哦。呵呵。");
     } else if (status == 9) {
         cm.sendNextPrev("这里只能一对一对新人结婚，后面的恋人需要等待。所以你们进去结婚时，请务必在5分钟之内办完所有手续。");
         cm.dispose();
     } else if (status == 10) {
-        if (cm.getMap(700000100).getCharactersSize() <= 0 && cm.getMap(700000200).getCharactersSize() <= 0) {
+        if (cm.getMap(700000100).getCharactersSize() <= 0&&cm.getMap(700000200).getCharactersSize() <= 0) {
                 cm.sendNext("结婚地图现在没有玩家进行结婚，请稍后在试。");
                 cm.dispose();
             }
         if (cm.haveItem(4150000)) {
-	    cm.getItem(4150000,-1)
+	    cm.gainItem(4150000,-1)
 	    cm.warp(700000200);
             cm.sendNext("看来你带来了请柬，我已经将你送到宴客堂。")
 	    cm.dispose();
@@ -123,8 +123,15 @@ function action(mode, type, selection) {
     } else if (status == 14) {
         //to do
     } else if (status == 15) {
-            cm.warp(100000000);
+            cm.warp(700000101)
             cm.dispose();
+        //if (cm.haveItem(1112804)) { //结婚戒指
+            //cm.warp(700000101)
+            //cm.dispose();
+        //} else {
+            //cm.sendOk("你好像没有结婚戒指吧。没有戒指就进不去.")
+            //cm.dispose();
+        //}
     } else if (status == 16) {
         var returnMap = cm.getSavedLocation("MULUNG_TC");
         cm.clearSavedLocation("MULUNG_TC");

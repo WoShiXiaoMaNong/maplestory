@@ -1,100 +1,180 @@
-/***************************
-*     《Vr001 封测版 ONLINE》    *
-****************************
-*    1061014  -  无影      *
-*    PQ：蝙蝠魔的末日      *
-***************************/
+/* Mu Young
+	Boss Balrog
+*/
 
-var status = 0;
 
-var minLevel = 70; //最低等级
-var maxLevel = 120; //最高等级
-
-var minPartySize = 1; //最少成员
-var maxPartySize = 6; //最大成员
-
-function start() {
-	status = -1;
-	action(1, 0, 0);
-}
+var status = -2;
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0 && status == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			// 如果是在一个组队上.没有导言.直接检查组队条件
-			if (cm.getParty() == null) { // 不是组队
-				cm.sendOk("#b蝙蝠魔的末日#kPQ任务 - 任务可获奖励：\r\n\r\n#e#b何露斯之眼#k     #d海量经验#k    #r大量点卷、冒险币\r\n*******************************************\r\n#n#b但是系统判断你没有组队.你无法挑战这个PQ任务！\r\n#b请拥有自己的组队后让队长来和我对话！\r\n\r\n个人情况：\r\n目前已经完成该挑战 #r"+cm.getboss()+"#k #b次！");
-				cm.mapMessage("在这个组队挑战任务中，你总共完成了 "+cm.getboss()+" 次！");		
-				cm.dispose();
-			} else if (!cm.isLeader()) { // 不是组长
-				cm.sendOk("如果你想完成#b怪物通缉令#kPQ，请让你的#b小组组长#k和我对话.");
-				cm.mapMessage("在这个组队挑战任务中，你总共完成了 "+cm.getboss()+" 次！");
-				cm.dispose();
-			} else {
-				// Check if all party members are within PQ levels
-				var party = cm.getParty().getMembers();
-				var mapId = cm.getPlayer().getMapId();
-				var next = true;
-				var levelValid = 0;
-				var inMap = 0;
-				var it = party.iterator();
-				while (it.hasNext()) {
-					var cPlayer = it.next();
-					if ((cPlayer.getLevel() >= minLevel) && (cPlayer.getLevel() <= maxLevel)) {
-						levelValid += 1;
-					} else {
-						next = false;
-					}
-					if (cPlayer.getMapid() == mapId) {
-						inMap += 1;
-					}
-				}
-				if (party.size() < minPartySize || party.size() > maxPartySize || inMap < minPartySize) {
-					next = false;
-				}
-				if (next) { //加载活动脚本
-					var em = cm.getEventManager("Vr001 封测版pq");
-					cm.serverNotice("玩家: " + cm.c.getPlayer().getName() + " 的小组进入了PQ!!");
-					if (em == null) {
-						cm.sendOk("无法加载这个脚本。脚本名称：#bVr001 封测版pq#k\r\n#e请联系管理员解决！#kQQ#r100807851");
-					} else {
-						if (em.getProperty("entryPossible") != "false") {
-							em.startInstance(cm.getParty(),cm.getPlayer().getMap());
-							cm.removeAll(4001008);
-							cm.removeAll(4001007);
-							if(cm.partyMemberHasItem(4001008) || cm.partyMemberHasItem(4001007)) { 
-								cm.getPlayer().getEventInstance().setProperty("smugglers", "true"); 
-								cm.partyNotice("Your smuggling attempt has been detected. We will allow the attempt, but you will not get any NX cash from this run.");
+     cm.warpParty(105100300);
+ 	
+ 
 
-							}
-							em.setProperty("entryPossible", "false");
-							cm.getPlayer().getEventInstance().setProperty("startTime", new java.util.Date().getTime());
-						} else { // Check if the PQ really has people inside
-							var playersInPQ = 0;
-							for (var mapid = 970030204; mapid <= 970030204; mapid++) {
-								playersInPQ += cm.countPlayersInMap(mapid);
-							}
-							if (playersInPQ <= 1)
-								em.setProperty("entryPossible", "true");
-							cm.sendOk("已经有小组进入了该PQ。请稍后再试！");
-						}
-					}
-					cm.dispose();
-				} else {
-					cm.sendNext("#r需要组队成员:" + minPartySize + " 个玩家。 等级范围,最低 " + minLevel + "级 最高 " + maxLevel + "级.\r\n\r\n#k#b请检查你的小组是否达到以上条件！！");
-					cm.dispose();
-				}
-			}
-		}
-	}
+    // switch (status) {
+    //     case -1:
+    //         status = 0;
+    //         switch (cm.getChannelNumber()) {
+    //             default:
+    //                 cm.sendNext("目前模式为 #i3994116# 如果你想加入这个模式请按下一步  条件是 等级 1 ~ 等级 255 / 远征队人数 1 个");
+    //                 break;
+    //         }
+    //         break;
+    //     case 0:
+    //         var em = cm.getEventManager("BossBalrog");
+
+    //         if (em == null) {
+    //             cm.sendOk("目前副本出了一点问题，请联系GM！");
+    //             cm.safeDispose();
+    //             return;
+    //         }
+
+    //         var prop = em.getProperty("state");
+    //         if (prop == null || prop.equals("0")) {
+    //             var squadAvailability = cm.getSquadAvailability("BossBalrog");
+    //             if (squadAvailability == -1) {
+    //                 status = 1;
+    //                 cm.sendYesNo("现在可以申请远征队，你想成为远征队队长吗？");
+
+    //             } else if (squadAvailability == 1) {
+    //                 // -1 = Cancelled, 0 = not, 1 = true
+    //                 var type = cm.isSquadLeader("BossBalrog");
+    //                 if (type == -1) {
+    //                     cm.sendOk("已经结束了申请。");
+    //                     cm.safeDispose();
+    //                 } else if (type == 0) {
+    //                     var memberType = cm.isSquadMember("BossBalrog");
+    //                     if (memberType == 2) {
+    //                         cm.sendOk("在远征队的制裁名单。");
+    //                         cm.safeDispose();
+    //                     } else if (memberType == 1) {
+    //                         status = 5;
+    //                         cm.sendSimple("你要做什么? \r\n#b#L0#加入远征队#l \r\n#b#L1#退出远征队#l \r\n#b#L2#查看远征队名单#l");
+    //                     } else if (memberType == -1) {
+    //                         cm.sendOk("远征队员已经达到30名，请稍后再试。");
+    //                         cm.safeDispose();
+    //                     } else {
+    //                         status = 5;
+    //                         cm.sendSimple("你要做什么? \r\n#b#L0#查看远征队名单#l \r\n#b#L1#加入远征队#l \r\n#b#L2#退出远征队#l");
+    //                     }
+    //                 } else { // Is leader
+    //                     status = 10;
+    //                     cm.sendSimple("你现在想做什么？\r\n#b#L0#查看远征队成员。#l \r\n#b#L1#管理远征队成员。#l \r\n#b#L2#编辑限制列表。#l \r\n#r#L3#进入地图。#l");
+    //                     // TODO viewing!
+    //                 }
+    //             } else {
+    //                 var eim = cm.getDisconnected("BossBalrog");
+    //                 if (eim == null) {
+    //                     cm.sendOk("远征队的挑战已经开始.");
+    //                     cm.safeDispose();
+    //                 } else {
+    //                     cm.sendYesNo("你要继续进行远征任务吗？");
+    //                     status = 2;
+    //                 }
+    //             }
+    //         } else {
+    //             var eim = cm.getDisconnected("BossBalrog");
+    //             if (eim == null) {
+    //                 cm.sendOk("远征队的挑战已经开始.");
+    //                 cm.safeDispose();
+    //             } else {
+    //                 cm.sendYesNo("你要继续进行远征任务吗？");
+    //                 status = 2;
+    //             }
+    //         }
+    //         break;
+    //     case 1:
+    //         if (mode == 1) {
+    //             var lvl = cm.getPlayerStat("LVL");
+    //             if (lvl >= 1 && lvl <= 256) {
+
+    //                 if (cm.registerSquad("BossBalrog", 5, " 已经成为了远征队队长。如果你想加入远征队，请重新打开对话申请加入远征队。")) {
+    //                     cm.sendOk("你已经成为了远征队队长。接下来的5分钟，请等待队员们的申请。");
+    //                 } else {
+    //                     cm.sendOk("未知错误.");
+    //                 }
+    //             } else {
+    //                 cm.sendNext("有一个远征队成员的等级不是50到120之间。");
+    //             }
+    //         } else {
+    //             cm.sendOk("如果你想再次申请远征队的话请告诉我。")
+    //         }
+    //         cm.safeDispose();
+    //         break;
+    //     case 2:
+    //         if (!cm.reAdd("BossBalrog", "BossBalrog")) {
+    //             cm.sendOk("由于未知的错误，操作失败。");
+    //         }
+    //         cm.safeDispose();
+    //         break;
+    //     case 5:
+    //         if (selection == 0) {
+    //             if (!cm.getSquadList("BossBalrog", 0)) {
+    //                 cm.sendOk("由于未知的错误，操作失败。");
+    //                 cm.safeDispose();
+    //             } else {
+    //                 cm.dispose();
+    //             }
+    //         } else if (selection == 1) { // join
+    //             var ba = cm.addMember("BossBalrog", true);
+    //             if (ba == 2) {
+    //                 cm.sendOk("远征队员已经达到30名，请稍后再试。");
+    //                 cm.safeDispose();
+    //             } else if (ba == 1) {
+    //                 cm.sendOk("申请加入远征队成功，请等候队长指示。");
+    //                 cm.safeDispose();
+    //             } else {
+    //                 cm.sendOk("你已经参加了远征队，请等候队长指示。");
+    //                 cm.safeDispose();
+    //             }
+    //         } else { // withdraw
+    //             var baa = cm.addMember("BossBalrog", false);
+    //             if (baa == 1) {
+    //                 cm.sendOk("成功退出远征队。");
+    //                 cm.safeDispose();
+    //             } else {
+    //                 cm.sendOk("你没有参加远征队。");
+    //                 cm.safeDispose();
+    //             }
+    //         }
+    //         break;
+    //     case 10:
+    //         if (selection == 0) {
+    //             if (!cm.getSquadList("BossBalrog", 0)) {
+    //                 cm.sendOk("由于未知的错误，操作失败。");
+    //             }
+    //             cm.safeDispose();
+    //         } else if (selection == 1) {
+    //             status = 11;
+    //             if (!cm.getSquadList("BossBalrog", 1)) {
+    //                 cm.sendOk("由于未知的错误，操作失败。");
+    //             }
+    //             cm.safeDispose();
+    //         } else if (selection == 2) {
+    //             status = 12;
+    //             if (!cm.getSquadList("BossBalrog", 2)) {
+    //                 cm.sendOk("由于未知的错误，操作失败。");
+    //             }
+    //             cm.safeDispose();
+    //         } else if (selection == 3) { // get insode
+    //             if (cm.getSquad("BossBalrog") != null) {
+    //                 var dd = cm.getEventManager("BossBalrog");
+    //                 dd.startInstance(cm.getSquad("BossBalrog"), cm.getMap());
+    //                 cm.dispose();
+    //             } else {
+    //                 cm.sendOk("由于未知的错误，操作失败。");
+    //                 cm.safeDispose();
+    //             }
+    //         }
+    //         break;
+    //     case 11:
+    //         cm.banMember("BossBalrog", selection);
+    //         cm.dispose();
+    //         break;
+    //     case 12:
+    //         if (selection != -1) {
+    //             cm.acceptMember("BossBalrog", selection);
+    //         }
+    //         cm.dispose();
+    //         break;
+    // }
 }

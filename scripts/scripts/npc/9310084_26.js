@@ -57,7 +57,7 @@ function action(mode, type, selection) {
 				cm.gainItem(1032060,2,2,2,2,100,100,0,0,50,50,50,50,0,0);
 				//cm.gainMeso(100000);
             cm.sendOk("兑换成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]通过不懈努力，兑换了[阿尔泰耳环]可喜可贺！");
+		//	cm.worldMessage(6,"玩家：["+cm.getName()+"]通过不懈努力，兑换了[阿尔泰耳环]可喜可贺！");
             cm.dispose();
 			}else{
             cm.sendOk("您的材料不足！");

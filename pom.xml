@@ -95,6 +95,29 @@
           </execution>
         </executions>
       </plugin>
+
+       <!-- ⚡ 引入 Maven 依赖自动导出插件 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+                <execution>
+                    <id>auto-copy-dependencies</id>
+                    <!-- 绑定到 compile 阶段，这意味着每次编译都会触发自动导出 -->
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <!-- ⚡ 严格对齐你 launch.json 中需要的 target/dependency 目录 -->
+                        <outputDirectory>${project.build.directory}/dependency</outputDirectory>
+                        <!-- 排除测试依赖（可选，能精简文件夹体积） -->
+                        <!-- <excludeScope>test</excludeScope> -->
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
 

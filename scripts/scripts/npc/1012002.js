@@ -1,25 +1,3 @@
-/*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-					   Matthias Butz <matze@odinms.de>
-					   Jan Christian Meyer <vimes@odinms.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 /* Vicious
 	Victoria Road : Henesys Market (100000100)
 	
@@ -30,8 +8,6 @@
 	* Processed Wood/Screws
 	* Arrows/Bronze Arrows/Steel Arrows
 */
-
-importPackage(net.sf.odinms.client);
 
 var status = 0;
 var selectedType = -1;
@@ -44,252 +20,247 @@ var qty;
 var equip;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == 1)
-		status++;
+    if (mode == 1)
+	status++;
+    else
+	cm.dispose();
+    if (status == 0 && mode == 1) {
+	var selStr = "ä½ å¥½ï¼Œæˆ‘æ˜¯æ¯”ä¼‘æ–¯, æ›¾ç»æˆ‘ä¹Ÿæ˜¯ä¸ªå°„æ‰‹ï¼Œè™½ç„¶æˆ‘ç°åœ¨å·²ç»ä¸å†æ‰“çŒ,ä½†æˆ‘å¯ä»¥åšä¸€äº›å¼“ç®­æ‰‹çš„å¿…è¦å“æ¥å¸®åŠ©ä½ â€¦â€¦#b"
+	var options = new Array("æ‰“é€ ä¸€ä¸ªå¼“","æ‰“é€ ä¸€ä¸ªå¼©","åšä¸€ä¸ªå¼“ç®­æ‰‹æ‰‹å¥—","å‡çº§å¼“ç®­æ‰‹æ‰‹å¥—","åˆæˆææ–™","æ‰“é€ ç®­å¤´");
+	for (var i = 0; i < options.length; i++) {
+	    selStr += "\r\n#L" + i + "# " + options[i] + "#l";
+	}
+			
+	cm.sendSimple(selStr);
+    }
+    else if (status == 1 && mode == 1) {
+	selectedType = selection;
+	if (selectedType == 0) { //bow refine
+	    var selStr = "å¼“ç®­æ‰‹å°„å‡ºçš„å¼“ç®­å¨åŠ›æ— ç©·ï¼Œä½ å¬è¿‡åç¾¿å°„æ—¥çš„æ•…äº‹ä¹ˆï¼Ÿæœ€è¿‘å¤©æ°”è¿™ä¹ˆçƒ­ï¼Œæ¡ƒèŠ±å²›ç¬¬ä¸€åç¾¿åœ¨å“ªé‡Œï¼Ÿå¿«ç‚¹æŠŠå¤ªé˜³å°„ä¸‹æ¥ï¼å¥½å§ï¼Œä½ æƒ³åšäº›ä»€ä¹ˆï¼Ÿ#b";
+	    var items = new Array(1452002,1452003,1452001,1452000,1452005,1452006,1452007);
+	    var suffix = new Array (" - å¼“ç®­æ‰‹ Lv. 10"," - å¼“ç®­æ‰‹ Lv. 15"," - å¼“ç®­æ‰‹ Lv. 20"," - å¼“ç®­æ‰‹ Lv. 25"," - å¼“ç®­æ‰‹ Lv. 30"," - å¼“ç®­æ‰‹ Lv. 35",
+		" - å¼“ç®­æ‰‹ Lv. 40");
+	    equip = true;
+	    for (var i = 0; i < items.length; i++) {
+		selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
+	    }
+	    cm.sendSimple(selStr);
+	}
+	else if (selectedType == 1) { //xbow refine
+	    var selStr = "æ‰“é€ å¼©æˆ‘ä¹Ÿå¾ˆæ“…é•¿ï¼Œä½ æƒ³è¦åšå“ªä¸€æŠŠå¼©ï¼Ÿ#b";
+	    var items = new Array(1462001,1462002,1462003,1462000,1462004,1462005,1462006,1462007);
+	    var suffix = new Array (" - å¼“ç®­æ‰‹ Lv. 12"," - å¼“ç®­æ‰‹ Lv. 18"," - å¼“ç®­æ‰‹ Lv. 22"," - å¼“ç®­æ‰‹ Lv. 28"," - å¼“ç®­æ‰‹ Lv. 32"," - å¼“ç®­æ‰‹ Lv. 38",
+		" - å¼“ç®­æ‰‹ Lv. 42"," - å¼“ç®­æ‰‹ Lv. 50");
+	    equip = true;
+	    for (var i = 0; i < items.length; i++) {
+		selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
+	    }
+	    cm.sendSimple(selStr);
+	}
+	else if (selectedType == 2) { //glove refine
+	    var selStr = "å¥½å§ï¼Œä½ æƒ³åšå“ªä¸€ç§æ‰‹å¥—ï¼Ÿ#b";
+	    var items = new Array(1082012,1082013,1082016,1082048,1082068,1082071,1082084,1082089);
+	    var suffix = new Array (" - å¼“ç®­æ‰‹ Lv. 15"," - å¼“ç®­æ‰‹ Lv. 20"," - å¼“ç®­æ‰‹ Lv. 25"," - å¼“ç®­æ‰‹ Lv. 30"," - å¼“ç®­æ‰‹ Lv. 35",
+		" - å¼“ç®­æ‰‹ Lv. 40"," - å¼“ç®­æ‰‹ Lv. 50"," - å¼“ç®­æ‰‹ Lv. 60");
+	    equip = true;
+	    for (var i = 0; i < items.length; i++) {
+		selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
+	    }
+	    cm.sendSimple(selStr);
+	}
+	else if (selectedType == 3) { //glove upgrade
+	    var selStr = "ä½ æƒ³è¦å‡çº§ä½ çš„æ‰‹å¥—ä¹ˆï¼Ÿæ‰¾æˆ‘å°±å¯¹äº†ï¼#b";
+	    var items = new Array (1082015,1082014,1082017,1082018,1082049,1082050,1082069,1082070,1082072,1082073,1082085,1082083,1082090,1082091);
+	    var suffix = new Array (" - å¼“ç®­æ‰‹ Lv. 20"," - å¼“ç®­æ‰‹ Lv. 20"," - å¼“ç®­æ‰‹ Lv. 25"," - å¼“ç®­æ‰‹ Lv. 25"," - å¼“ç®­æ‰‹ Lv. 30",
+		" - å¼“ç®­æ‰‹ Lv. 30"," - å¼“ç®­æ‰‹ Lv. 35"," - å¼“ç®­æ‰‹ Lv. 35"," - å¼“ç®­æ‰‹ Lv. 40"," - å¼“ç®­æ‰‹ Lv. 40"," - å¼“ç®­æ‰‹ Lv. 50",
+		" - å¼“ç®­æ‰‹ Lv. 50"," - å¼“ç®­æ‰‹ Lv. 60"," - å¼“ç®­æ‰‹ Lv. 60");
+	    for (var i = 0; i < items.length; i++) {
+		selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
+	    }
+	    equip = true;
+	    cm.sendSimple(selStr);
+	}
+	else if (selectedType == 4) { //material refine
+	    var selStr = "æˆ‘å¯ä»¥å¸®ä½ åˆæˆä¸€äº›ææ–™ï¼Œ#b";
+	    var materials = new Array ("ç”¨æ ‘æåˆ¶ä½œåŠ å·¥è¿‡çš„æœ¨æ","ç”¨æœ¨å—åˆ¶ä½œåŠ å·¥è¿‡çš„æœ¨æ","åšèºä¸é’‰(15ä¸ª)");
+	    for (var i = 0; i < materials.length; i++) {
+		selStr += "\r\n#L" + i + "# " + materials[i] + "#l";
+	    }
+	    equip = false;
+	    cm.sendSimple(selStr);
+	}
+	else if (selectedType == 5) { //arrow refine
+	    var selStr = "ä½ æƒ³è¦åšä¸€äº›ç®­å¤´ä¹ˆï¼Œæ²¡é—®é¢˜ï¼#b";
+	    var arrows = new Array ("å¼“ç®­","å¼©ç®­","é’é“œå¼“çŸ¢","é’é“œå¼©çŸ¢","é’¢é“å¼“çŸ¢","é’¢é“å¼©çŸ¢");
+	    for (var i = 0; i < arrows.length; i++) {
+		selStr += "\r\n#L" + i + "# " + arrows[i] + "#l";
+	    }
+	    equip = true;
+	    cm.sendSimple(selStr);
+	}
+	if (equip)
+	    status++;
+    }
+    else if (status == 2 && mode == 1) {
+	selectedItem = selection;
+	if (selectedType == 4) { //material refine
+	    var itemSet = new Array (4003001,4003001,4003000);
+	    var matSet = new Array(4000003,4000018,new Array (4011000,4011001));
+	    var matQtySet = new Array (10,5,new Array (1,1));
+	    var costSet = new Array (0,0,0)
+	    item = itemSet[selectedItem];
+	    mats = matSet[selectedItem];
+	    matQty = matQtySet[selectedItem];
+	    cost = costSet[selectedItem];
+	}
+		
+	var prompt = "ä½ æƒ³è¦åˆ¶ä½œä¸€äº›#t" + item + "#? é‚£æ ·çš„è¯ï¼Œä½ æƒ³è¦åˆ¶ä½œå¤šå°‘ä¸ªï¼Ÿ";
+		
+	cm.sendGetNumber(prompt,1,1,100)
+    }
+    else if (status == 3 && mode == 1) {
+	if (equip)
+	{
+	    selectedItem = selection;
+	    qty = 1;
+	}
 	else
-		cm.dispose();
-	if (status == 0 && mode == 1) {
-		var selStr = "ºÃ£¡ÄãÏë×öÊ²Ã´£¿¾¡¹ÜËµ°É¡£#b"
-		var options = new Array("ÖÆ×÷¹­","ÖÆ×÷åó","ÖÆ×÷ÊÖÌ×","ÖÆ×÷ÊÖÌ×","²ÄÁÏÖÆ×÷","¹­¼ıÖÆ×÷");
-		for (var i = 0; i < options.length; i++) {
-			selStr += "\r\n#L" + i + "# " + options[i] + "#l";
-		}
-			
-		cm.sendSimple(selStr);
-	}
-	else if (status == 1 && mode == 1) {
-		selectedType = selection;
-		if (selectedType == 0) { //bow refine
-			var selStr = "Äã¸øÎÒ¼¸ÖÖ²ÄÁÏ£¬ÎÒ¾Í¸øÄã×ö¹­¡£ÄãÏë×öÊ²Ã´ÑùµÄ¹­£¿#b";
-			var items = new Array(1452002,1452003,1452001,1452000,1452005,1452006,1452007);
-			var suffix = new Array ("(µÈ¼¶ÏŞÖÆ : 10, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 15, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 20, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 25, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 30, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 35, ¹­¼ıÊÖ)",
-				"(µÈ¼¶ÏŞÖÆ : 40, ¹­¼ıÊÖ)");
-			equip = true;
-			for (var i = 0; i < items.length; i++) {
-				selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
-			}
-			cm.sendSimple(selStr);
-		}
-		else if (selectedType == 1) { //xbow refine
-			var selStr = "Äã¸øÎÒ¼¸ÖÖ²ÄÁÏ£¬ÎÒ¾Í¸øÄã×öåó¡£ÄãÏë×öÊ²Ã´ÑùµÄåó£¿#b";
-			var items = new Array(1462001,1462002,1462003,1462000,1462004,1462005,1462006,1462007);
-			var suffix = new Array ("(µÈ¼¶ÏŞÖÆ : 12, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 18, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 22, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 28, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 32, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 38, ¹­¼ıÊÖ)",
-				"(µÈ¼¶ÏŞÖÆ : 42, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 50, ¹­¼ıÊÖ");
-			equip = true;
-			for (var i = 0; i < items.length; i++) {
-				selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
-			}
-			cm.sendSimple(selStr);
-		}
-		else if (selectedType == 2) { //glove refine
-			var selStr = "Äã¸øÎÒ¼¸ÖÖ²ÄÁÏ£¬ÎÒ¾Í¸øÄã×öÊÖÌ×¡£ÄãÏë×öÊ²Ã´ÑùµÄÊÖÌ×£¿#b";
-			var items = new Array(1082012,1082013,1082016,1082048,1082068,1082071,1082084,1082089);
-			var suffix = new Array ("(µÈ¼¶ÏŞÖÆ : 15, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 20, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 25, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 30, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 35, ¹­¼ıÊÖ)",
-				"(µÈ¼¶ÏŞÖÆ : 40, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 50, ¹­¼ıÊÖ","(µÈ¼¶ÏŞÖÆ : 60, ¹­¼ıÊÖ");
-			equip = true;
-			for (var i = 0; i < items.length; i++) {
-				selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
-			}
-			cm.sendSimple(selStr);
-		}
-		else if (selectedType == 3) { //glove upgrade
-			var selStr = "ºÃ...ÄãÏë×öÊ²Ã´ÊÖÌ×?#b";
-			var items = new Array (1082015,1082014,1082017,1082018,1082049,1082050,1082069,1082070,1082072,1082073,1082085,1082083,1082090,1082091);
-			var suffix = new Array ("(µÈ¼¶ÏŞÖÆ : 20, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 20, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 25, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 25, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 30, ¹­¼ıÊÖ)",
-				"(µÈ¼¶ÏŞÖÆ : 30, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 35, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 35, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 40, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 40, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 50, ¹­¼ıÊÖ)",
-				"(µÈ¼¶ÏŞÖÆ : 50, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 60, ¹­¼ıÊÖ)","(µÈ¼¶ÏŞÖÆ : 60, ¹­¼ıÊÖ)");
-			for (var i = 0; i < items.length; i++) {
-				selStr += "\r\n#L" + i + "##z" + items[i] + "##k" + suffix[i] + "#l#b";
-			}
-			equip = true;
-			cm.sendSimple(selStr);
-		}
-		else if (selectedType == 4) { //material refine
-			var selStr = "ÊÇ²»ÊÇÏë×ö²ÄÁÏ°¡£¿ºÃ...ÄãÏë×öÊ²Ã´²ÄÁÏ£¿#b";
-			var materials = new Array ("ÓÃÊ÷Ö¦×öÄ¾²Ä","ÓÃÄ¾¿é×öÄ¾²Ä","×öÂİË¿¶¤");
-			for (var i = 0; i < materials.length; i++) {
-				selStr += "\r\n#L" + i + "# " + materials[i] + "#l";
-			}
-			equip = false;
-			cm.sendSimple(selStr);
-		}
-		else if (selectedType == 5) { //arrow refine
-			var selStr = "¹­¼ı£¿Ã»ÓĞÎÊÌâµÄ¡£#b";
-			var arrows = new Array ("ÖÆ×÷¹­Ê¸","ÖÆ×÷åóÊ¸","ÖÆ×÷ÇàÍ­¹­Ê¸","ÖÆ×÷ÇàÍ­åóÊ¸","ÖÆ×÷¸ÖÌú¹­Ê¸","ÖÆ×÷¸ÖÌúåóÊ¸");
-			for (var i = 0; i < arrows.length; i++) {
-				selStr += "\r\n#L" + i + "# " + arrows[i] + "#l";
-			}
-			equip = true;
-			cm.sendSimple(selStr);
-		}
-		if (equip)
-			status++;
-	}
-	else if (status == 2 && mode == 1) {
-		selectedItem = selection;
-		if (selectedType == 4) { //material refine
-			var itemSet = new Array (4003001,4003001,4003000);
-			var matSet = new Array(4000003,4000018,new Array (4011000,4011001));
-			var matQtySet = new Array (10,5,new Array (1,1));
-			var costSet = new Array (0,0,0)
-			item = itemSet[selectedItem];
-			mats = matSet[selectedItem];
-			matQty = matQtySet[selectedItem];
-			cost = costSet[selectedItem];
-		}
-		
-		var prompt = "ÓĞ#b10¸öÊ÷Ö¦#kÄÜ×öÒ»¸ö#t" + item + "#¡£ÒªÊÇÄã¸øÎÒ²ÄÁÏ£¬ÎÒ¸øÄãÃâ·Ñ·şÎñ¡£ÔõÃ´Ñù£¿ÄãÏë×ö¼¸´Î£¿";
-		
-		cm.sendGetNumber(prompt,1,1,100)
-	}
-	else if (status == 3 && mode == 1) {
-		if (equip)
-		{
-			selectedItem = selection;
-			qty = 1;
-		}
-		else
-			qty = selection;
+	    qty = selection;
 
-		if (selectedType == 0) { //bow refine
-			var itemSet = new Array(1452002,1452003,1452001,1452000,1452005,1452006,1452007);
-			var matSet = new Array(new Array(4003001,4000000),new Array(4011001,4003000),new Array(4003001,4000016),new Array(4011001,4021006,4003000),
-				new Array(4011001,4011006,4021003,4021006,4003000),new Array(4011004,4021000,4021004,4003000),new Array(4021008,4011001,4011006,4003000,4000014));
-			var matQtySet = new Array(new Array(5,30),new Array(1,3),new Array(30,50),new Array(2,2,8),new Array(5,5,3,3,30),new Array(7,6,3,35),new Array(1,10,3,40,50));
-			var costSet = new Array(800,2000,3000,5000,30000,40000,80000);
-			item = itemSet[selectedItem];
-			mats = matSet[selectedItem];
-			matQty = matQtySet[selectedItem];
-			cost = costSet[selectedItem];
-		}
-		else if (selectedType == 1) { //xbow refine
-			var itemSet = new Array(1462001,1462002,1462003,1462000,1462004,1462005,1462006,1462007);
-			var matSet = new Array(new Array(4003001,4003000),new Array(4011001,4003001,4003000),new Array(4011001,4003001,4003000),new Array(4011001,4021006,4021002,4003000),
-				new Array(4011001,4011005,4021006,4003001,4003000),new Array(4021008,4011001,4011006,4021006,4003000),new Array(4021008,4011004,4003001,4003000),new Array(4021008,4011006,4021006,4003001,4003000));
-			var matQtySet = new Array(new Array(7,2),new Array(1,20,5),new Array(1,50,8),new Array(2,1,1,10),new Array(5,5,3,50,15),new Array(1,8,4,2,30),new Array(2,6,30,30),new Array(2,5,3,40,40));
-			var costSet = new Array (1000,2000,3000,10000,30000,50000,80000,200000);
-			item = itemSet[selectedItem];
-			mats = matSet[selectedItem];
-			matQty = matQtySet[selectedItem];
-			cost = costSet[selectedItem];
-		}
-		else if (selectedType == 2) { //glove refine
-			var itemSet = new Array(1082012,1082013,1082016,1082048,1082068,1082071,1082084,1082089);
-			var matSet = new Array(new Array(4000021,4000009),new Array(4000021,4000009,4011001),new Array(4000021,4000009,4011006),new Array(4000021,4011006,4021001),new Array(4011000,4011001,4000021,4003000),
-				new Array(4011001,4021000,4021002,4000021,4003000),new Array(4011004,4011006,4021002,4000030,4003000),new Array(4011006,4011007,4021006,4000030,4003000));
-			var matQtySet = new Array(new Array(15,20),new Array(20,20,2),new Array(40,50,2),new Array(50,2,1),new Array(1,3,60,15),new Array(3,1,3,80,25),new Array(3,1,2,40,35),new Array(2,1,8,50,50));
-			var costSet = new Array(5000,10000,15000,20000,30000,40000,50000,70000);
-			item = itemSet[selectedItem];
-			mats = matSet[selectedItem];
-			matQty = matQtySet[selectedItem];
-			cost = costSet[selectedItem];
-		}
-		else if (selectedType == 3) { //glove upgrade
-			var itemSet = new Array (1082015,1082014,1082017,1082018,1082049,1082050,1082069,1082070,1082072,1082073,1082085,1082083,1082090,1082091);
-			var matSet = new Array(new Array(1082013,4021003),new Array(1082013,4021000),new Array(1082016,4021000),new Array(1082016,4021008),new Array(1082048,4021003),new Array(1082048,4021008),
-				new Array(1082068,4011002),new Array(1082068,4011006),new Array(1082071,4011006),new Array(1082071,4021008),new Array(1082084,4011000,4021000),new Array(1082084,4011006,4021008),
-				new Array(1082089,4021000,4021007),new Array(1082089,4021007,4021008));
-			var matQtySet = new Array (new Array(1,2),new Array(1,1),new Array(1,3),new Array(1,1),new Array(1,3),new Array(1,1),new Array(1,4),new Array(1,2),new Array(1,4),new Array(1,2),
-				new Array(1,1,5),new Array(1,2,2),new Array(1,5,1),new Array(1,2,2));
-			var costSet = new Array (7000,7000,10000,12000,15000,20000,22000,25000,30000,40000,55000,60000,70000,80000);
-			item = itemSet[selectedItem];
-			mats = matSet[selectedItem];
-			matQty = matQtySet[selectedItem];
-			cost = costSet[selectedItem];
-		}
-		else if (selectedType == 5) { //arrow refine
-			var itemSet = new Array(2060000,2061000,2060001,2061001,2060002,2061002);
-			var matSet = new Array(new Array (4003001,4003004),new Array (4003001,4003004),new Array (4011000,4003001,4003004),new Array (4011000,4003001,4003004),
-				new Array (4011001,4003001,4003005),new Array (4011001,4003001,4003005));
-			var matQtySet = new Array (new Array (1,1),new Array (1,1),new Array (1,3,10),new Array (1,3,10),new Array (1,5,15),new Array (1,5,15));
-			var costSet = new Array (0,0,0,0,0,0)
-			item = itemSet[selectedItem];
-			mats = matSet[selectedItem];
-			matQty = matQtySet[selectedItem];
-			cost = costSet[selectedItem];
-		}
+	if (selectedType == 0) { //bow refine
+	    var itemSet = new Array(1452002,1452003,1452001,1452000,1452005,1452006,1452007);
+	    var matSet = new Array(new Array(4003001,4000000),new Array(4011001,4003000),new Array(4003001,4000016),new Array(4011001,4021006,4003000),
+		new Array(4011001,4011006,4021003,4021006,4003000),new Array(4011004,4021000,4021004,4003000),new Array(4021008,4011001,4011006,4003000,4000014));
+	    var matQtySet = new Array(new Array(5,30),new Array(1,3),new Array(30,50),new Array(2,2,8),new Array(5,5,3,3,30),new Array(7,6,3,35),new Array(1,10,3,40,50));
+	    var costSet = new Array(800,2000,3000,5000,30000,40000,80000);
+	    item = itemSet[selectedItem];
+	    mats = matSet[selectedItem];
+	    matQty = matQtySet[selectedItem];
+	    cost = costSet[selectedItem];
+	}
+	else if (selectedType == 1) { //xbow refine
+	    var itemSet = new Array(1462001,1462002,1462003,1462000,1462004,1462005,1462006,1462007);
+	    var matSet = new Array(new Array(4003001,4003000),new Array(4011001,4003001,4003000),new Array(4011001,4003001,4003000),new Array(4011001,4021006,4021002,4003000),
+		new Array(4011001,4011005,4021006,4003001,4003000),new Array(4021008,4011001,4011006,4021006,4003000),new Array(4021008,4011004,4003001,4003000),new Array(4021008,4011006,4021006,4003001,4003000));
+	    var matQtySet = new Array(new Array(7,2),new Array(1,20,5),new Array(1,50,8),new Array(2,1,1,10),new Array(5,5,3,50,15),new Array(1,8,4,2,30),new Array(2,6,30,30),new Array(2,5,3,40,40));
+	    var costSet = new Array (1000,2000,3000,10000,30000,50000,80000,200000);
+	    item = itemSet[selectedItem];
+	    mats = matSet[selectedItem];
+	    matQty = matQtySet[selectedItem];
+	    cost = costSet[selectedItem];
+	}
+	else if (selectedType == 2) { //glove refine
+	    var itemSet = new Array(1082012,1082013,1082016,1082048,1082068,1082071,1082084,1082089);
+	    var matSet = new Array(new Array(4000021,4000009),new Array(4000021,4000009,4011001),new Array(4000021,4000009,4011006),new Array(4000021,4011006,4021001),new Array(4011000,4011001,4000021,4003000),
+		new Array(4011001,4021000,4021002,4000021,4003000),new Array(4011004,4011006,4021002,4000030,4003000),new Array(4011006,4011007,4021006,4000030,4003000));
+	    var matQtySet = new Array(new Array(15,20),new Array(20,20,2),new Array(40,50,2),new Array(50,2,1),new Array(1,3,60,15),new Array(3,1,3,80,25),new Array(3,1,2,40,35),new Array(2,1,8,50,50));
+	    var costSet = new Array(5000,10000,15000,20000,30000,40000,50000,70000);
+	    item = itemSet[selectedItem];
+	    mats = matSet[selectedItem];
+	    matQty = matQtySet[selectedItem];
+	    cost = costSet[selectedItem];
+	}
+	else if (selectedType == 3) { //glove upgrade
+	    var itemSet = new Array (1082015,1082014,1082017,1082018,1082049,1082050,1082069,1082070,1082072,1082073,1082085,1082083,1082090,1082091);
+	    var matSet = new Array(new Array(1082013,4021003),new Array(1082013,4021000),new Array(1082016,4021000),new Array(1082016,4021008),new Array(1082048,4021003),new Array(1082048,4021008),
+		new Array(1082068,4011002),new Array(1082068,4011006),new Array(1082071,4011006),new Array(1082071,4021008),new Array(1082084,4011000,4021000),new Array(1082084,4011006,4021008),
+		new Array(1082089,4021000,4021007),new Array(1082089,4021007,4021008));
+	    var matQtySet = new Array (new Array(1,2),new Array(1,1),new Array(1,3),new Array(1,1),new Array(1,3),new Array(1,1),new Array(1,4),new Array(1,2),new Array(1,4),new Array(1,2),
+		new Array(1,1,5),new Array(1,2,2),new Array(1,5,1),new Array(1,2,2));
+	    var costSet = new Array (7000,7000,10000,12000,15000,20000,22000,25000,30000,40000,55000,60000,70000,80000);
+	    item = itemSet[selectedItem];
+	    mats = matSet[selectedItem];
+	    matQty = matQtySet[selectedItem];
+	    cost = costSet[selectedItem];
+	}
+	else if (selectedType == 5) { //arrow refine
+	    var itemSet = new Array(2060000,2061000,2060001,2061001,2060002,2061002);
+	    var matSet = new Array(new Array (4003001,4003004),new Array (4003001,4003004),new Array (4011000,4003001,4003004),new Array (4011000,4003001,4003004),
+		new Array (4011001,4003001,4003005),new Array (4011001,4003001,4003005));
+	    var matQtySet = new Array (new Array (1,1),new Array (1,1),new Array (1,3,10),new Array (1,3,10),new Array (1,5,15),new Array (1,5,15));
+	    var costSet = new Array (0,0,0,0,0,0)
+	    item = itemSet[selectedItem];
+	    mats = matSet[selectedItem];
+	    matQty = matQtySet[selectedItem];
+	    cost = costSet[selectedItem];
+	}
 		
-		var prompt = "ÄãËµÄãÏë×ö ";
-		if (qty == 1)
-			prompt += "Ò»¸ö #t" + item + "#?";
-		else
-			prompt += qty + " #t" + item + "#?";
+	var prompt = "ä½ æƒ³åšä¸€äº› ";
+	if (qty == 1)
+	    prompt += " #t " + item + "#?";
+	else
+	    prompt += qty + " #t" + item + "#?";
 			
-		prompt += " ÕâĞèÒªÏÂÃæµÄÎïÆ·£¬µÈ¼¶ÏŞÖÆÊÇ10¡£ÔõÃ´Ñù£¿Ïë×öÂğ£¿#b";
+	prompt += " é‚£æ ·çš„è¯, æˆ‘å°†éœ€è¦ä¸€äº›ç‰¹æ®Šç‰©å“æ¥åˆ¶ä½œã€‚ä¸è¿‡ï¼Œé¦–å…ˆè¦ç¡®ä¿ä½ æœ‰è¶³å¤Ÿçš„åº“å­˜ç©ºé—´!#b";
 		
+	if (mats instanceof Array) {
+	    for(var i = 0; i < mats.length; i++) {
+		prompt += "\r\n#i"+mats[i]+"# " + matQty[i] * qty + " #t" + mats[i] + "#";
+	    }
+	}
+	else {
+	    prompt += "\r\n#i"+mats+"# " + matQty * qty + " #t" + mats + "#";
+	}
+		
+	if (cost > 0)
+	    prompt += "\r\n#i4031138# " + cost * qty + " é‡‘å¸";
+		
+	cm.sendYesNo(prompt);
+    }
+    else if (status == 4 && mode == 1) {
+	var complete = false;
+		
+	if (cm.getMeso() < cost * qty) {
+	    cm.sendOk("ææ€•ä½ è´Ÿæ‹…ä¸èµ·è¿™ä¸ªè´¹ç”¨.")
+	    cm.dispose();
+	    return;
+	} else {
+	    if (mats instanceof Array) {
+		for (var i = 0; i < mats.length; i++) {
+		    complete = cm.haveItem(mats[i], matQty[i] * qty);
+		    if (!complete) {
+			break;
+		    }
+		}
+	    } else {
+		complete = cm.haveItem(mats, matQty * qty);
+	    }	
+        }
+			
+	if (!complete)
+	    cm.sendOk("ä½ å¦‚æœä¸èƒ½ç»™æˆ‘å¸¦æ¥è¿™äº›ææ–™ï¼Œæˆ‘æ— æ³•å¸®ä½ åˆ¶ä½œ");
+	else {
+	    if (cm.canHold(item)) {
 		if (mats instanceof Array) {
-			for(var i = 0; i < mats.length; i++) {
-				prompt += "\r\n#i"+mats[i]+"# " + matQty[i] * qty + " #t" + mats[i] + "#";
-			}
+		    for (var i = 0; i < mats.length; i++) {
+			cm.gainItem(mats[i], -matQty[i] * qty);
+		    }
 		}
-		else {
-			prompt += "\r\n#i"+mats+"# " + matQty * qty + " #t" + mats + "#";
-		}
-		
-		if (cost > 0)
-			prompt += "\r\n#i4031138# " + cost * qty + " ½ğ±Ò";
-		
-		cm.sendYesNo(prompt);
-	}
-	else if (status == 4 && mode == 1) {
-		var complete = true;		
-		if (cm.getMeso() < cost * qty)
-			{
-				cm.sendOk("ÇëÄãÈ·ÈÏÊÇ·ñÓĞĞèÒªµÄÎïÆ·»òÕß±³°üµÄÆäËû´°¿ÚÓĞÃ»ÓĞ¿Õ¼ä¡£\r\n²ÄÁÏ²»¹»»ò±³°üÀïÃ»ÓĞ¿Õ¼ä£¬ÎÒ¾Í²»ÄÜ×ö")
-			}
-			else
-			{
-				if (mats instanceof Array) {
-					for(var i = 0; complete && i < mats.length; i++)
-					{
-						if (!cm.haveItem(mats[i], matQty[i]))
-						{
-								complete = false;
-						}					
-					}
-				}
-				else {
-					if (!cm.haveItem(mats, matQty))
-					{
-							complete = false;
-					}
-				}
-			}
-			
-			if (!complete) 
-				cm.sendOk("ÇëÄãÈ·ÈÏÊÇ·ñÓĞĞèÒªµÄÎïÆ·»òÕß±³°üµÄÆäËû´°ÓĞÃ»ÓĞ¿Õ¼ä¡£");
-			else {
-				if (cm.canHold(item)) {
-					if (mats instanceof Array) {
-						for (var i = 0; i < mats.length; i++) {
-							cm.gainItem(mats[i], -matQty[i] * qty);
-						}
-					}
-					else
-						cm.gainItem(mats, -matQty * qty);
+		else
+		    cm.gainItem(mats, -matQty * qty);
 						
-					if (cost > 0)
-						cm.gainMeso(-cost * qty);
+		if (cost > 0)
+		    cm.gainMeso(-cost * qty);
 					
-					if (item >= 2060000 && item <= 2060002) //bow arrows
-						cm.gainItem(item, 1000 - (item - 2060000) * 100);
-					else if (item >= 2061000 && item <= 2061002) //xbow arrows
-						cm.gainItem(item, 1000 - (item - 2061000) * 100);
-					else if (item == 4003000)//screws
-						cm.gainItem(4003000, 15 * qty);
-					else
-						cm.gainItem(item, qty);
-					cm.sendOk("ÄãĞèÒªµÄ¶«Î÷ÒÑ¾­°ïÄã×öºÃÁË£¬»¶Ó­ÏÂ´Î¹âÁÙ£¡");
-				}
-				else {
-					cm.sendOk("ÇëÄãÈ·ÈÏÊÇ·ñÓĞĞèÒªµÄÎïÆ·»òÕß±³°üµÄÆäËû´°ÓĞÃ»ÓĞ¿Õ¼ä¡£");
-				}
-			}
-		cm.dispose();
+		if (item >= 2060000 && item <= 2060002) //bow arrows
+		    cm.gainItem(item, 1000 - (item - 2060000) * 100);
+		else if (item >= 2061000 && item <= 2061002) //xbow arrows
+		    cm.gainItem(item, 1000 - (item - 2061000) * 100);
+		else if (item == 4003000)//screws
+		    cm.gainItem(4003000, 15 * qty);
+		else
+		    cm.gainItem(item, qty);
+		cm.sendOk("åƒå¾€å¸¸ä¸€æ ·ï¼Œæˆ‘çš„æŠ€è‰ºæ˜¯å¦‚æ­¤çš„é¬¼æ–§ç¥å·¥!å¦‚æœä½ è¿˜æƒ³åšäº›ä»€ä¹ˆï¼Œè¯·ç»§ç»­æ‰¾æˆ‘å“¦ï¼");
+	    }
+	    else {
+		cm.sendOk("ä½ çš„ç‰©å“æ æ»¡å•¦ï¼");
+	    }
 	}
+	cm.dispose();
+    }
 }

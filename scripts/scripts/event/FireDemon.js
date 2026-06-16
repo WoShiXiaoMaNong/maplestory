@@ -2,7 +2,8 @@
  * 4th Job Fire Demon
  */
 
-function init() {}
+function init() {
+}
 
 function monsterValue(eim, mobId) {
     return 1;
@@ -23,9 +24,11 @@ function playerEntry(eim, player) {
     player.changeMap(map, map.getPortal(0));
 }
 
-function playerDead(eim, player) {}
+function playerDead(eim, player) {
+}
 
-function playerRevive(eim, player) {}
+function playerRevive(eim, player) {
+}
 
 function scheduledTimeout(eim) {
     eim.disposeIfPlayerBelow(100, 211042300);
@@ -33,9 +36,9 @@ function scheduledTimeout(eim) {
 
 function changedMap(eim, player, mapid) {
     if (mapid != 921100000) {
-        eim.unregisterPlayer(player);
+	eim.unregisterPlayer(player);
 
-        eim.disposeIfPlayerBelow(0, 0);
+	eim.disposeIfPlayerBelow(0, 0);
     }
 }
 
@@ -65,7 +68,8 @@ function clearPQ(eim) {
 }
 
 function allMonstersDead(eim) {
-    //has nothing to do with monster killing
+//has nothing to do with monster killing
 }
 
-function cancelSchedule() {}
+function cancelSchedule() {
+}

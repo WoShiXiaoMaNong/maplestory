@@ -26,26 +26,25 @@ function action(mode, type, selection) {
 	for(i = 0; i < 10; i++){
 		text += "";
 	}				
-	text += "#d合成-- #r★1000HP血衣★需要以下物品：\r\n#v1050018##z1050018# * 1个\r\n#v4021004##z4021004# * 5个\r\n#v4021000##d#z4021000# * 5个\r\n#v4021006##d#z4021006# * 5个\r\n#v4021002##d#z4021002# * 5个\r\n~\r\n"
-	text += "\r\n#L1##d我收集了以上物品。确定制作1000HP血衣";//七天
+	text += "#d合成-- #r★3000HP血衣★需要以下物品：\r\n#v4000016##d#z4000016# 100个\r\n#v4000001##d#z4000001# 100个\r\n#v4000015##d#z4000015# 100个 金币2000W\r\n\r\n~\r\n"
+	text += "\r\n#L1##d我收集了以上物品。确定制作3000HP血衣";//七天
 	text += "     \r\n"
         cm.sendSimple(text);
         } else if (selection == 1) {
-                      if(!cm.canHold(1012412,1)){
+                      if(!cm.canHold(1012058,1)){
 			cm.sendOk("请清理你的背包，至少空出2个位置！");
             cm.dispose();
-        } else if(cm.haveItem(1050018,1) &&cm.haveItem(4021004,5) && cm.haveItem(4021000,5) && cm.haveItem(4021006,5) && cm.haveItem(4021002,5)){
-				cm.gainItem(1050018, -1);
-				cm.gainItem(4021004, -5);
-				cm.gainItem(4021000, -5);
-				cm.gainItem(4021006, -5);
-				cm.gainItem(4021002, -5);
-cm.gainItem(1012412,10,10,10,10,1000,1000,0,0,0,0,0,0,0,0);
+        } else if(cm.haveItem(4000016,100) && cm.haveItem(4000001,100) && cm.haveItem(4000015,100) && cm.getMeso() >= 20000000){
+			cm.gainItem(4000016, -100);
+			cm.gainItem(4000001, -100);
+			cm.gainItem(4000015, -100);
+			cm.gainMeso(-20000000);
+cm.gainItem(1113035,10,10,10,10,3000,3000,0,0,0,0,0,0,0,0);
             cm.sendOk("换购成功！");
             cm.dispose();
-cm.喇叭(3, "玩家：[" + cm.getPlayer().getName() + "]成功制作1000HP血衣，恭喜！！");
+cm.喇叭(3, "玩家：[" + cm.getPlayer().getName() + "]成功制作3000HP血衣，恭喜！！");
 			}else{
-            cm.sendOk("无法制作，或许你#v1050018#不足1个\r\n#v4021004#不足5个\r\n#v4021000#不足5个\r\n#v4021006#不足5个\r\n#v4021002#不足5个\r\n");
+             cm.sendOk("无法制作，或许你材料不足");
             cm.dispose();
 			}
 		}

@@ -9,8 +9,7 @@ function setup(eim, leaderid) {
     var map = eim.setInstanceMap(551030200);
     map.resetFully();
     em.setProperty("state", "1");
-
-    eim.startEventTimer(3600000); // 1 hr
+    eim.startEventTimer(10800000); // 3 hr
     return eim;
 }
 
@@ -32,7 +31,6 @@ function scheduledTimeout(eim) {
 function changedMap(eim, player, mapid) {
     if (mapid != 551030200) {
         eim.unregisterPlayer(player);
-
         if (eim.disposeIfPlayerBelow(0, 0)) {
             em.setProperty("state", "0");
             em.setProperty("leader", "true");
@@ -41,6 +39,11 @@ function changedMap(eim, player, mapid) {
 }
 
 function playerDisconnected(eim, player) {
+    eim.unregisterPlayer(player);
+    if (eim.disposeIfPlayerBelow(0, 0)) {
+        em.setProperty("state", "0");
+        em.setProperty("leader", "true");
+    }
     return 0;
 }
 
@@ -50,7 +53,6 @@ function monsterValue(eim, mobId) {
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
-
     if (eim.disposeIfPlayerBelow(0, 0)) {
         em.setProperty("state", "0");
         em.setProperty("leader", "true");
@@ -68,9 +70,14 @@ function clearPQ(eim) {
     end(eim);
 }
 
-function allMonstersDead(eim) {}
+function allMonstersDead(eim) {
+}
 
-function leftParty(eim, player) {}
-function disbandParty(eim) {}
-function playerDead(eim, player) {}
-function cancelSchedule() {}
+function leftParty(eim, player) {
+}
+function disbandParty(eim) {
+}
+function playerDead(eim, player) {
+}
+function cancelSchedule() {
+}

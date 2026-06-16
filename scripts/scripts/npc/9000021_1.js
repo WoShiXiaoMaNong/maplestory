@@ -24,142 +24,46 @@ function action(mode, type, selection) {
             var tex2 = "";
             var text = "";
             for (i = 0; i < 10; i++) {
-                text += "";//
+                text += "";
             }
-			text += "\t\t\t  #e欢迎来到#b世纪冒险岛 #k!#n\r\n"
-			text += "\t\t\t  #e您当前点卷为：#b"+cm.getPlayer().getCSPoints(1)+"#k!#n\r\n#e#d这里是玩家点卷流通的重要枢纽~想要交易点卷就来找我吧！\r\n"
-            text += "#L1##e#d100点卷兑换1个#v4000463##l"//3
-            text += "#L2##d500点卷兑换5个#v4000463##l\r\n\r\n"//3
-            text += "#L3##d1000点卷兑换10个#v4000463##l"//3
-            text += "#L4##d5000点卷兑换50个#v4000463##l\r\n\r\n"//3
-            text += "#L5##d10000点卷兑换100个#v4000463##l\r\n\r\n"//3
-            text += "----------------------------------------------#l\r\n"//3
-            text += "#L6##r1个#v4000463#兑换100点卷#l"//3
-            text += "#L7##r5个#v4000463#兑换500点卷#l\r\n\r\n"//3
-            text += "#L8##r10个#v4000463#兑换1000点卷#l"//3
-            text += "#L9##r50个#v4000463#兑换5000点卷#l\r\n\r\n"//3
-            text += "#L10##r100个#v4000463#兑换10000点卷#l\r\n\r\n"//3
+			//显示物品ID图片用的代码是  #v这里写入ID#
+            text += "#e#d[阿尔泰耳环]升级至[发光的阿尔泰耳环]你确定吗？.#l\r\n\r\n"//3
+            text += "#L1##r升级为发光的阿尔泰耳环#l\r\n\r\n"//3
             cm.sendSimple(text);
         } else if (selection == 1) {
-                if (cm.getPlayer().getCSPoints(1) >= 100) {
-					item = cm.gainGachaponItem(4000463, 1);
-					if (item != -1) {
-						cm.sendOk("你获得了 #b#t" + item + "##k " + 1 + "个。");
-						cm.getPlayer().modifyCSPoints(1, -100);
-					} else {
-						cm.sendOk("请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
-					}
-                    cm.dispose();
-                    
-                } else {
-                    cm.sendOk("#b您没有足够的点卷进行购买,请充值.");
-                    cm.dispose();
-                }
-        } else if (selection == 2) {
-                if (cm.getPlayer().getCSPoints(1) >= 500) {
-					item = cm.gainGachaponItem(4000463, 5);
-					if (item != -1) {
-						cm.sendOk("你获得了 #b#t" + item + "##k " + 5 + "个。");
-						cm.getPlayer().modifyCSPoints(1, -500);
-					} else {
-						cm.sendOk("请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
-					}
-                    cm.dispose();
-                    
-                } else {
-                    cm.sendOk("#b您没有足够的点卷进行购买,请充值.");
-                    cm.dispose();
-                }
-        } else if (selection == 3) {
-                if (cm.getPlayer().getCSPoints(1) >= 1000) {
-					item = cm.gainGachaponItem(4000463, 10);
-					if (item != -1) {
-						cm.sendOk("你获得了 #b#t" + item + "##k " + 10 + "个。");
-						cm.getPlayer().modifyCSPoints(1, -1000);
-					} else {
-						cm.sendOk("请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
-					}
-                    cm.dispose();
-                    
-                } else {
-                    cm.sendOk("#b您没有足够的点卷进行购买,请充值.");
-                    cm.dispose();
-                }
-        } else if (selection == 4) {
-                if (cm.getPlayer().getCSPoints(1) >= 5000) {
-					item = cm.gainGachaponItem(4000463, 50);
-					if (item != -1) {
-						cm.sendOk("你获得了 #b#t" + item + "##k " + 50 + "个。");
-						cm.getPlayer().modifyCSPoints(1, -5000);
-					} else {
-						cm.sendOk("请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
-					}
-                    cm.dispose();
-                    
-                } else {
-                    cm.sendOk("#b您没有足够的点卷进行购买,请充值.");
-                    cm.dispose();
-                }
-        } else if (selection == 5) {
-                if (cm.getPlayer().getCSPoints(1) >= 10000) {
-					item = cm.gainGachaponItem(4000463, 100);
-					if (item != -1) {
-						cm.sendOk("你获得了 #b#t" + item + "##k " + 100 + "个。");
-						cm.getPlayer().modifyCSPoints(1, -10000);
-					} else {
-						cm.sendOk("请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
-					}
-                    cm.dispose();
-                    
-                } else {
-                    cm.sendOk("#b您没有足够的点卷进行购买,请充值.");
-                    cm.dispose();
-                }
-        } else if (selection == 6) {
-        if (cm.haveItem(4000463, 1)) {
-			cm.gainItem(4000463,-1);
-			cm.getPlayer().modifyCSPoints(1, 100);
-			cm.sendOk("你获得了100点卷！。");
-		}else{
-            cm.sendOk("#b您没有足够的中介币无法兑换！.");
-		}
-                    cm.dispose();
-        } else if (selection == 7) {
-        if (cm.haveItem(4000463, 5)) {
-			cm.gainItem(4000463,-5);
-			cm.getPlayer().modifyCSPoints(1, 500);
-			cm.sendOk("你获得了500点卷！。");
-		}else{
-            cm.sendOk("#b您没有足够的中介币无法兑换！.");
-		}
-                    cm.dispose();
-        } else if (selection == 8) {
-        if (cm.haveItem(4000463, 10)) {
-			cm.gainItem(4000463,-10);
-			cm.getPlayer().modifyCSPoints(1, 1000);
-			cm.sendOk("你获得了1000点卷！。");
-		}else{
-            cm.sendOk("#b您没有足够的中介币无法兑换！.");
-		}
-                    cm.dispose();
-        } else if (selection == 9) {
-        if (cm.haveItem(4000463, 50)) {
-			cm.gainItem(4000463,-50);
-			cm.getPlayer().modifyCSPoints(1, 5000);
-			cm.sendOk("你获得了5000点卷！。");
-		}else{
-            cm.sendOk("#b您没有足够的中介币无法兑换！.");
-		}
-                    cm.dispose();
-        } else if (selection == 10) {
-        if (cm.haveItem(4000463, 100)) {
-			cm.gainItem(4000463,-100);
-			cm.getPlayer().modifyCSPoints(1, 10000);
-			cm.sendOk("你获得了10000点卷！。");
-		}else{
-            cm.sendOk("#b您没有足够的中介币无法兑换！.");
-		}
-                    cm.dispose();
+			//1
+			//2
+			//3
+			//4
+			//5
+			/*if(!cm.beibao(1,3)){
+            cm.sendOk("装备栏空余不足3个空格！");
+            cm.dispose();
+			}else if(!cm.beibao(2,2)){
+            cm.sendOk("消耗栏空余不足2个空格！");
+            cm.dispose();
+			}else if(!cm.beibao(3,1)){
+            cm.sendOk("设置栏空余不足1个空格！");
+            cm.dispose();
+			}else if(!cm.beibao(4,1)){
+            cm.sendOk("其他栏空余不足1个空格！");
+            cm.dispose();
+			}else if(!cm.beibao(5,1)){
+            cm.sendOk("现金栏空余不足1个空格！");
+            cm.dispose();
+			}else */if(cm.haveItem(1032060,1) && cm.haveItem(4001323,100)){
+				cm.gainItem(1032060, -1);
+				cm.gainItem(4001323, -100);
+				cm.gainItem(1032061,30,30,30,30,0,0,10,10,0,0,0,0,0,0);
+				//cm.gainMeso(100000);
+            cm.sendOk("兑换成功！");
+			cm.worldMessage(6,"玩家：["+cm.getName()+"]将[阿尔泰耳环]升级至[发光的阿尔泰耳环].还可升级.继续努力吧！");
+cm.喇叭(3, "玩家：[" + cm.getPlayer().getName() + "]将[阿尔泰耳环]升级至[发光的阿尔泰耳环].还可升级.继续努力吧！");
+            cm.dispose();
+			}else{
+            cm.sendOk("您的材料不足！，需要\r\n#v4170001#x100个\r\n#v1032060#x1个");
+            cm.dispose();
+			}
 		}
     }
 }

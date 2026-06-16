@@ -1,113 +1,144 @@
-var status = -1;
-var sel = 0;
+/*
+ By 梓条
+ */
+
+var status = 0;
+
+function start() {
+    status = -1;
+    action(1, 0, 0);
+}
 
 function action(mode, type, selection) {
-	if (mode != 1) {
-    		cm.dispose();
-	} else {
-		status++;
-		if (cm.getPlayer().getBattler(0) == null) {
-			cm.sendOk("You need a monster first.");
-			cm.dispose();	
-			return;
-		}
-		if (cm.getPlayer().getMapId() == 193000000) {
-			if (status == 0) {
-				cm.sendSimple("I can lead you to Battle Tower, where you will be pit against other monsters...\r\n\r\n#b#L0# #v03994115##l #L1# #v03994116##l #L2# #v03994117##l #L3# #v03994118##l");
-			} else if (status == 1) {
-				sel = selection;
-				var num = 0;
-				var averageLevel = 0;
-				var battlers = cm.getPlayer().getBattlers();
-				for (var i = 0; i < battlers.length; i++) {
-					if (battlers[i] != null) {
-						if (battlers[i].getLevel() > averageLevel) {
-							averageLevel = battlers[i].getLevel();
-						}
-						num++;
-					}
-				}	
-				averageLevel |= 0;
-				var selStr = "#v0" + (3994115 + sel) + "#\r\nCurrently, you have " + num + " monsters with the highest level of " + averageLevel + ".\r\n\r\n#eThis mode will have the following rules and restrictions#n:\r\n- The number of monsters you have right now will be the number of monsters that each player will use.\r\n- You may not run or use balls on the trainer monsters.\r\n- You must have at least 3 monsters in your team.\r\n";
-				if (sel == 0) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 10.\r\n- You will face monsters anywhere from 10 levels below your highest level to your highest level.\r\n- If any of your monsters exceed level 150, they will be reset to level 150.\r\n- There is no reward in this mode except for EXP for your monsters.\r\n\r\nClick next to start this mode."); 
-				} else if (sel == 1) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 10.\r\n- You will face monsters anywhere from 5 levels below your highest level to 5 levels above your highest level.\r\n- If any of your monsters exceed level 150, they will be reset to level 150.\r\n- In addition to gaining EXP, you will also gain an item reward after every successful match.\r\n\r\nClick next to start this mode."); 
-				} else if (sel == 2) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 10.\r\n- You will face monsters anywhere from your highest level to 10 levels above your highest level.\r\n- If any of your monsters exceed level 150, they will be reset to level 150.\r\n- In addition to gaining EXP, you will also gain an item reward after every successful match.\r\n\r\nClick next to start this mode."); 
-				} else if (sel == 3) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 100.\r\n- You will face only bosses that are below your highest level.\r\n- In addition to gaining EXP, you will also gain an item reward after every successful match.\r\n\r\nClick next to start this mode."); 
-				} else {
-					cm.dispose();
-				}
-			} else if (status == 2) {
-				cm.warp(925020010 + sel);
-				cm.dispose();
-			}
-		} else if (cm.getPlayer().getMapId() == 925020010 || cm.getPlayer().getMapId() == 925020011 || cm.getPlayer().getMapId() == 925020012 || cm.getPlayer().getMapId() == 925020013) { //easy
-			if (status == 0) {
-				var num = 0;
-				var averageLevel = 0;
-				var battlers = cm.getPlayer().getBattlers();
-				for (var i = 0; i < battlers.length; i++) {
-					if (battlers[i] != null) {
-						if (battlers[i].getLevel() > averageLevel) {
-							averageLevel = battlers[i].getLevel();
-						}
-						num++;
-					}
-				}	
-				averageLevel |= 0;
-				var selStr = "#v0" + (3994115 + (cm.getPlayer().getMapId() - 925020010)) + "#\r\nCurrently, you have " + num + " monsters with the highest level of " + averageLevel + ".\r\n\r\n#eThis mode will have the following rules and restrictions#n:\r\n- The number of monsters you have right now will be the number of monsters that each player will use.\r\n- You may not run or use balls on the trainer monsters.\r\n- You will need at least 3 monsters to enter.\r\n";
-				if (cm.getPlayer().getMapId() == 925020010) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 10.\r\n- You will face monsters anywhere from 10 levels below your highest level to your highest level.\r\n- If any of your monsters exceed level 150, they will be reset to level 150.\r\n- There is no reward in this mode except for EXP for your monsters.\r\n\r\nClick next to start this mode."); 
-				} else if (cm.getPlayer().getMapId() == 925020011) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 10.\r\n- You will face monsters anywhere from 5 levels below your highest level to 5 levels above your highest level.\r\n- If any of your monsters exceed level 150, they will be reset to level 150.\r\n- In addition to gaining EXP, you will also gain an item reward after every successful match.\r\n\r\nClick next to start this mode."); 
-				} else if (cm.getPlayer().getMapId() == 925020012) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 10.\r\n- You will face monsters anywhere from your highest level to 10 levels above your highest level.\r\n- If any of your monsters exceed level 150, they will be reset to level 150.\r\n- In addition to gaining EXP, you will also gain an item reward after every successful match.\r\n\r\nClick next to start this mode."); 
-				} else if (cm.getPlayer().getMapId() == 925020013) {
-					cm.sendNext(selStr + "- The highest level of your monsters must be above level 100.\r\n- You will face only bosses that are below your highest level.\r\n- In addition to gaining EXP, you will also gain an item reward after every successful match.\r\n\r\nClick next to start this mode."); 
-				} else {
-					cm.dispose();
-				}
-			} else {
-				if (cm.getPlayer().getMapId() == 925020010) {
-					var npcTeam = cm.makeTeam(-10, 0, 10, 150);
-					if (npcTeam == null) {
-						cm.sendOk("You did not meet one or more of the requirements. Please check again.");
-					} else {
-						cm.preparePokemonBattle(npcTeam, 150);
-					}
-				} else if (cm.getPlayer().getMapId() == 925020011) {
-					var npcTeam = cm.makeTeam(-5, 5, 10, 150);
-					if (npcTeam == null) {
-						cm.sendOk("You did not meet one or more of the requirements. Please check again.");
-					} else {
-						cm.preparePokemonBattle(npcTeam, 150);
-					}
-				} else if (cm.getPlayer().getMapId() == 925020012) {
-					var npcTeam = cm.makeTeam(0, 10, 10, 150);
-					if (!cm.canHold()) {
-						cm.sendOk("Please make some inventory space in all inventories.");
-					} else if (npcTeam == null) {
-						cm.sendOk("You did not meet one or more of the requirements. Please check again.");
-					} else {
-						cm.preparePokemonBattle(npcTeam, 150);
-					}
-				} else if (cm.getPlayer().getMapId() == 925020013) {
-					var npcTeam = cm.makeTeam(0, 0, 100, 200);
-					if (!cm.canHold()) {
-						cm.sendOk("Please make some inventory space in all inventories.");
-					} else if (npcTeam == null) {
-						cm.sendOk("You did not meet one or more of the requirements. Please check again.");
-					} else {
-						cm.preparePokemonBattle(npcTeam, 200);
-					}
-				}
-				cm.dispose();
-			}
-		} else {
-			cm.dispose();
-		}
-	}
+    if (mode == -1) {
+        cm.dispose();
+    } else {
+        if (mode == 0 && status == 0) {
+            cm.dispose();
+            return;
+        }
+        if (mode == 1)
+            status++;
+        else
+            status--;
+        if (status == 0) {
+		var Editing = false//true=显示;false=开始活动
+          if(Editing){
+          cm.sendOk("国庆节还没开始呢.");
+          cm.dispose();
+          return;
+        } 
+			cm.sendSimple("#b欢迎玩家 #r#h ##k ,\r\n国庆节快乐，这里是活动兑换NPC\r\n\r\n#n"+
+            "#k\r\n#L99##r#i4030002##bx10#r换#b 超级药水 #i2000005#x3#k\r\n\r\n#L100##r#i4030002##r#i4030003##bx50#r换#b 神秘箱子 #i2022336#x2#k\r\n\r\n#L101##r#i4030002##r#i4030003##r#i4030004##bx100#r换#b 神秘箱子 #i2022336#x6\r\n\r\n#L102##r#i4030002##r#i4030003##r#i4030004##i4030005##bx50#r换#b 高级白衣卷 #i2049002#x1\r\n\r\n#L103##r#i4030002##r#i4030003##r#i4030004##i4030005##i4030006##bx100#r换#b 祥龙披风 #i1102248#x1\r\n#L104##r#i4030002##r#i4030003##r#i4030004##i4030005##i4030006##bx200#r换#b 贵族披风 #i1102163#x1\r\n#L105##r#i4030007##bx10#r换#b 金杯 #i4000038#x20\r\n#L106##r#i4030007##bx5#r换#b 高级鱼饵 #i2300001#x100\r\n#L107##r#i4030008##bx5#r换#b 黄金猪猪 #i4032226#x2#k");
+        } else if (status == 1) {
+            
+			if (selection == 99) {
+                if(cm.haveItem(4030002, 10)) {
+                    cm.gainItem(4030002, -10);
+                    cm.gainItem(2000005, 3);
+                    cm.sendOk("获得超级药水 x3");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+					 }
+                }if (selection == 100) {
+                if(cm.haveItem(4030002, 50) && cm.haveItem(4030003,50)) {
+                    cm.gainItem(4030002, -50);
+					cm.gainItem(4030003, -50);
+                    cm.gainItem(2022336, 2);
+                    cm.sendOk("获得神秘箱子 x2");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+				} if (selection == 101) {
+                if(cm.haveItem(4030002, 100) && cm.haveItem(4030003,100) && cm.haveItem(4030004,100)) {
+                    cm.gainItem(4030002, -100);
+					cm.gainItem(4030003, -100);
+					cm.gainItem(4030004, -100);
+                    cm.gainItem(2022336, 6);
+                    cm.sendOk("获得神秘箱子 x6");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+				} if (selection == 102) {
+                if(cm.haveItem(4030002, 50) && cm.haveItem(4030003,50) && cm.haveItem(4030004,50)&& cm.haveItem(4030005,50)) {
+                    cm.gainItem(4030002, -50);
+					cm.gainItem(4030003, -50);
+					cm.gainItem(4030004, -50);
+					cm.gainItem(4030005, -50);
+                    cm.gainItem(2049002, 1);
+                    cm.sendOk("获得高级白医卷 x1");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+				} if (selection == 103) {
+                if(cm.haveItem(4030002, 100) && cm.haveItem(4030003,100) && cm.haveItem(4030004,100)&& cm.haveItem(4030005,100)&& cm.haveItem(4030006,100)) {
+                    cm.gainItem(4030002, -100);
+					cm.gainItem(4030003, -100);
+					cm.gainItem(4030004, -100);
+					cm.gainItem(4030005, -100);
+					cm.gainItem(4030006, -100);
+                    cm.gainItem(1102248, 1);
+                    cm.sendOk("获得祥龙披风 x1");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+				} if (selection == 104) {
+                if(cm.haveItem(4030002, 200) && cm.haveItem(4030003,200) && cm.haveItem(4030004,200)&& cm.haveItem(4030005,200)&& cm.haveItem(4030006,200)) {
+                    cm.gainItem(4030002, -200);
+					cm.gainItem(4030003, -200);
+					cm.gainItem(4030004, -200);
+					cm.gainItem(4030005, -200);
+					cm.gainItem(4030006, -200);
+                    cm.gainItem(1102163, 1);
+                    cm.sendOk("获得贵族披风 x1");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+				} if (selection == 105) {
+                if(cm.haveItem(4030007, 10)) {
+                    cm.gainItem(4030007, -10);
+                    cm.gainItem(4000038, 20);
+                    cm.sendOk("获得金杯 x20");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+				} if (selection == 106) {
+                if(cm.haveItem(4030007, 5)) {
+                    cm.gainItem(4030007, -5);
+                    cm.gainItem(2300001, 100);
+                    cm.sendOk("获得高级鱼饵 x100");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+				} if (selection == 107) {
+                if(cm.haveItem(4030008, 5)) {
+                    cm.gainItem(4030008, -5);
+                    cm.gainItem(4032226, 2);
+                    cm.sendOk("获得黄金猪 x2");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("您身上没有足够的物品,请在次确认");
+                    cm.dispose();
+                }
+			 }
+        }
+    }
 }
+
+	

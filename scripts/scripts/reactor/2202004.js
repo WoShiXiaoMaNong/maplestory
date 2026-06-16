@@ -1,8 +1,8 @@
 /*
 	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-					   Matthias Butz <matze@odinms.de>
-					   Jan Christian Meyer <vimes@odinms.de>
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
+		       Matthias Butz <matze@odinms.de>
+		       Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -19,12 +19,11 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-/* @Author xQuasar
- * 
- * 2202004.js: Ludibirum PQ: Bonus stage boxes
-*/
-
+/*@author Jvlaple
+ *Reactor : LudiPQ Bonus Reactor - 2202004.js
+ * Drops all the Bonus Items
+ */
+ 
 function act() {
 	rand = Math.floor(Math.random() * 3);
 	if (rand < 1) rand = 1;

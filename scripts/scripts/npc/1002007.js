@@ -1,129 +1,74 @@
-/* Author: xQuasar
-	NPC Name: 		Regular Cab
-	Map(s): 		Victoria Road : Henesys (100000000)
-	Description: 		Perion Cab
+/*
+	NPC Name: 		Regular Cab at Lith Habour
+	Map(s): 		Victoria Road : Lith Habour (104000000)
+	Description: 		Lith Habour
 */
-//import java.util.Date;
-//import java.text.DateFormat;
-//import java.text.SimpleDateFormat;
-var status;
-var name;
-var mapId;
-var cost;
-var map1;
-var map2;
-var map3;
-var map4;
-var map5;
-var scost;
+var status = 0;
+var maps = Array(120000000, 102000000, 100000000, 103000000);
+var rCost = Array(1200, 1000, 1000, 1200);
+var costBeginner = Array(120, 100, 100, 120);
+var cost = new Array("1,200", "1,000", "1,000", "1,200");
+var show;
+var sCost;
+var selectedMap = -1;
 
-function start() {
-	status = -1;
-	action(1,0,0);
-}
 
-function action(mode,type,selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else if (status == -1) {
-		status = 0;
-		var myDate = new Date();
-		cm.sendNext("您好~！我是明珠港部落中巴。 现在时间:" + myDate.toLocaleTimeString() + " 你想不想又快捷又安全的到达其他地方去？那么请使用我们的出租车吧。它会马上将你送到你想去的地方，价格很便宜哦！");
-	} else if (status == 0) {
-		status = 1;
-		map1 = "勇士部落"; //102000000
-		map2 = "射手村"; //100000000
-		map3 = "魔法密林"; //101000000
-		map4 = "废气都市"; //103000000
-		map5 = "诺特勒斯号码头"; //120000000
-		if (cm.getJob().equals(net.sf.odinms.client.MapleJob.BEGINNER)) {
-			cm.sendSimple("新手的话价格可以#b9折#k优惠。请选择你的目的地吧。\r\n#b#L0#" + map1 + " (120 金币)#l\r\n#L1#" + map2 + " (100 金币)#l\r\n#L2#" + map3 + " (100 金币)#l\r\n#L3#" + map4 + " (80 金币)#l\r\n#L4#" + map5 + " (100 金币)#l#k");
-		} else {
-			cm.sendSimple("请选择你的目的地吧。按照目的地不同，车费也有所不同。\r\n#b#L0#" + map1 + " (1200 金币)#l\r\n#L1#" + map2 + " (1000 金币)#l\r\n#L2#" + map3 + " (1000 金币)#l\r\n#L3#" + map4 + " (800 金币)#l\r\n#L4#" + map5 + " (1000 金币)#l#k");
-		}
-	} else if (status == 1) {
-		if (cm.getJob().equals(net.sf.odinms.client.MapleJob.BEGINNER)) {
-			if (selection == 0) {
-				scost = "120";
-				mapId = 102000000;
-				cost = 120;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 1) {
-				scost = "100";
-				mapId = 100000000;
-				cost = 100;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 2) {
-				scost = "100";
-				mapId = 101000000;
-				cost = 100;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 3) {
-				scost = "80";
-				mapId = 103000000;
-				cost = 80;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 4) {
-				scost = "100";
-				mapId = 120000000;
-				cost = 100;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else {
-				cm.dispose();
-			}
-		} else {
-			if (selection == 0) {
-				scost = "1200";
-				mapId = 102000000;
-				cost = 1200;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 1) {
-				scost = "1000";
-				mapId = 100000000;
-				cost = 1000;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 2) {
-				scost = "1000";
-				mapId = 101000000;
-				cost = 1000;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 3) {
-				scost = "800";
-				mapId = 103000000;
-				cost = 800;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else if (selection == 4) {
-				scost = "1000";
-				mapId = 120000000;
-				cost = 1000;
-				status = 2;
-				cm.sendYesNo("看来这里的事情你已经办完了嘛。你确定要去 #b#m" + mapId + "##k吗？票价是 #b" + scost + " 金币#k。");
-			} else {
-				cm.dispose();
-			}
-		}			
-	} else if (status == 2) {
-		if (mode == 1) {
-			if (cm.getMeso() >= cost) {
-				cm.gainMeso(-cost);
-				cm.warp(mapId,0);
-				cm.dispose();
-			} else {
-				cm.sendNext("你好象没有足够的金币，这样的话，我不能为你服务。");
-				cm.dispose();
-			}
-		} else {
-			cm.sendNext("在这个村子里还有许多漂亮的景点，如果你想去其他地方，欢迎随时使用我们的出租车服务。");
-			cm.dispose();
-		}
+function action(mode, type, selection) {
+    if (mode == 1) {
+	status++;
+    } else {
+	if (status >= 2) {
+	    cm.sendNext("这个镇上也有很多值得一看的地方。当你需要去另一个城市的时候，再回来找我吧！");
+	    cm.safeDispose();
+	    return;
 	}
+	status--;
+    }
+    if (status == 0) {
+	cm.sendNext("Hi! I drive the Lith Harbor Regular Cab. Would you like to travel to a different town? If so, try using my cab. I can take you to a different town for a cheap price.");
+    } else if (status == 1) {
+	if (!cm.haveItem(4032313)) {
+	    var job = cm.getJob();
+	    if (job == 0 || job == 1000 || job == 2000) {
+		var selStr = "We have a special 90% discount for beginners. 请选择您的目的地。支付费用之后，我将会传送你去往别的城镇。#b";
+		for (var i = 0; i < maps.length; i++) {
+		    selStr += "\r\n#L" + i + "##m" + maps[i] + "# (" + costBeginner[i] + " 金币)#l";
+		}
+	    } else {
+		var selStr = "请选择您的目的地。支付费用之后，我将会传送你去往别的城镇。#b";
+		for (var i = 0; i < maps.length; i++) {
+		    selStr += "\r\n#L" + i + "##m" + maps[i] + "# (" + cost[i] + " 金币)#l";
+		}
+	    }
+	    cm.sendSimple(selStr);
+	} else {
+	    cm.sendNextPrev("Hey, since you have a Taxi Coupon, I can take you to the town indicated on the pass for free. It looks like your destination is #bHenesys#k!");
+	}
+    } else if (status == 2) {
+	if (!cm.haveItem(4032313)) {
+	    var job = cm.getJob();
+	    if (job == 0 || job == 1000 || job == 2000) {
+		sCost = costBeginner[selection];
+		show = costBeginner[selection];
+	    } else {
+		sCost = rCost[selection];
+		show = cost[selection];
+	    }
+	    cm.sendYesNo("你在这里没什么可干的，恩？你真的想去 #b#m" + maps[selection] + "##k? 这将花费你 #b" + show + " 金币#k.");
+	    selectedMap = selection;
+	} else {
+	    cm.gainItem(4032313, -1);
+	    cm.warp(100000000, 6);
+	    cm.dispose();
+	}
+    } else if (status == 3) {
+	if (cm.getMeso() < sCost) {
+	    cm.sendNext("You don't have enough mesos. Sorry to say this, but without them, you won't be able to ride the cab.");
+	    cm.safeDispose();
+	} else {
+	    cm.gainMeso(-sCost);
+	    cm.warp(maps[selectedMap]);
+	    cm.dispose();
+	}
+    }
 }

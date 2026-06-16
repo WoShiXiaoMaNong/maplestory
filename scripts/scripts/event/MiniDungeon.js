@@ -1,85 +1,70 @@
-/**
--- JavaScript --------------------------------------------------------------------------------
-    Mini-Dungeon Instances
--- By ---------------------------------------------------------------------------------------------
-    Lios of Storybox
-    Ragezone Account: og.Lios
--- Version Info -----------------------------------------------------------------------------------
-    1.1 - Darkwar4ever - Modified for use in Mini-dungeons
-    1.0 - Lios. First version.
----------------------------------------------------------------------------------------------------
-**/
-
-var eim;
-var exitMap;
-var instanceName;
-var prh;
-var exitMapNum = 910000000;  //Edit this to whichever map you please.  Default is Free Market.
-var beginner = 104040000; //beginner hhg1
-var middle = 104040001; //middle
-var expert = 104040002; //high
-var dungeonMap = 104040000;
-function init(){
-instanceName = "MiniDungeon_";
-em.getIv().invokeFunction("setup",null);
+function init() {
 }
 
-function setup(){
-    exitMap = em.getChannelServer().getMapFactory().getMap(exitMapNum);
-    var eim = em.newInstance(instanceName);
+function setup(leaderid) {
+    var eim = em.newInstance("MiniDungeon" + leaderid);
+
+   var map = eim.createInstanceMap(749040100);
+	//it is possible to make THREE minidungeons just like this
+	//maps 749040101 and 749040102; harder monsters than this map but not by much
+	map.setHPDec(25);
+	map.setReturnMapId(910000000); //fm
+	map.setForcedReturnMap(910000000);
+	map.getPortal(3).setScriptName("exitMRYetty");
+	map.toggleGDrops();
+    eim.startEventTimer(3600000); // 1 hr
     return eim;
 }
 
-function playerEntry(eim, player){
-var mostRecentRoom = "MiniDungeon_" + em.getProperty("mRR");
-if(em.getInstance(mostRecentRoom) == null){
-    em.newInstance(mostRecentRoom);
-    }
-    prh = em.getInstance(mostRecentRoom);
-    if (player.getReborns() > 1) {
-        dungeonMap = expert;
-    } else {
-        if (player.getLevel() <= 120) {
-            dungeonMap = beginner;
-        } else if (player.getLevel() <= 150) {
-            dungeonMap = middle;
-        } else if (player.getLevel() <= 255) {
-            dungeonMap = expert;
-        }
-    }
-    map = prh.getMapInstance(dungeonMap);
+function playerEntry(eim, player) {
+    var map = eim.getMapInstance(0);
     player.changeMap(map, map.getPortal(0));
-    player.getClient().getSession().write(Packages.tools.MaplePacketCreator.serverNotice(1, "To prevent botting, you will be warped out in 60 minutes."));
-        player.getClient().getSession().write(Packages.tools.MaplePacketCreator.serverNotice(6, "To prevent botting, you will be warped out in 60 minutes."));
-        player.getClient().getSession().write(Packages.tools.MaplePacketCreator.getClock(3600));
-    eim.schedule("bottingPrevention", 3600000);
 }
 
+function playerRevive(eim, player) {
+    return false;
+}
 
-function bottingPrevention(eim) {
-var mostRecentRoom = "MiniDungeon_" + em.getProperty("mRR");
-prh = em.getInstance(mostRecentRoom);
-var iter = eim.getPlayers().iterator();
-returnMap = prh.getMapInstance(exitMapNum);
-    while (iter.hasNext()) {
-        var player = iter.next();
-        player.changeMap(returnMap, returnMap.getPortal(0));
-        eim.unregisterPlayer(player);
+function scheduledTimeout(eim) {
+    end(eim);
+}
+
+function changedMap(eim, player, mapid) {
+    if (mapid != 749040100) {
+    eim.unregisterPlayer(player);
+
+    eim.disposeIfPlayerBelow(0, 0);
     }
-    eim.dispose();
 }
 
 function playerDisconnected(eim, player) {
-            playerExit(eim, player);
+    return 0;
+}
+
+function monsterValue(eim, mobId) {
+    return 1;
 }
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
-    player.changeMap(exitMap, exitMap.getPortal(0));
+
+    eim.disposeIfPlayerBelow(0, 0);
 }
-//For those dced
-function removePlayer(eim, player) {
-    eim.unregisterPlayer(player);
-    player.getMap().removePlayer(player);
-    player.setMap(exitMap);
+
+function end(eim) {
+	var iter = eim.getMapInstance(0).getCharactersThreadsafe().iterator();
+	var map = eim.getMapFactory().getMap(910000000);
+	while (iter.hasNext()) {
+		var chr = iter.next();
+		eim.unregisterPlayer(chr);
+		chr.changeMap(map, map.getPortal(0));
+	}
+    eim.dispose();
 }
+
+function clearPQ(eim) {}
+function allMonstersDead(eim) {}
+function leftParty (eim, player) {}
+function disbandParty (eim) {}
+function playerDead(eim, player) {}
+function cancelSchedule() {}

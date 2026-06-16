@@ -1,55 +1,29 @@
-/*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@odinms.de>
-                       Jan Christian Meyer <vimes@odinms.de>
+ï»¿/*
+ Machine Apparatus - Origin of Clocktower(220080001)
+ */
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/**
--- Odin JavaScript --------------------------------------------------------------------------------
-	Machine Apparatus - Origin of Clocktower(220080001)
--- By ---------------------------------------------------------------------------------------------
-	Unknown
--- Version Info -----------------------------------------------------------------------------------
-	1.1 - Recode to official [Information]
-	1.0 - First Version by Unknown
----------------------------------------------------------------------------------------------------
-**/
+var status = -1;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1 || mode == 0) {
-		cm.dispose();
-		return;
-	} else {
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendYesNo("ÏëÒªÀë¿ªÕâÀïÍâÃæÈ¥Âğ£¿Ò»µ©Àë¿ª£¬ÔÙ½øÀ´Ê±¾ÍÒªÖØĞÂ¿ªÊ¼ÌôÕ½£¬È·¶¨ÒªÀë¿ªÂğ£¿");
-		}
-		else if(status == 1) {
-			cm.warp(220080000);
-			cm.dispose();
-		}
-	}
+    if (mode == 1) {
+        status++;
+    } else {
+        status--;
+    }
+    if (status == 0) {
+        cm.sendYesNo("å˜Ÿ...å˜Ÿ...ä½ æƒ³è¦ç¦»å¼€å—ï¼Ÿï¼Ÿ");
+    } else if (status == 1) {
+        cm.åˆ·æ–°åœ°å›¾();
+        cm.warpParty(220080000);
+        if (cm.getPlayerCount(220080001) == 0) {
+            cm.getMap(220080000).resetReactors();
+        }
+        cm.dispose();
+    } else {
+        cm.dispose();
+    }
 }

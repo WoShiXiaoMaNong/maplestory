@@ -1,191 +1,230 @@
-importPackage(net.sf.cherry.server.maps);
-
-var belts = Array(1132000, 1132001, 1132002, 1132003, 1132004);
-var belt_level = Array(25, 35, 45, 60, 75);
-var belt_points = Array(200, 1800, 4000, 9200, 17000);
+/*
+ Map : Mu Lung Training Center
+ Npc : So Gong
+ Desc : Training Center Start
+ */
 
 var status = -1;
-var selectedMenu = -1;
+var sel;
+var mapid;
 
 function start() {
-    if (isRestingSpot(cm.getPlayer().getMap().getId())) {
-        cm.sendSimple("我很惊讶你能走到这里！但是，从这里开始,下面的会更难。你还想要挑战?\r\n\r\n#b#L0#进入下一关挑战#l\r\n#L1#我想离开#l\r\n#L2#我想在这里做个记录,下一次挑战将从这里开始#l");
-    } else if (cm.getPlayer().getLevel() >= 25) {
-        if (cm.getPlayer().getMap().getId() == 925020001) {
-            cm.sendSimple("师傅是这里的第一强者。像你这种家伙也敢挑战？你会后悔的！\r\n#b#L0#个人挑战#l\r\n#L1#团队挑战#l\r\n#L2#换取腰带#l\r\n#L3#想初始化修炼点数#l\r\n#L5#武陵道场是什么？#l");
-        } else {
-            cm.sendYesNo("什么？你要放弃？真可惜，退出的话就要重新开始了。是否真的放弃并退出？");
-        }
+    mapid = cm.getMapId();
+
+    if (mapid == 925020001) {
+        cm.sendSimple("我们主人是武陵道场的师傅。你想要挑战我们师傅？不要说我没提醒你他是最强的。 \r #b#L0#我要单人挑战#l \n\r #L1#我要组队进入#l  \n\r #L3#我要重置我的点数#l \n\r #L5#什么是武陵道场?#l");
+    } else if (isRestingSpot(mapid)) {
+        cm.sendSimple("我很惊讶，您已经安全的达到这层了，我可以向你保证，它没有这么容易过关的，你想要坚持下去？#b \n\r #L0#是，我想继续。#l \n\r #L1# 我想离开#l \n\r 。#l");//#L2# 我想要保存这一次的纪录下一次用\n\r #L2#我要兑换腰带#l
     } else {
-        cm.sendOk("什么？你以为你是谁？你嘲笑我的主人？这简直是一个笑话！你至少需要 #b25#k 级才可以挑战。");
-        cm.dispose();
+        cm.sendYesNo("你想要离开了？？");
     }
 }
 
 function action(mode, type, selection) {
-    if (mode == -1) {
-        cm.dispose();
-    } else if (cm.getPlayer().getMap().getId() == 925020001) {
-        if (mode >= 0) {
-            if (status == -1)
-                selectedMenu = selection;
-            status++; //there is no prev.
-            if (selectedMenu == 0) { //I want to challenge him alone.
-                if (!cm.getPlayer().hasEntered("dojang_Msg") && !cm.getPlayer().getFinishedDojoTutorial()) { //kind of hackish...
-                    if (status == 0) {
-                        cm.sendYesNo("就是你！就是你！！你应该是外地人吧…我们师傅可不是闲闲没事的人！默默无名的人是不能见面的。以现在你的程序由我来对付已绰绰有余了。只要打败我就给你挑战师傅的机会！如何？如果可以预测的结果是…");
-                    } else if (status == 1) {
-                        if (mode == 0) {
-                            cm.sendNext("像你这种一拳就被击倒的家伙也敢挑战我们？回去过你的生活吧！");
-                        } else {
-                            for (var i = 0 ; i < 39; i++) { //only 32 stages, but 38 maps
-                                if(cm.getC().getChannelServer().getMapFactory().getMap(925020000 + 100 * i).getCharacters().size() > 0) {
-                                    cm.sendOk("有人已经在道场挑战，请更换频道挑战！");
-                                    cm.dispose();
-                                    return;
-                                }
-                            }
-                            cm.warp(925020010, 0);
-                            cm.getPlayer().setFinishedDojoTutorial();
-                        }
-                        cm.dispose();
-                    }
-                } else if (cm.getPlayer().getDojoStage() > 0) {
-                    if (status == 0) {
-                        cm.sendYesNo("您在上一次挑战中,保存了一个记录点。我能把你带到那里。你现在就要去吗?");
-                    } else {
-                        cm.warp(mode == 1 ? cm.getPlayer().getDojoStage() : 925020100, 0);
-                        cm.getPlayer().setDojoStage(0);
-                        cm.dispose();
-                    }
-                } else {
-                    cm.getC().getChannelServer().getMapFactory().getMap(925020100).resetReactors();
-                    cm.getC().getChannelServer().getMapFactory().getMap(925020100).killAllMonsters();
-                    cm.warp(925020100, 0);
-                    cm.dispose();
-                }
-            } else if (selectedMenu == 1) { //I want to challenge him with a party.
-                var party = cm.getPlayer().getParty();
-                if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
-                    cm.sendNext("你不是队长。请你们队长来说话吧！");
-                    cm.dispose();
-                } else if (party.getMembers().size() == 1) {
-                    cm.sendNext("自己要以组队的模式挑战吗？");
-                } else {
-                    cm.getC().getChannelServer().getMapFactory().getMap(925020100).resetReactors();
-                    cm.getC().getChannelServer().getMapFactory().getMap(925020100).killAllMonsters();
-                    cm.warpParty(925020100);
-                    cm.dispose();
-                }
+    if (mapid == 925020001) {
+        if (mode == 1) {
+            status++;
+        } else {
+            cm.dispose();
+            return;
+        }
+        if (status == 0) {
+            sel = selection;
+
+            if (sel == 5) {
+                cm.sendNext("#b[武陵道场]#k 自己#e#rGoogle#k!");
                 cm.dispose();
-            } else if (selectedMenu == 2) { //I want to receive a belt.
-                if (mode < 1) {
+            } else if (sel == 3) {
+                cm.sendYesNo("你是真的要重置！？ \r\n别怪我没警告你。");
+            } else if (sel == 2) {
+                cm.sendSimple("现在你的道场点数有 #b" + cm.getDojoPoints() + "#k. 我们的主人喜欢有才华的人，所以如果你有了足够的道场点数，你就可以根据你的道场点数依序换取腰带...\n\r #L0##i1132000:# #t1132000#(200)#l \n\r #L1##i1132001:# #t1132001#(1800)#l \n\r #L2##i1132002:# #t1132002#(4000)#l \n\r #L3##i1132003:# #t1132003#(9200)#l \n\r #L4##i1132004:# #t1132004#(17000)#l");
+            } else if (sel == 1) {
+                if (cm.getParty() != null) {
+                    if (cm.isLeader()) {
+                        cm.sendOk("走啰。");
+                    } else {
+                        cm.sendOk("请找你的队长来找我说话。");
+                        cm.dispose();
+                    }
+                } else {
+                    cm.sendOk("你好像没有组队。");
                     cm.dispose();
                     return;
                 }
-                if (status == 0) {
-                    var selStr = "你的修炼点数为 #b" + cm.getPlayer().getDojoPoints() + "#k 师傅喜欢有才能的人。当获得一定的修炼点数。就可以根据修炼点数来获取腰带。\r\n";
-                    for (var i = 0; i < belts.length; i++)
-                        selStr += "\r\n#L" + i + "##i" + belts[i] + "# #t" + belts[i] + "#l";
-                    cm.sendSimple(selStr);
-                } else if (status == 1) {
-                    var belt = belts[selection];
-                    var level = belt_level[selection];
-                    var points = belt_points[selection];
-                    if (cm.getPlayer().getDojoPoints() > points) {
-                        if (cm.getPlayer().getLevel() > level)
-                            if (cm.haveItem(belt) && !cm.haveItem(1132004)) {
-                                cm.sendNext("你已经有这种腰带了。请重置您的积分后再挑战换取！");
-                            } else {
-                                cm.gainItem(belt, 1);
-                                cm.sendOk("换取成功!");
-                            }
-                        else
-                            cm.sendNext("想要获取 #i" + belt + "# #b#t" + belt + "##k, 您的等级必须达到 #b" + level + "#k 级, 并且你需要得到道场积分 #b" + points + " 点#k.\r\n\r\n如果你想换到此腰带,您还需要道场积分 #r" + points + "#k 点.");
-                    } else
-                        cm.sendNext("为了得到 #i" + belt + "# #b#t" + belt + "##k, 你的等级必须达到 #b" + level + "#k a级, 并且你需要得到道场积分 #b" + points + " 点 #k.\r\n\r\n如果你想换到此腰带,您还需要道场积分 #r" + points + "#k 点.");
+            } else if (sel == 0) {
+                if (cm.getParty() != null) {
+                    cm.sendOk("你离开你的组队。.");
                     cm.dispose();
+                    return;
                 }
-            } else if (selectedMenu == 3) { //I want to reset my training points.
-                if (status == 0) {
-                    cm.sendYesNo("训练分数若初始化则会变为0分喔。相信你已应该明白？点数未必不好。训练分数若初始化时之前的记录会删除。点还会拥有腰带。请问把训练分数要初始化吗？");
-                } else if (status == 1) {
-                    if (mode == 0) {
-                        cm.sendNext("你忘记你来这里的目的了吗？");
-                    } else {
-                        cm.getPlayer().setDojoPoints(0);
-                        cm.sendNext("操作成功，训练分数已经成功初始化。那么开始新的训练吧！");
-                    }
-                    cm.dispose();
-                }
-            } else if (selectedMenu == 4) { //I want to receive a medal.
-                if (status == 0) {
-                    cm.sendYesNo("You haven't attempted the medal yet? If you defeat one type of monster in Mu Lung Dojo #b100 times#k you can receive a title called #bxx Vanquisher#k. It looks like you haven't even earned the #b#t1142033##k... Do you want to try out for the #b#t1142033##k?");
-                } else if (status == 1) {
-                    if (mode == 0) {
-                        cm.sendNext("If you don't want to, that's fine.");
-                        cm.dispose();
-                    } else {
-                        if (cm.c.getPlayer().getDojoStage() > 37) {
-                            cm.sendNext("You have complete all medals challenges.");
-                        } else if (cm.getPlayer().getVanquisherKills() < 100)
-                            cm.sendNext("You still need #b" + (100 - getVanquisherStage()) + "#k in order to obtain the #b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k. Please try a little harder. As a reminder, only the mosnters that have been summoned by our Master in Mu Lung Dojo are considered. Oh, and make sure you're not hunting the monsters and exiting!#r If you don't go to the next level after defeating the monster, it doesn't count as a win#k.");
-                        else {
-                            cm.sendNext("You have obtained #b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k.");
-                            cm.gainItem(1142033 + cm.getPlayer().getVanquisherStage(), 1);
-                            cm.getPlayer().setVanquisherStage(cm.c.getPlayer().getVanquisherStage() + 1);
-                            cm.getPlayer().setVanquisherKills(0);
-                        }
-                    }
-                    cm.dispose();
-                }
-            } else if (selectedMenu == 5) { //What is a Mu Lung Dojo?
-                cm.sendNext("我的师傅在武陵是最强的一位。因此武陵印章只有在此这个地方才能制造出来。武陵具有约38楼之高的建筑。若慢慢的往上同时也会提升训练指数。当然以你的实力去爬完是有些困难。");
-                cm.dispose();
-            }
-        } else
-            cm.dispose();
-    } else if (isRestingSpot(cm.getPlayer().getMap().getId())) {
-        if (selectedMenu == -1)
-            selectedMenu = selection;
-        status++;
-        if (selectedMenu == 0) {
-            cm.warp(cm.getPlayer().getMap().getId() + 100, 0);
-            cm.dispose();
-        } else if (selectedMenu == 1) { //I want to leave
-            if (status == 0) {
-                cm.sendAcceptDecline("知难而退了吧!是不是真的想离开了呢?");
-            } else {
-                if (mode == 1) {
-                    cm.warp(925020000);
-                } else {//probably insult the user
-					
-                }
-                cm.dispose();
-            }
-        } else if (selectedMenu == 2) { //I want to record my score up to this point
-            if (status == 0) {
-                cm.sendYesNo("如果你在这里做个记录，你下次来挑战可以从这里开始。这不是很方便吗？你想记录你目前位置吗?");
-            } else {
-                if (mode == 0) {
-                    cm.sendNext("你以为你可以去到更高的地方吗？祝好运!");
+                var record = cm.getQuestRecord(150000);
+                var data = record.getCustomData();
+
+                if (data != null) {
+                    cm.warp(get_restinFieldID(parseInt(data)), 0);
+                    record.setCustomData(null);
                 } else {
-                    cm.sendNext("我已把你的位置做了记录。下一次你来挑战的时候，你就可以从这里开始.");
-                    cm.getPlayer().setDojoStage(cm.getPlayer().getMap().getId());
+                    cm.start_DojoAgent(true, false);
                 }
+                cm.dispose();
+                // cm.sendYesNo("The last time you took the challenge yourself, you were able to reach Floor #18. I can take you straight to that floor, if you want. Are you interested?");
+            }
+        } else if (status == 1) {
+            if (sel == 3) {
+                cm.setDojoRecord(true);
+                cm.sendOk("我已经帮您归零，好运。");
+                cm.dispose();
+            } else if (sel == 2) {
+                var record = cm.getDojoRecord();
+                var required = 0;
+
+                switch (record) {
+                    case 0:
+                        required = 200;
+                        break;
+                    case 1:
+                        required = 1800;
+                        break;
+                    case 2:
+                        required = 4000;
+                        break;
+                    case 3:
+                        required = 9200;
+                        break;
+                    case 4:
+                        required = 17000;
+                        break;
+                }
+
+                if (record == selection && cm.getDojoPoints() >= required) {
+                    var item = 1132000 + record;
+                    if (cm.canHold(item)) {
+                        cm.gainItem(item, 1);
+                        cm.setDojoRecord(false);
+                        cm.sendOk("恭喜兑换成功！！");
+                    } else {
+                        cm.sendOk("请确认一下你的背包是否满了.");
+                        cm.dispose();
+                    }
+               // } else if (record != selection) {
+                  //  cm.sendOk("请依照顺序兑换腰带！谢谢");
+                   // cm.dispose();
+                } else {
+                    cm.sendOk("你好像没有足够的道场点数可以换....");
+                    cm.dispose();
+                }
+                cm.dispose();
+            } else if (sel == 1) {
+                cm.start_DojoAgent(true, true);
                 cm.dispose();
             }
         }
-    } else {
-        if (mode < 1) {
-            cm.sendNext("停止你的想法吧！不久之后，你后悔的，恳求让你回去.");
+    } else if (isRestingSpot(mapid)) {
+        if (mode == 1) {
+            status++;
         } else {
-            cm.warp(925020001, 0);
+            cm.dispose();
+            return;
+        }
+
+        if (status == 0) {
+            sel = selection;
+
+            if (sel == 0) {
+                cm.dojoAgent_NextMap(true, true);
+                //cm.getQuestRecord(150000).setCustomData(null);
+                cm.dispose();
+            } else if (sel == 1) {
+                cm.askAcceptDecline("你真的想要离开这里？");
+            } else if (sel == 2) {
+                if (cm.getParty() == null) {
+                    var stage = get_stageId(cm.getMapId());
+
+                    cm.getQuestRecord(150000).setCustomData(stage);
+                    cm.sendOk("我刚刚保存你这次的纪录，下次当你返回我就直接送你到这里。");
+                    cm.dispose();
+                } else {
+                    cm.sendOk("嘿，小家伙你不能保存..因为这是组队挑战！");
+                    cm.dispose();
+                }
+            }
+        } else if (status == 1) {
+            if (sel == 1) {
+                if (cm.isLeader()) {
+                    cm.warpParty(925020002);
+					//cm.gainMeso(-2000000);
+                } else {
+                    cm.warp(925020002);
+					//cm.gainMeso(-2000000);
+                }
+            }
+            cm.dispose();
+        }
+    } else {
+        if (mode == 1) {
+            if (cm.isLeader()) {
+                cm.warpParty(925020002);
+				//cm.gainMeso(-2000000);
+            } else {
+                cm.warp(925020002);
+				//cm.gainMeso(-2000000);
+            }
         }
         cm.dispose();
     }
 }
 
+function get_restinFieldID(id) {
+    var idd = 925020002;
+    switch (id) {
+        case 1:
+            idd = 925020600;
+        case 2:
+            idd = 925021200;
+        case 3:
+            idd = 925021800;
+        case 4:
+            idd = 925022400;
+        case 5:
+            idd = 925023000;
+        case 6:
+            idd = 925023600;
+    }
+    for (var i = 0; i < 15; i++) {
+        var canenterr = true;
+        for (var x = 1; x < 39; x++) {
+            var map = cm.getMap(925020000 + 100 * x + i);
+			//cm.gainMeso(-2000000);
+            if (map.getCharactersSize() > 0) {
+                canenterr = false;
+                break;
+            }
+        }
+        if (canenterr) {
+            idd += i;
+            break;
+        }
+    }
+    return idd;
+}
+
+function get_stageId(mapid) {
+    if (mapid >= 925020600 && mapid <= 925020614) {
+        return 1;
+    } else if (mapid >= 925021200 && mapid <= 925021214) {
+        return 2;
+    } else if (mapid >= 925021800 && mapid <= 925021814) {
+        return 3;
+    } else if (mapid >= 925022400 && mapid <= 925022414) {
+        return 4;
+    } else if (mapid >= 925023000 && mapid <= 925023014) {
+        return 5;
+    } else if (mapid >= 925023600 && mapid <= 925023614) {
+        return 6;
+    }
+    return 0;
+}
+
 function isRestingSpot(id) {
-    return (id / 100 - 9250200) % 6 == 0;
+    return (get_stageId(id) > 0);
 }

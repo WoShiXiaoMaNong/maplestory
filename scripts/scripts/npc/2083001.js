@@ -1,25 +1,10 @@
-function start() {
-	status = -1;
-	action(1, 0, 0);
-}
+/*
+	Encrypted Slate of the Squad - Leafre Cave of life
+*/
+
+var status = -1;
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} 
-	else {
-		if (mode == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendOk("前方的路还很漫长.");
-			cm.dispose();
-			return;
-		} 
-	}
+    cm.warp(240050400,0);
+    cm.dispose();
 }

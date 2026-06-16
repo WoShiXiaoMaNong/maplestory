@@ -27,7 +27,7 @@ function action(mode, type, selection) {
                 text += "";
             }
 			//显示物品ID图片用的代码是  #v这里写入ID#
-            text += "#e#d您好！可以通过海盗副本蛋得到进一步的提升哦！\r\n\r\n#v1012474#Lv100级佩戴.全属性+10,HP/MP+500,防御/魔防+50,命中/回避+15,攻击/魔法+10\r\n所需材料:#v4170009#x50个.搜集完毕就可以找我进行进化了.#l\r\n\r\n"//3
+            text += "#e#d您好！可以通过海盗副本蛋得到进一步的提升哦！\r\n\r\n#v1012474#Lv100级佩戴.全属性+8,HP/MP+100,防御/魔防+50,命中/回避+15,攻击/魔法+6\r\n所需材料:#v4170009#x50个.搜集完毕就可以找我进行进化了.#l\r\n\r\n"//3
             text += "#L1##r我要合成#v1012474##l\r\n\r\n"//3
             cm.sendSimple(text);
         } else if (selection == 1) {
@@ -53,10 +53,10 @@ function action(mode, type, selection) {
             cm.dispose();
 			}else */if(cm.haveItem(4170009,50)){
 				cm.gainItem(4170009, -50);
-				cm.gainItem(1012474,10,10,10,10,500,500,10,10,50,50,15,15,0,0);
+				cm.gainItem(1012474,8,8,8,8,100,100,6,6,50,50,15,15,0,0);
 				cm.gainMeso(100000);
             cm.sendOk("兑换成功！");
-cm.喇叭(2, "恭喜[" + cm.getPlayer().getName() + "]用50个[海盗副本蛋]成功合成10周年大赏枫叶脸饰，恭喜！！！");
+//cm.喇叭(2, "恭喜[" + cm.getPlayer().getName() + "]用50个[海盗副本蛋]成功合成10周年大赏枫叶脸饰，恭喜！！！");
             cm.dispose();
 			}else{
             cm.sendOk("您的材料不足！");

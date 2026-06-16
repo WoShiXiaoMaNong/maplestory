@@ -14,7 +14,7 @@ function action(mode, type, selection) {
 	status--;
     }
     if (status == 0) {
-		var selStr = "选择一个你想要去的培育中心.";
+		var selStr = "选择一个你想要去的培训中心.";
 		for (var i = 0; i < num; i++) {
 			selStr += "\r\n#b#L" + i + "#培训中心 " + i + " (" + cm.getPlayerCount(map + i) + "/" + maxp + ")#l#k";
 		}
@@ -26,7 +26,7 @@ function action(mode, type, selection) {
             cm.sendNext("二十等以后无法使用唷。");
             cm.dispose();
 		} else if (cm.getPlayerCount(map + selection) >= maxp) {
-			cm.sendNext("这个培育中心已经满人，请稍后再尝试!");
+			cm.sendNext("这个培训中心已经满人，请稍后再尝试!");
 			status = -1;
 		} else {
 			cm.warp(map + selection, 0);

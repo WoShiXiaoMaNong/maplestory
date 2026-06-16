@@ -1,182 +1,445 @@
-/* global cm */
-var 爱心 = "";
-var 音符 = "#fEffect/CharacterEff/1022223/4/0#";
-var 小雪花 = "#fUI/UIWindow.img/PvP/Scroll/enabled/next2#";
-var 爱心1 = "#fEffect/CharacterEff/1032063/0/0#";
-var 感叹号 = "#fUI/UIWindow/Quest/icon0#";
-var 美化new = "#fUI/UIWindow/Quest/icon5/1#";
-function start() {
-    status = -1;
-    action(1, 0, 0);
+importPackage(net.sf.cherry.tools);
+importPackage(net.sf.cherry.client);
+
+var status = 0;
+
+	function start() {
+		status = -1;
+		action(1, 0, 0);
+		}
+	function action(mode, type, selection) {
+		if (mode == -1) {
+		cm.dispose();
+		} else {
+		if (status >= 0 && mode == 0) {
+		cm.dispose();
+		return;
+		}
+		if (mode == 1)
+		status++;
+		else
+		status--;
+
+
+	if (status == 0) {
+	    var textz = "#d要不要来点必成？\r\n";
+
+  textz += "#L1#1.#v4310059##z4310059# 需要:#v4031456#300个 \r\n";
+   textz += "#L2#2.#v4310059##z4310059# 需要:#v4000463#20个 \r\n";
+  // textz += "#L3#3.#v2040874##z2040874 # 需要:#v4000244#50个\r\n";
+ // textz += "#L4#4.#v2040875##z2040875# 需要:#v4000245#50个 \r\n";
+   //textz += "#L5#5.#v2040914##z2040914# 需要:#v4000082#150个 \r\n";
+   //textz += "#L6#6.#v2040919##z2040919# 需要:#v4000082#150个 \r\n";
+   //textz += "#L7#7.#v2041235##z2041235# 需要:#v4021007#100个 \r\n";
+   //textz += "#L8#8.#v2041233##z2041233# 需要:#v4005000#100个 \r\n";
+   //textz += "#L11#11.#v2041145##z2041145# 需要:#v4002001#8张 \r\n";
+  //textz += "#L10#2.#v1112748##z1112748# 需要:#v4251202#4个 \r\n";
+  //textz += "#L9#9.#v4031227##z4031227# 需要:#v4251200#1个 \r\n";
+  //textz += "#L12#3.#v2340000##z2340000# 需要:#v4251202#2个 \r\n";
+
+ // textz += "#L13#9.#v2041145##z2041145# 需要:#v4005001#100个#v4001129#7个  \r\n";
+ // textz += "#L14#10.#v2041139##z2041139# 需要:#v4005002#100个#v4001129#7个  \r\n";
+  //textz += "#L15#6.#v1102612##z1102612# 需要:#v4251202#7个#v4001129#1个  \r\n";
+  //textz += "#L16#7.#v1003946##z1003946# 需要:#v4251202#7个#v4001129#1个  \r\n";
+  //textz += "#L17#8.#v1072853##z1072853# 需要:#v4251202#7个#v4001129#1个 \r\n";
+
+
+
+
+		cm.sendSimple (textz);  
+
+	}else if (status == 1) {
+
+	       if (selection == 1){
+                   if (!cm.haveItem(4031456,300)) {
+ 			cm.sendOk("请带来#v4031456##z4031456#*300");
+     
+			cm.dispose();
+		} else{
+			cm.gainItem(4031456,-300);
+			cm.gainItem(4310059,1);
+			cm.sendOk("#b兑换成功");
+      			cm.dispose();
+			}
+
+       } else if (selection == 2){
+                  if (!cm.haveItem(4000463,20)) {
+    cm.sendOk("请带来#v4000463##z4000463#*15");
+         cm.dispose();
+
+  } else{
+   cm.gainItem(4000463,-20);
+   cm.gainItem(4310059,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
 }
 
-function action(mode, type, selection) {
-    if (mode == -1) {
-        cm.dispose();
-    } else {
-        if (status >= 0 && mode == 0) {
-            cm.sendOk("感谢你的光临！");
-            cm.dispose();
-            return;
-        }
-        if (mode == 1) {
-            status++;
-        } else {
-            status--;
-        }
-        if (status == 0) {
-            var text = "";
-            for (i = 0; i < 10; i++) {
-                text += "";
-            }
-			text ="请选择你要的强化方式：\r\n";
-			//text +="#L0##b材料强化 增加随机值#l\r\n";
-			//text +="#L1#点券强化 增加随机值#l\r\n";
-			text +="#r#L2#材料强化 增加砸卷次数#l\r\n";
-			text +="#L3#点卷强化 增加砸卷次数#l";
-            cm.sendSimple(text);
-        } else if (selection == 0) {//材料强化 增加随即2-5
-		
-           cm.openNpc(9900004,822);
-		
-        } else if (selection == 1) {//点卷强化 增加随机2-5
-            cm.openNpc(9900004,821);
-			 } else if (selection == 2) {//材料强化 杂卷
-            cm.openNpc(9900004,823);
-	    } else if (selection == 3) {//强化 砸卷  点卷
-            cm.openNpc(9900004,820);
-		} else if (selection == 258) {//
-            cm.openNpc(9310085,0);
-		} else if (selection == 455) {//
-            cm.openNpc(9900004,455)
-		} else if (selection == 483) {//
-            cm.openNpc(9900004,483);
-		} else if (selection == 484) {//
-            cm.openNpc(9900004,484);
-		} else if (selection == 485) {//
-            cm.openNpc(9900004,485);	
-		} else if (selection == 486) {//
-            cm.openNpc(9900004,486);				
-        } else if (selection == 3) { //
-            cm.openNpc(9900004,3);
-		} else if (selection == 209) { //
-            cm.openNpc(9900004,209);
-		} else if (selection == 211) { //
-            cm.openNpc(9900004,211);
-		} else if (selection == 210) { //
-            cm.openNpc(9900004,210);
-		} else if (selection == 1009) { //
-            cm.openNpc(9900004,82);
-        } else if (selection == 4) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 5) {//
-            cm.openNpc(9900004,5);
-        } else if (selection == 6) {//
-            cm.openNpc(9900004,6);
-        } else if (selection == 7) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 8) {//
-            cm.openNpc(9900004,7);
-        } else if (selection == 9) {//
-            cm.openNpc(9900004,9);
-        } else if (selection == 10) {//
-            cm.openNpc(9900004,10);
-        } else if (selection == 11) {//
-            cm.openShop(97);//NPCID是：2040051
-            cm.dispose();
-        } else if (selection == 12) {//
-            cm.openShop(30);//NPCID:1200002
-            cm.dispose();
-        } else if (selection == 13) {//
-            cm.openShop(39);//NPCID:2070002墨铁
-            cm.dispose();
-        } else if (selection == 14) {//
-            cm.openNpc(9900004,14);
-        } else if (selection == 15) {//
-            cm.openNpc(9900004,15);
-        } else if (selection == 16) {//
-	    cm.openNpc(9900004,16);
-               /*if (cm.getbossmap() == 0){
-                   cm.sendOk("看来你没有加入过挑战boss的行列！");
-                   cm.dispose();
-                } else{
-                   cm.warp(cm.getbossmap());
-                   cm.dispose();
-                }*/
-        } else if (selection == 17) {//
-            cm.openNpc(9900004,17);
-		} else if (selection == 208) {//
-            cm.openNpc(9900004,208);
-        } else if (selection == 18) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 19) {//
-            cm.openNpc(9900004,19);
-        } else if (selection == 20) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-} else if (selection == 112) {//
-cm.openNpc(9010009,0);
-} else if (selection == 115) {//
-cm.warp(209000001,0);
-			cm.dispose();
+       } else if (selection == 3){
+                  if (!cm.haveItem(4000244,50)) {
+               cm.sendOk("请带来#v4000244##z4000244#*50");
+         cm.dispose();
+  } else{
+   cm.gainItem(4000244,-50);
+   cm.gainItem(2040874,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
 
-		} else if (selection == 111) {//
-		
-			cm.warp(910000000,0);
-			cm.dispose();
+       } else if (selection == 4){
+                  if (!cm.haveItem(4000245,50)) {
+    cm.sendOk("请带来#v4000245##z4000245#*50");
+   cm.dispose();
+  } else{
+   cm.gainItem(4000245,-50);
+   cm.gainItem(2040875,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
 
+       } else if (selection == 5){
+                  if (!cm.haveItem(4000082,150)) {
+    cm.sendOk("请带来#v4000082##z4000082#*150");
+         cm.dispose();
+  } else{
+   cm.gainItem(4000082,-150);
+   cm.gainItem(2040914,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
 
-        } else if (selection == 1000) {//
-            cm.openNpc(9900004, 1000);
-        } else if (selection == 1001) {//
-            cm.openNpc(9900004, 1001);
-        } else if (selection == 1002) {//
-            cm.刷新地图();
-            cm.dispose();
-        } else if (selection == 1003) {//
-            cm.刷新状态();
-            cm.dispose();
-        } else if (selection == 1004) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1005) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1006) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1007) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1008) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1009) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1010) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1011) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1012) {//
-            cm.openNpc(9900004, 78);
-        } else if (selection == 1013) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1014) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1015) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        }
-    }
+       } else if (selection == 6){
+                  if (!cm.haveItem(4000082,150)) {
+    cm.sendOk("请带来#v4000082##z4000082#*150");
+         cm.dispose();
+  } else{
+   cm.gainItem(4000082,-150);
+   cm.gainItem(2040919,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 7){
+                  if (!cm.haveItem(4021007,100)) {
+    cm.sendOk("请带来#v4021007##z4021007#*100");
+         cm.dispose();
+ 
+  } else{
+   cm.gainItem(4021007,-100);
+   cm.gainItem(2041235,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 8){
+                  if (!cm.haveItem(4005000,100)) {
+    cm.sendOk("请带来#v4005000##z4005000#*100");
+         cm.dispose();
+
+  } else{
+   cm.gainItem(4005000,-100);
+   cm.gainItem(2041233,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 9){
+                  if (!cm.haveItem(4251200,1)) {
+    cm.sendOk("请带来#v4251200##z4251200#*1");
+         cm.dispose();
+ 
+  } else{
+   cm.gainItem(4251200,-1);
+   cm.gainItem(4031127,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 10){
+                  if (!cm.haveItem(4251202,4)) {
+    cm.sendOk("请带来#v4251202##z4251202#*4");
+         cm.dispose();
+
+  } else{
+   cm.gainItem(4251202,-4);
+    cm.gainItem(1112748,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 12){
+                  if (!cm.haveItem(4251202,2)) {
+    cm.sendOk("请带来#v4251202##z4251202#*2");
+         cm.dispose();
+  } else{
+   cm.gainItem(4251202,-2	);
+   cm.gainItem(2340000,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 11){//合成条件
+                  if (!cm.haveItem(4000313,100)) {
+    cm.sendOk("需要一个对应封印的冒险之心\r\n20个#v4002001##z4002001#→1000个#v4001126##z4001126#以及500万冒险币\r\n收集以上材料就可以兑换");
+         cm.dispose();
+                  } else if (!cm.haveItem(1482029,1)) {
+    cm.sendOk("请带来#v1482029##z1482029#*1");
+         cm.dispose();
+                  } else if (cm.getMeso() < 5000000) {
+    cm.sendOk("请带来#v4001126#z4001126#*500");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001126,500)) {
+    cm.sendOk("请带来#v4001126##z4001126#*500");
+         cm.dispose();
+  } else if (cm.getPlayer().getInventory
+(net.sf.cherry.client.MapleInventoryType.getByType(1)).isFull(3)){
+   cm.sendOk("#b请保证装备栏位至少有3个空格,否则无法兑换.");
+   cm.dispose();
+  } else{
+   cm.gainItem(4002001,-20);
+   cm.gainItem(1482029,-1);
+   cm.gainMeso(-5000000);
+   cm.gainItem(4001126,-500);
+   cm.gainItem(1482022,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
 }
 
 
+       } else if (selection == 13){
+                  if (!cm.haveItem(4005001,100)) {
+    cm.sendOk("请带来#v4005001##z4005001#*100");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001129,7)) {
+    cm.sendOk("请带来#v4001129##z4001129#*7");
+         cm.dispose();
+  } else{
+   cm.gainItem(4005001,-100);
+  cm.gainItem(4001129,-7);
+   
+   cm.gainItem(2041145,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
 
+
+       } else if (selection == 14){
+                  if (!cm.haveItem(4005002,100)) {
+    cm.sendOk("请带来#v4005002##z4005002#*100");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001129,7)) {
+    cm.sendOk("请带来#v4001129##z4001129#*7");
+         cm.dispose();
+  } else{
+   cm.gainItem(4005002,-100);
+cm.gainItem(4001129,-7);
+   cm.gainItem(2041139,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+
+       } else if (selection == 15){
+                  if (!cm.haveItem(4251202,7)) {
+    cm.sendOk("请带来#v4251202##z4251202#*7");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001129,1)) {
+    cm.sendOk("请带来#v4001129##z4001129#*1");
+         cm.dispose();
+  } else{
+   cm.gainItem(4251202,-7);
+   cm.gainItem(4001129,-1);
+   cm.gainItem(1102612,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 16){
+                  if (!cm.haveItem(4251202,7)) {
+    cm.sendOk("请带来#v4251202##z4251202#*7");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001129,1)) {
+    cm.sendOk("请带来#v4001129##z4001129#*1");
+         cm.dispose();
+  } else{
+   cm.gainItem(4251202,-7);
+   cm.gainItem(4001129,-1);
+   cm.gainItem(1003946,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+
+       } else if (selection == 17){
+         
+                  if (!cm.haveItem(4251202,7)){
+    cm.sendOk("请带来#v4251202##z4251202#*7#v4001129##z4001129#");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001129,1)) {
+    cm.sendOk("请带来#v4001129##z4001129#*1");
+         cm.dispose();
+  } else{
+   cm.gainItem(4251202,-7);
+   cm.gainItem(4001129,-1);
+   cm.gainItem(1072853,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 18){
+                  if (!cm.haveItem(4002001,30)) {
+    cm.sendOk("请带来#v4002001##z4002001#*30");
+         cm.dispose();
+  } else if (cm.getPlayer().getInventory
+(net.sf.cherry.client.MapleInventoryType.getByType(1)).isFull(3)){
+   cm.sendOk("#b请保证装备栏位至少有3个空格,否则无法兑换.");
+   cm.dispose();
+  } else{
+   cm.gainItem(4002001,-30);
+   cm.gainItem(1072853,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 19){
+                 if (!cm.haveItem(4002001,30)) {
+    cm.sendOk("请带来#v4002001##z4002001#*30");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001126,1000)) {
+    cm.sendOk("请带来#v4001126##z4001126#*1000");
+         cm.dispose();
+		  } else  if (cm.getMeso() < 20000000) {
+ 			cm.sendOk("请带来#r20000000W#k金币#k");
+      			cm.dispose();
+                  } else if (!cm.haveItem(1122031,1)) {
+    cm.sendOk("请带来#v1122031##z1122031#*1");
+         cm.dispose();
+  } else if (cm.getPlayer().getInventory
+(net.sf.cherry.client.MapleInventoryType.getByType(1)).isFull(3)){
+   cm.sendOk("#b请保证装备栏位至少有3个空格,否则无法兑换.");
+   cm.dispose();
+  } else{
+   cm.gainItem(4002001,-30);
+   cm.gainItem(4001126,-1000);
+   cm.gainMeso(-20000000);
+   cm.gainItem(1122031,-1);
+   cm.gainItem(1122036,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 20){
+                 if (!cm.haveItem(4002001,30)) {
+    cm.sendOk("请带来#v4002001##z4002001#*30");
+         cm.dispose();
+                  } else if (!cm.haveItem(4001126,1000)) {
+    cm.sendOk("请带来#v4001126##z4001126#*1000");
+         cm.dispose();
+		  } else  if (cm.getMeso() < 20000000) {
+ 			cm.sendOk("请带来#r20000000W#k金币#k");
+      			cm.dispose();
+                  } else if (!cm.haveItem(1122032,1)) {
+    cm.sendOk("请带来#v1122032##z1122032#*1");
+         cm.dispose();
+  } else if (cm.getPlayer().getInventory
+(net.sf.cherry.client.MapleInventoryType.getByType(1)).isFull(3)){
+   cm.sendOk("#b请保证装备栏位至少有3个空格,否则无法兑换.");
+   cm.dispose();
+  } else{
+   cm.gainItem(4002001,-30);
+   cm.gainItem(4001126,-1000);
+   cm.gainMeso(-20000000);
+   cm.gainItem(1122032,-1);
+   cm.gainItem(1122037,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+       } else if (selection == 210){
+                  if (!cm.haveItem(4021000,2)) {
+    cm.sendOk("请带来#v4021000##z4021000#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021001,2)) {
+    cm.sendOk("请带来#v4021001##z4021001#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021002,2)) {
+    cm.sendOk("请带来#v4021002##z4021002#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021003,2)) {
+    cm.sendOk("请带来#v4021003##z4021003#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021004,2)) {
+    cm.sendOk("请带来#v4021004##z4021004#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021005,2)) {
+    cm.sendOk("请带来#v4021005##z4021005#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021006,2)) {
+    cm.sendOk("请带来#v4021006##z4021006#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021007,2)) {
+    cm.sendOk("请带来#v4021007##z4021007#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(4021008,2)) {
+    cm.sendOk("请带来#v4021008##z4021008#*2");
+         cm.dispose();
+                  } else if (!cm.haveItem(1132205,1)) {
+    cm.sendOk("请带来#v1132205##z1132205#*1");
+         cm.dispose();
+         cm.dispose();
+  } else if (cm.getPlayer().getInventory
+(net.sf.cherry.client.MapleInventoryType.getByType(1)).isFull(3)){
+   cm.sendOk("#b请保证装备栏位至少有3个空格,否则无法兑换.");
+   cm.dispose();
+  } else{
+   cm.gainItem(4021000,-2);
+   cm.gainItem(4021001,-2);
+   cm.gainItem(4021002,-2);
+   cm.gainItem(4021003,-2);
+   cm.gainItem(4021004,-2);
+   cm.gainItem(4021005,-2);
+   cm.gainItem(4021006,-2);
+   cm.gainItem(4021007,-2);
+   cm.gainItem(4021008,-2);
+   cm.gainItem(1132205,-1);
+   cm.gainItem(1132204,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+
+       } else if (selection == 21){
+                  if (!cm.haveItem(4001126,200)) {
+    cm.sendOk("请带来#v4001126##z4001126#*200");
+         cm.dispose();
+  } else if (cm.getPlayer().getInventory
+(net.sf.cherry.client.MapleInventoryType.getByType(1)).isFull(3)){
+   cm.sendOk("#b请保证装备栏位至少有3个空格,否则无法兑换.");
+   cm.dispose();
+  } else{
+   cm.gainItem(4001126,-200);
+   cm.gainItem(1092110,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+
+       } else if (selection == 22){
+                  if (!cm.haveItem(4001126,200)) {
+    cm.sendOk("请带来#v4001126##z4001126#*200");
+         cm.dispose();
+  } else if (cm.getPlayer().getInventory
+(net.sf.cherry.client.MapleInventoryType.getByType(1)).isFull(3)){
+   cm.sendOk("#b请保证装备栏位至少有3个空格,否则无法兑换.");
+   cm.dispose();
+  } else{
+   cm.gainItem(4001126,-200);
+   cm.gainItem(1092111,1);
+   cm.sendOk("#b兑换成功")
+   cm.dispose();
+}
+
+
+}
+}
+}
+}

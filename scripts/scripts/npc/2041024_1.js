@@ -158,10 +158,10 @@ function action(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        if (cm.haveItem(2100902)) {
-            cm.sendYesNo("你好，在这里可以用战利品抽取技能书，你要抽取吗？");
+        if (cm.haveItem(4000313,10)) {
+            cm.sendYesNo("你好，在这里可以用金叶抽取技能书，你要抽取吗？");
         } else {
-            cm.sendOk("你背包里有#b#t2100902##k吗?");
+            cm.sendOk("你背包里有#b#t4000313##k吗?");
             cm.safeDispose();
         }
     } else if (status == 1) {
@@ -179,18 +179,18 @@ function action(mode, type, selection) {
             var itemId = finalitem[finalchance][0];
             var quantity = finalitem[finalchance][2];
             var notice = finalitem[finalchance][3];
-            item = cm.gainGachaponItem(itemId, quantity, "带人奖励", notice);
+            item = cm.gainGachaponItem(itemId, quantity, "闹钟造型物", notice);
             if (item != -1) {
-                cm.gainItem(2100902, -1);
+                cm.gainItem(4000313, -10);
                 cm.sendOk("你获得了 #b#t" + item + "##k " + quantity + "个。");
             } else {
-                cm.sendOk("你确实有#b#t2100902##k吗？如果是，请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
+                cm.sendOk("你确实有#b#t4000313##k吗？如果是，请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
             }
             cm.safeDispose();
         } else {
-            cm.sendOk("今天的运气可真差，什么都没有拿到。不过没关系~\r\n(获得了安慰奖：返还你#v2100902#。)");
-            cm.gainItem(2100902, -1);
-            cm.gainItem(2100902, 1);
+            cm.sendOk("今天的运气可真差，什么都没有拿到。");
+            cm.gainItem(4000313, -10);
+            //cm.gainItem(4001322, 10);
             cm.safeDispose();
         }
     }

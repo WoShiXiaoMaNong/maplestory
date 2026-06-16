@@ -1,190 +1,79 @@
-var status;
-var minLevel = 71; //最低等级
-var maxLevel = 200; //最高等级
-var exp1 = 25000;
-var exp2 = 25000;
-var exp3 = 30000;
-var exp4 = 40000;
-var exp5 = 50000;
-var minPartySize = 3; //最少成员
-var maxPartySize = 6; //最大成员
-function start() {
-status = -1;
-
-action(1, 0, 0);
-}
 function action(mode, type, selection) {
-    if (mode == 1) {
-	status++;
-    } else {
-	status--;
+    var em = cm.getEventManager("Romeo");
+    if (em == null) {
+        cm.sendOk("找不到脚本，请联系GM！");
+        cm.dispose();
+        return;
     }
-    switch(cm.getPlayer().getMapId()) {
-	case 100000200:
-		cm.removeAll(4001130);
-		cm.removeAll(4001131);
-		cm.removeAll(4001159);
-		cm.removeAll(4031777);
-		cm.removeAll(4001160);
-		cm.removeAll(4031779);
-		cm.removeAll(4031778);
-	    if (cm.getParty() == null) { // No Party
-				cm.sendOk("您想要挑战#b罗密欧与朱丽叶#k吗?那么您必须要有一个组队噢!\r\n·等级要求:71级-101级.\r\n·队伍要求:3~6人\r\n#k·任务奖励:#b未知.");
-				cm.dispose();
-            } else if (!cm.isLeader()) { // Not Party Leader
-				cm.sendOk("如果想要挑战#b罗密欧与朱丽叶组队修炼#k请让你们的#b组队长#k来找我吧!.");
-				cm.dispose();
-			} else {
-				// Check if all party members are within PQ levels
-				var party = cm.getParty().getMembers();
-				var mapId = cm.getPlayer().getMapId();
-				var next = true;
-				var levelValid = 0;
-				var inMap = 0;
-				var it = party.iterator();
-				while (it.hasNext()) {
-					var cPlayer = it.next();
-					if ((cPlayer.getLevel() >= minLevel) && (cPlayer.getLevel() <= maxLevel)) {
-						levelValid += 1;
-
-					} else {
-						next = false;
-					}
-					if (cPlayer.getMapid() == mapId) {
-						inMap += 1;
-					}
-				}
-				if (party.size() < minPartySize || party.size() > maxPartySize || inMap < minPartySize) {
-					next = false;
-				}
-				if (next) {
-					var em = cm.warpParty(926100000);
-                                        cm.getMap(926100000).addMapTimer(6000, 261000011);
-					if (em == null) {
-						cm.sendOk("你已进入副本地图.请查看相关NPC了解副本");
-					} else {
-						if (em.getProperty("entryPossible") != "false") {
-							// Begin the PQ.
-							em.startInstance(cm.getParty(),cm.getPlayer().getMap());
-							// Remove Passes and Coupons
-							
-							cm.removeAll(4001008);
-							cm.removeAll(4001007);
-							if(cm.partyMemberHasItem(4001008) || cm.partyMemberHasItem(4001007)) { 
-								cm.getPlayer().getEventInstance().setProperty("smugglers", "true"); 
-								cm.partyNotice("Your smuggling attempt has been detected. We will allow the attempt, but you will not get any NX cash from this run.");
-
-							}
-							em.setProperty("entryPossible", "false");
-							cm.getPlayer().getEventInstance().setProperty("startTime", new java.util.Date().getTime());
-						} else { // Check if the PQ really has people inside
-							var playersInPQ = 0;
-							for (var mapid = 926100000; mapid <= 926100700; mapid++) {
-								playersInPQ += cm.countPlayersInMap(mapid);
-							}
-							if (playersInPQ <= 1)
-								em.setProperty("entryPossible", "true");
-							cm.sendOk("Another party has already entered the #rKerning Party Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
-						}
-					}
-					cm.dispose();
-			} else {
-					cm.sendNext("您想要挑战#b罗密欧与朱丽叶#k吗?那么您必须要有一个组队噢!\r\n·等级要求:71级-101级.\r\n·队长要求:#r3~6人.\r\n#k·任务奖励:#b经验.#k\r\n\r\n您的组队必须有#b3~6#k名队员,并且都在此地图中.\r\n等级必须在#b71-#b101#k级之间!\r\n目前只有#b" + inMap + "位队员#k在此地图!.");
-					cm.dispose();
-				}
-			}
-	    break;
-	case 926100000:
-		if (!cm.isLeader()) { // Not Party Leader
-		cm.sendOk("想过关？#b罗密欧与朱丽叶组队修炼①#k请让你们的#b组队长#k来找我吧!.");
-		cm.dispose();
-		}else if (cm.haveItem(4001130,10) && cm.haveItem(4001131,10)) {
-		cm.givePartyExp(+exp1);
-		cm.warpParty(926100001);
-		cm.removeAll(4001130);
-		cm.removeAll(4001131);
-	    } else {
-		cm.sendOk("想通关？ 去杀死怪物收集\r\n10个#v4001130#\r\n10个#v4001131#");
-	    }
-	    break;
-	case 926100001:
-	    if (!cm.isLeader()) { // Not Party Leader
-		cm.sendOk("想过关？#b罗密欧与朱丽叶组队修炼②#k请让你们的#b组队长#k来找我吧!.");
-		cm.dispose();
-		}else if (cm.haveItem(4001159,50)) {
-		cm.givePartyExp(+exp2);
-		cm.warpParty(926100200);
-		cm.removeAll(4001159);
-		cm.gainItem(4031777, 1);
-	    } else {
-		cm.sendOk("想通关？ 去杀死怪物收集50个#v4001159#给我!");
-	    }
-	    break;
-	case 926100200:
-	    if (!cm.isLeader()) { // Not Party Leader
-		cm.sendOk("想过关？#b罗密欧与朱丽叶组队修炼③#k请让你们的#b组队长#k来找我吧!.");
-		cm.dispose();
-		}else if (cm.haveItem(4001160,50)) {
-		cm.givePartyExp(+exp3);
-		cm.warpParty(926100500);
-		cm.removeAll(4001160);
-		cm.gainItem(4031779, 1);
-	    } else {
-		cm.sendOk("想通关？ 去杀死怪物收集50个#v4001160#给我!");
-	    }
-	    break;
-	case 926100400:
-	    cm.setboss(1);
-		cm.removeAll(4001130);
-		cm.removeAll(4001131);
-		cm.removeAll(4001159);
-		cm.removeAll(4031777);
-		cm.removeAll(4001160);
-		cm.removeAll(4031779);
-		cm.removeAll(4031778);
-		cm.removeAll(4031806);
-		cm.warp(100000200);
-		break;
-	case 926100500:
-	   if (!cm.isLeader()) { // Not Party Leader
-		cm.sendOk("想过关？#b罗密欧与朱丽叶组队修炼BOSS关卡#k请让你们的#b组队长#k来找我吧!.");
-		cm.dispose();
-		}else if (cm.haveItem(4031777,1) && cm.haveItem(4031779,1)) {
-		cm.removeAll(4031777);
-		cm.removeAll(4031779);
-		cm.summonMob(9300139, 5000000, 10000, 1);
-		}else if(cm.haveItem(4031778,1)){
-		cm.givePartyExp(+exp4);
-		cm.warpParty(926100600);
-	    } else {
-		cm.sendOk("想通过BOSS关卡？ \r\n1个#v4031777#\r\n1个#v4031779#\r\n给我!");
-	    }
-	    break;
-	case 926100600:
-	   if (!cm.isLeader()) { // Not Party Leader
-		cm.sendOk("想过关？#b罗密欧与朱丽叶组队修炼终极BOSS关卡#k请让你们的#b组队长#k来找我吧!.");
-		cm.dispose();
-		}else if (cm.haveItem(4031778,1)) {
-		cm.removeAll(4031778);
-		cm.summonMob(9300140, 10000000, 10000, 1);
-		}else if(cm.haveItem(4031806,1)){
-		cm.givePartyExp(+exp5);
-		cm.setboss(1);
-		cm.warpParty(926100700);
-	    } else {
-		cm.sendOk("想通过终极BOSS关卡？1个#v4031778#给我!");
-	    }
-	    break;
-	case 926100700:
-		cm.removeAll(4001130);
-		cm.removeAll(4001131);
-		cm.removeAll(4001159);
-		cm.removeAll(4031777);
-		cm.removeAll(4001160);
-		cm.removeAll(4031779);
-		cm.removeAll(4031778);
-	    cm.warp(100000200,0);
-	    break;
+    switch (cm.getPlayer().getMapId()) {
+        case 261000011:
+            cm.removeAll(4001130);
+            cm.removeAll(4001131);
+            cm.removeAll(4001132);
+            cm.removeAll(4001133);
+            cm.removeAll(4001134);
+            cm.removeAll(4001135);
+            if (cm.getPlayer().getParty() == null || !cm.isLeader()) {
+                cm.sendOk("请找队长来和我谈。");
+            } else {
+                var party = cm.getPlayer().getParty().getMembers();
+                var mapId = cm.getPlayer().getMapId();
+                var next = true;
+                var size = 0;
+                var it = party.iterator();
+                while (it.hasNext()) {
+                    var cPlayer = it.next();
+                    var ccPlayer = cm.getPlayer().getMap().getCharacterById(cPlayer.getId());
+                    if (ccPlayer == null || ccPlayer.getLevel() < 70 || ccPlayer.getLevel() > 255) {
+                        next = false;
+                        break;
+                    }
+                    size += (ccPlayer.isGM() ? 4 : 1);
+                }
+                if (next && (cm.getPlayer().isGM() || size >= 2)) {
+                    em.startInstance(cm.getPlayer().getParty(), cm.getPlayer().getMap());
+                } else {
+                    cm.sendOk("请你的队员大等于2人，都达到71级并且均在这张地图后再来找我哦");
+                }
+            }
+            break;
+        case 926100000:
+            cm.sendOk("你应该尝试在这里调查各地。看看库中的文件，直到你可以找到入口实验室.");
+            break;
+        case 926100001:
+            cm.sendOk("请消除所有的怪物。");
+            break;
+        case 926100100:
+            cm.sendOk("请把烧杯里的溢体装满。");
+            break;
+        case 926100200:
+            if (cm.haveItem(4001130, 1)) {
+                cm.sendOk("哦，我的信找到了，谢谢！");
+                cm.gainItem(4001130, -1);
+                em.setProperty("stage", "1");
+            } else if (cm.haveItem(4001134, 1)) {
+                cm.gainItem(4001134, -1);
+                cm.sendOk("谢谢你，现在帮我找#t4001135#.");
+                em.setProperty("stage4", "1");
+            } else if (cm.haveItem(4001135, 1)) {
+                cm.gainItem(4001135, -1);
+                cm.sendOk("谢谢你，已经过关了。.");
+                em.setProperty("stage4", "2");
+                cm.getMap().getReactorByName("rnj3_out3").hitReactor(cm.getClient());
+            } else {
+                cm.sendOk("现在我们必须停止冲突，请帮我找出#t4001134# 和 #t4001135#。");
+            }
+            break;
+        case 926100300:
+            cm.sendOk("恭喜你过关.");
+			cm.warpParty(926100400);
+            break;
+        case 926100400:
+            cm.sendOk("当你准备好了，我们要快去救救我的爱人.");
+            break;
+        case 926100401:
+            cm.warpParty(926100500); //urete
+            break;
     }
     cm.dispose();
 }

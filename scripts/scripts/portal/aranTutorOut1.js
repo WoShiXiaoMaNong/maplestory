@@ -1,10 +1,12 @@
-function enter(pi) {
-	if (!pi.isQuestActive(21000)) {
-		pi.playerMessage("±ØĞë½ÓÊÜÁËºÕÀöÄÈµÄÈÎÎñ²ÅÄÜÍ¨¹ı¡£");
-		pi.unblockPortal();
-	}
-	pi.aranTemporarySkills();
-	pi.blockPortal();
-	pi.warp(914000200, 1);
-	return true;
+ï»¿function enter(pi) {
+    if (pi.getQuestStatus(21000) == 0) {
+		pi.playerMessage(5, "å¿…é¡»æ¥å—äº†èµ«ä¸½å¨œçš„ä»»åŠ¡æ‰èƒ½é€šè¿‡ã€‚");
+    } else {
+		pi.teachSkill(20000017, 0, -1);
+		pi.teachSkill(20000018, 0, -1);
+		pi.teachSkill(20000017, 1, 0);
+		pi.teachSkill(20000018, 1, 0);
+		pi.playPortalSE();
+		pi.warp(914000200, 1);
+    }
 }

@@ -1,12 +1,35 @@
-importPackage(net.sf.odinms.tools);
+/*
+	This file is part of the OdinMS Maple Story Server
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
+		       Matthias Butz <matze@odinms.de>
+		       Jan Christian Meyer <vimes@odinms.de>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation version 3 as published by
+    the Free Software Foundation. You may not use, modify or distribute
+    this program under any other version of the GNU Affero General Public
+    License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/*	
+	Author: Traitor
+	Map(s):	So Gong's maps
+	Desc:   doesn't do anything man. ANYTHING.
+*/
 
 function enter(pi) {
     if (pi.getPlayer().getMap().getMonsterById(9300216) != null) {
-        pi.getPlayer().enteredScript("dojang_Msg", pi.getPlayer().getMap().getId());
         pi.warp(925020001, 0);
     } else {
-        pi.getPlayer().getClient().getSession().write(Packages.tools.MaplePacketCreator.serverNotice(5, "武公：哈哈！本关都没有通过，难道你就想进入下一关吗？这是绝对不允许的。"));
-        return false;
+        pi.getPlayer().dropMessage(6, "鎵�浠ワ紝姝﹀姛锛氬搱鍝堬紒浣犺閫冭窇鍍忎竴鍊嬫嚘澶紵鎴戜笉鏈冭畵浣犲緱閫烇紝寰堝鏄擄紒");
     }
     return true;
-}  
+}

@@ -29,13 +29,13 @@ function action(mode, type, selection) {
 		cm.sendYesNo("你想要离开？？");
 		status = 99;
 	} else {
-		cm.sendSimple("您好，我是#p1052115# 有什么可以帮忙的吗？？\r\n#b#e#L1#进去挑战。#l#n\r\n#L2#火车训练 999.#l\r\n#L3#领取勋章 <#t4001321#>.#l#k");
+		cm.sendSimple("您好，我是#p1052115# 有什么可以帮忙的吗？？\r\n#b#e#L1#进去挑战。#l#k");
 	}
     } else if (status == 2) {
 		section = selection;
 		if (selection == 1) {
-			if (cm.getPlayer().getLevel() < 25 || cm.getPlayer().getLevel() > 30 || !cm.isLeader()) {
-				cm.sendOk("你需要等级25-30之内，并找队长找我。");
+			if (cm.getPlayer().getLevel() < 25 || cm.getPlayer().getLevel() > 50 || !cm.isLeader()) {
+				cm.sendOk("你需要等级25-50之内，并找队长找我。");
 			} else {
 				if (!cm.start_PyramidSubway(-1)) {
 					cm.sendOk("目前是满的。");

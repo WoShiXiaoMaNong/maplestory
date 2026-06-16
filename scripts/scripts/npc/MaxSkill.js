@@ -22,7 +22,7 @@ function action(mode, type, selection) {
 		if (status == 0) {
 			cm.sendYesNo("MaxSkills?");
 		} else if (status == 1) {
-			//GM skill updated by Maple4U Start
+			GM skill updated by Maple4U Start
 			cm.teachSkill(9001000,1,1);
 			cm.teachSkill(9001001,1,1);
 			cm.teachSkill(9001002,1,1);

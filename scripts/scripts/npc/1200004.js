@@ -47,7 +47,7 @@ function action(mode, type, selection) {
 				} else {
 					if(cm.getChar().getMapId() == 104000000) {
 						cm.gainMeso(-800);
-						cm.warp(140020300);
+						cm.warpBack(200090060, 140020300, 80);
 						cm.dispose();
 					} else {
 						if(EnToJ.getProperty("isRiding").equals("false")) {

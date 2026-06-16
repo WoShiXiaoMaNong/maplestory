@@ -1,89 +1,65 @@
-/* global cm */
+var status = -1;
+var job = 0;
+var type = -1;
+//1007 - 全职业通用-锻造 - [最高等级 : 3]\n可以使用炼金术制作物品。根据自身角色等级的不同，可制作的物品不同。
+
+//8 - 冒险家群宠 - [最高等级：1]可携带多只宠物，最多携带3只。
+//1004 - 冒险家骑兽技能 - [最高等级 : 1]\n能够坐骑怪物并移动
+//1017 - 冒险家皇家骑宠
+
+//10000018 - 骑士团群宠 - [最高等级：1]可携带多只宠物，最多携带3只。
+//10001004 - 骑士团骑兽技能 - [最高等级：1]\n能够坐骑怪物并移动
+//10001019 - 骑士团皇家骑宠
+
+//20000024 - 战神群宠 - [最高等级：1]可携带多只宠物，最多携带3只。
+//20001004 - 战神骑兽技能 - [最高等级：1]\n能够坐骑怪物并移动
+//20001019 - 战神皇家骑宠
+var skill = [[8, 1004, 1007, 1017], [10000018, 10001004, 10001019], [20000024, 20001004, 20001019]];
 
 function start() {
-    status = -1;
-
     action(1, 0, 0);
 }
-function action(mode, type, selection) {
-    if (mode == -1) {
-        cm.dispose();
-    } else {
-        if (status >= 0 && mode == 0) {
 
-            cm.sendOk("谢谢使用！");
+function action(mode, type, selection) {
+    if (mode == 0 && status == 0) {
+        status--;
+    } else if (mode == 1) {
+        status++;
+    } else {
+        cm.dispose();
+        return;
+    }
+
+    if (status == 0) {
+        cm.sendYesNo("到达等级10，在我这里可以帮你一键学习 骑兽技能#s8#-群宠#s1004#-锻造#s1007#-皇家骑宠技能#s1017#");
+    } else if (status == 1) {
+        if (cm.getPlayer().getLevel() < 10) {
+            cm.sendNext("你的等级没有达到10级");
             cm.dispose();
             return;
         }
-        if (mode == 1) {
-            status++;
+        job = cm.getPlayer().getJob();
+        if (job < 1000) {// Adv(0 ~ 522)
+            type = 0;
+        } else if (job < 2000) {// Cy(1000 ~ 1512)
+            type = 1;
+        } else if (job < 3000) {// Aran(2000 ~ 2112)
+            type = 2;
         } else {
-            status--;
+            cm.dispose();
+            return;
         }
-        if (status == 0) {
-            var tex2 = "";
-            var text = "";
-            for (i = 0; i < 10; i++) {
-                text += "";
+        for (var i = 0; i < skill[type].length; i++) {
+            var level = 1;
+            if (i == 2) {
+                level = 3;
             }
-            //显示物品ID图片用的代码是  #v这里写入ID#
-            text += "#e#d BOSS掉线重返！！#l\r\n\r\n"//3
-            text += "#L1##r重返闹钟#l #L2##r重返扎昆#l #L3##r重返黑龙#l #L4##r重返鱼王#l \r\n\r\n"//
-            text += "#L10##r查看闹钟BOSS状态#l\r\n\r\n"//
-            text += "#L11##r查看扎昆BOSS状态#l\r\n\r\n"//
-            text += "#L12##r查看黑龙BOSS状态#l\r\n\r\n"//
-            text += "#L13##r查看鱼王BOSS状态#l\r\n\r\n"//
-            cm.sendSimple(text);
-        } else if (selection == 1) {
-            if (cm.getMap(220080001).getCharactersSize() > 0) {
-                cm.warp(220080001);//闹钟地图
-                cm.dispose();
-            } else {
-                cm.sendOk("闹钟地图已经没人了。无需重返，直接去挑战吧");
-                cm.dispose();
-            }
-        } else if (selection == 2) {
-            if (cm.getMap(280030000).getCharactersSize() > 0) {
-                cm.warp(280030000);//扎昆地图
-                cm.dispose();
-            } else {
-                cm.sendOk("扎昆地图已经没人了。无需重返，直接去挑战吧！");
-                cm.dispose();
-            }
-        } else if (selection == 3) {
-            if (cm.getMap(240060200).getCharactersSize() > 0) {
-                cm.warp(240060200);//黑龙地图
-                cm.dispose();
-            } else {
-                cm.sendOk("黑龙地图已经没人了。无需重返，直接去挑战吧！");
-                cm.dispose();
-            }
-
-        } else if (selection == 4) {
-            if (cm.getMap(230040420).getCharactersSize() > 0) {
-                cm.warp(230040420);//鱼王地图
-                cm.dispose();
-            } else {
-                cm.sendOk("鱼王地图已经没人了。无需重返，直接去挑战吧！");
-                cm.dispose();
-            }
-            
-            
-        } else if (selection == 10) {
-            cm.sendOk("闹钟BOSS，当前挑战人数为:"+cm.getMap(220080001).getCharactersSize()+"人.");
-            cm.dispose();
-        } else if (selection == 11) {
-            cm.sendOk("扎昆BOSS，当前挑战人数为:"+cm.getMap(280030000).getCharactersSize()+"人.");
-            cm.dispose();
-        } else if (selection == 12) {
-            cm.sendOk("黑龙BOSS，当前挑战人数为:"+cm.getMap(240060200).getCharactersSize()+"人.");
-            cm.dispose();
-        } else if (selection == 13) {
-            cm.sendOk("鱼王BOSS，当前挑战人数为:"+cm.getMap(230040420).getCharactersSize()+"人.");
-            cm.dispose();
-            }
+            cm.teachSkill(skill[type][i], level);
         }
+		cm.completeQuest(8001);
+        cm.sendNext("技能已经学习成功");
+        cm.dispose();
+    } else {
+        cm.dispose();
     }
-
-
-
+}

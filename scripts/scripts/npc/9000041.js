@@ -1,10 +1,7 @@
-/* 
- * 脚本类型: cm
- * 脚本用途: 点卷中介
- * 脚本作者: ヾ咖啡奶茶ㄨ。
- * 制作时间: 2015/2/10
- */
-importPackage(net.sf.odinms.client);
+importPackage(Packages.client);
+importPackage(Packages.client.inventory);
+
+
 var status = -1;
 var beauty = 0;
 var tosend = 0;
@@ -15,7 +12,7 @@ function start() {
 }
 
 function action(mode, type, selection) {
-    if (mode == -5) {
+    if (mode == -1) {
         cm.dispose();
     } else {
         if (mode == 0 && status == 0) {
@@ -33,12 +30,14 @@ function action(mode, type, selection) {
         }
         if (status == 0) {
             var gsjb = "";
-            gsjb = "欢迎来到#r奶茶冒险岛#k。我这里是点券兑换处!有需要帮忙的吗?\r\n";
-            gsjb += "#r用点券换成纪念币之前请检查你的背包“其他”栏是否有空位#k\r\n";
-            gsjb += "#L3##b#z4001126#兑换点卷#r[Hot]          #b比例 - (#r1 = 1#b)#l\r\n";
-            gsjb += "#L1##b#z4000463#兑换点卷         #b比例 - (#r1 = 500#b)#l#l\r\n";
-            gsjb += "#L0##b点卷兑换#z4000463#         #b比例 - (#r500 = 1#b)#l#l\r\n";
-            gsjb += "#L4##b#z4031549#兑换点卷#g[New]  #b比例 - (#r1 = 1500#b)#l\r\n";
+            gsjb ="  #e#r可乐获得方式: 在吃货系统用#v4001126##v4000313#兑换\r\n  \r\n";
+            gsjb +="  当前点卷:#r" + cm.getPlayer().getCSPoints(1) + "#k\r\n\r\n#d";
+           // gsjb +="#L3##b#z4001126#兑换点卷 #fUI/Basic/BtHide3/mouseOver/0# #b比例 - (#r1 = 1#b)#l\r\n\r\n";
+			//gsjb +="#L1##b#z4000313#兑换点卷 #fUI/Basic/BtHide3/mouseOver/0# #b比例 - (#r1 = 10#b)#l\r\n\r\n";
+			gsjb +="#L2##b#v2022035#兑换点卷 #fUI/Basic/BtHide3/mouseOver/0# #b比例 - (#r1 = 3000#b)#l\r\n\r\n";
+			gsjb +="#L6##b#v2022035#兑换点卷 #fUI/Basic/BtHide3/mouseOver/0# #b比例 - (#r10 = 30000#b)#l\r\n\r\n";
+			gsjb +="#L4##b#v2020031#兑换点卷 #fUI/Basic/BtHide3/mouseOver/0# #b比例 - (#r1 = 3000#b)#l\r\n\r\n";
+			gsjb +="#L8##b#v2020031#兑换点卷 #fUI/Basic/BtHide3/mouseOver/0# #b比例 - (#r10 = 30000#b)#l\r\n\r\n";
             cm.sendSimple(gsjb);
         } else if (status == 1) {
             if (cm.getPlayer() >= 1 && cm.getPlayer() <= 5) {
@@ -46,50 +45,88 @@ function action(mode, type, selection) {
                 cm.dispose();
             }
             if (selection == 0) {
-                if (cm.getPlayer().getCSPoints(0) / 500 == 0) {
+                if (cm.getPlayer().getCSPoints(1) / 30 == 0) {
                     cm.sendNext("您的帐户点卷不足无法兑换国庆纪念币。");
                     status = -1;
                 } else {
                     beauty = 1;
-                    cm.sendGetNumber("请输入#r点卷#k兑换#b#z4000463##k的数量:\r\n#b比例 - (#r500 = 1#b)\r\n你的账户信息 - \r\n    点卷数量: #r" +
-                            cm.getPlayer().getCSPoints(0) + " \r\n", 1, 1, cm.getPlayer().getCSPoints(0) / 500);
+                    cm.sendGetNumber("请输入#r点卷#k兑换#b#z4000463##k的数量:\r\n#b比例 - (#r1000 = 1#b)\r\n你的账户信息 -  点卷数量: #r" +
+                            cm.getPlayer().getCSPoints(1) + " \r\n", 1, 1, cm.getPlayer().getCSPoints(1) / 1000);
 
                 }
 
             
             } else if (selection == 1) {
-                var iter = cm.getChar().getInventory(MapleInventoryType.ETC).listById(4000463).iterator();
-                if (cm.haveItem(4000463) == 0) {
-                    cm.sendNext("您的帐户#z4000463#数量不足兑换点卷。");
+                var iter = cm.getChar().getInventory(MapleInventoryType.ETC).listById(4000313).iterator();
+                if (cm.haveItem(4000313) == 0) {
+                    cm.sendNext("您的帐户#z4000313#数量不足兑换点卷。");
                     status = -1;
                 } else {
                     beauty = 2;
-                    cm.sendGetNumber("请输入#b#z4000463##k兑换#r点卷#k的数量:\r\n#b比例 - (#r1 = 500#b)\r\n你的账户信息 - \r\n    点卷数量: #r" +
-                            cm.getPlayer().getCSPoints(0) + "    \r\n", 1, 1, iter.next().getQuantity());
+                    cm.sendGetNumber("请输入#b#z4000313##k兑换#r点卷#k的数量:\r\n#b比例 - (#r1 = 10#b)\r\n你的账户信息 - \r\n    点卷数量: #r" +
+                            cm.getPlayer().getCSPoints(1) + "    \r\n", 1, 1, iter.next().getQuantity());
 
                 }
             } else if (selection == 3) {
                 var iter = cm.getChar().getInventory(MapleInventoryType.ETC).listById(4001126).iterator();
                 if (cm.haveItem(4001126) == 0) {
-                    cm.sendNext("您的帐户#z4001126#数量不足兑换点卷。");
+                    cm.sendNext("您的帐户#v4001126#数量不足兑换点卷。");
                     status = -1;
                 } else {
                     beauty = 3;
-                    cm.sendGetNumber("请输入#b#z4001126##k兑换#r点卷#k的数量:\r\n#b比例 - (#r1= 1#b)\r\n你的账户信息 - \r\n    点卷数量: #r" +
-                            cm.getPlayer().getCSPoints(0) + "   \r\n", 1, 1, iter.next().getQuantity());
+                    cm.sendGetNumber("请输入#b#z4001126##k兑换#r点卷#k的数量:\r\n#b比例 - (#r1 = 1#b)\r\n你的账户信息 - \r\n    点卷数量: #r" +
+                            cm.getPlayer().getCSPoints(1) + "   \r\n", 1, 1, iter.next().getQuantity());
 
                 }
- 	   } else if (selection == 4) {
-                var iter = cm.getChar().getInventory(MapleInventoryType.ETC).listById(4031549).iterator();
-                if (cm.haveItem(4031549) == 0) {
-                    cm.sendNext("您的帐户#z4031549#数量不足兑换点卷。");
-                    status = -1;
-                } else {
-                    beauty = 4;
-                    cm.sendGetNumber("请输入#b#z4031549##k兑换#r点卷#k的数量:\r\n#b比例 - (#r1 = 1500#b)\r\n你的账户信息 - \r\n    点卷数量: #r" +
-                            cm.getPlayer().getCSPoints(0) + "    \r\n", 1, 1, iter.next().getQuantity());
-
-                }
+            } else if (selection == 2) {
+                if (cm.haveItem(2022035,1)){
+                cm.sendOk("兑换成功!");
+                cm.gainItem(2022035, -1);
+                		
+				cm.gainNX(3000);
+				//cm.worldMessage(6,"【合成系统】["+cm.getName()+"]合成可乐X1!");
+                cm.dispose();
+            }else{
+                cm.sendOk("你没有 足够的材料，我不能给你点券~.");
+                cm.dispose();
+            }
+        } else if (selection == 4) {
+                if (cm.haveItem(2020031,1)){
+                cm.sendOk("兑换成功!");
+                cm.gainItem(2020031, -1);
+                		
+				cm.gainNX(3000);
+				//cm.worldMessage(6,"【合成系统】["+cm.getName()+"]合成可乐X1!");
+                cm.dispose();
+            }else{
+                cm.sendOk("你没有 足够的材料，我不能给你点券~.");
+                cm.dispose();
+            }
+			
+			
+			} else if (selection == 6) {
+                if (cm.haveItem(2022035,10)){
+                cm.sendOk("兑换成功!");
+                cm.gainItem(2022035, -10);
+                		
+				cm.gainNX(30000);
+				//cm.worldMessage(6,"【合成系统】["+cm.getName()+"]合成可乐X1!");
+                cm.dispose();
+            }else{
+                cm.sendOk("你没有 足够的材料，我不能给你点券~.");
+                cm.dispose();
+            }
+        } else if (selection == 8) {
+                if (cm.haveItem(2020031,10)){
+                cm.sendOk("兑换成功!");
+                cm.gainItem(2020031, -10);
+                		
+				cm.gainNX(30000);
+				//cm.worldMessage(6,"【合成系统】["+cm.getName()+"]合成可乐X1!");
+                cm.dispose();
+            }else{
+                cm.sendOk("你没有 足够的材料，我不能给你点券~.");
+                cm.dispose();
             }
 
 
@@ -98,31 +135,19 @@ function action(mode, type, selection) {
                 if (selection <= 0) {
                     cm.sendOk("输入的兑换数字错误。");
                     cm.dispose();
-                /*
-                } else if (selection >= 200) {
-                    sl = (selection / 200) + 1;
-                } else {
-                    sl = 3;
-                }
-
-                //if(cm.getPlayer().getInventory(net.sf.odinms.client.MapleInventoryType.getByType(1)).isFull()){
-                if (cm.getSpace(4) < sl) {
-                    cm.sendOk("你的背包“其它”空间不足!请至少有" + sl + "个空间以上.\r\n如果上面有出现小数的话请入位!\r\n如：出现<至少有7.5个空间以上>那么您就需要留8个空间!");
-                    cm.dispose();
-*/
-                } else if (cm.getPlayer().getCSPoints(0) >= selection * 500) {
-                    cm.gainNX(-selection * 500);
+                } else if (cm.getPlayer().getCSPoints(1) >= selection * 1000) {
+                    cm.gainNX(-selection * 1000);
                     cm.gainItem(4000463, selection);
-                    cm.sendOk("您成功将 #r " + (selection * 500) + " #k点卷 兑换成 国庆纪念币#v4000463# x #r" + selection + " #k")
+                    cm.sendOk("您成功将 #r " + (selection * 1000) + " #k点卷 兑换成 国庆纪念币#v4000463# x #r" + selection + " #k")
                 } else {
-                    cm.sendNext("兑换" + selection + "个#z4000463##v4000463# 需要#r " + (selection * 500) + "#k点卷。您没有足够的点卷。");
+                    cm.sendNext("兑换" + selection + "个#z4000463##v4000463# 需要#r " + (selection * 1000) + "#k点卷。您没有足够的点卷。");
                     cm.dispose();
                 }
             } else if (beauty == 2) {
-                if (cm.haveItem(4000463, selection)) {
-                    cm.gainItem(4000463, -selection);
-                    cm.gainNX(+500 * selection);
-                    cm.sendOk("您成功将#z4000463##v4000463# x #r" + selection + " #k换为#r " + (500 * selection) + " #k点卷。");
+                if (cm.haveItem(4000313, selection)) {
+                    cm.gainItem(4000313, -selection);
+                    cm.gainNX(+10 * selection);
+                    cm.sendOk("您成功将#z4000313##v4000313# x #r" + selection + " #k换为#r " + (10 * selection) + " #k点卷。");
                 } else {
                     cm.sendNext("您的输入的数量错误，无法兑换点卷。");
                     cm.dispose();
@@ -131,17 +156,17 @@ function action(mode, type, selection) {
             } else if (beauty == 3) {
                 if (cm.haveItem(4001126, selection)) {
                     cm.gainItem(4001126, -selection);
-                    cm.gainNX(+1*selection);
-                    cm.sendOk("您成功将#z4001126##v4001126# x #r" + selection + " #k换为#r " + (1*selection) + " #k点卷。");
+                    cm.gainNX(+Math.floor(1 * selection));
+                    cm.sendOk("您成功将#z4001126##v4001126# x #r" + selection + " #k换为#r " + Math.floor(1 * selection) + " #k点卷。");
                 } else {
                     cm.sendNext("您的输入的数量错误，无法兑换点卷。");
                     cm.dispose();
                 }
-} else if (beauty == 4) {
-                if (cm.haveItem(4031549, selection)) {
-                    cm.gainItem(4031549, -selection);
-                    cm.gainNX(+1500 * selection);
-                    cm.sendOk("您成功将#z4031549##v4031549# x #r" + selection + " #k换为#r " + (1500 * selection) + " #k点卷。");
+	        } else if (beauty == 4) {
+                if (cm.haveItem(4251401, selection)) {
+                    cm.gainItem(4251401, -selection);
+                    cm.gainNX(+Math.floor(5000 * selection));
+                    cm.sendOk("您成功将#z4251401##v4251401# x #r" + selection + " #k换为#r " + Math.floor(5000 * selection) + " #k点卷。");
                 } else {
                     cm.sendNext("您的输入的数量错误，无法兑换点卷。");
                     cm.dispose();
@@ -152,4 +177,5 @@ function action(mode, type, selection) {
             cm.dispose();
         }
     }
+}
 }

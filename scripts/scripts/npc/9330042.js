@@ -1,19 +1,9 @@
-/*
-                《该文件是Vr001 封测版服务端的核心文件之一》
-  目前版权 (C) 2010年   Vr001 封测版             <159502199@qq.com>
- * -----------------------------------------------------------*
-  之前人员 (C) 2008年   Huy              <patrick.huy@frz.cc>
-                       Matthias Butz       <matze@odinms.de>
-                       Jan Christian Meyer <vimes@odinms.de>
- * ------------------------------------------------------------*
- @该服务端目前维护人员:Vr001 封测版
- @这个文件是自由形式.你可以任意内容
- @这个程序发布的目的是期望它能有用@
- @如果你需要技术支持,可以联系更新/维护人员<QQ100807851>
- @你应该已经收到一份Affero GNU通用公共授权
- -如果不是,请仔细查看http://www.gnu.org/licenses/*
-*/
-
+var 星星 = "#fEffect/CharacterEff/1114000/2/0#";
+var 爱心 = "#fEffect/CharacterEff/1022223/4/0#";
+var 红色箭头 = "#fUI/UIWindow/Quest/icon6/7#";
+var 正方形 = "#fUI/UIWindow/Quest/icon3/6#";
+var 蓝色箭头 = "#fUI/UIWindow/Quest/icon2/7#";
+var 蓝色角点 = "#fUI/UIWindow.img/PvP/Scroll/enabled/next2#";
 function start() {
     status = -1;
 
@@ -25,10 +15,10 @@ function action(mode, type, selection) {
     }
     else {
         if (status >= 0 && mode == 0) {
-                
+
             cm.sendOk("感谢你的光临！");
             cm.dispose();
-            return;                    
+            return;
         }
         if (mode == 1) {
             status++;
@@ -37,225 +27,474 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-              
-            var tex2 = "";	
+            var tex2 = "";
             var text = "";
-            for(i = 0; i < 10; i++){
+            for (i = 0; i < 10; i++) {
                 text += "";
-            }			
-            if (cm.haveItem(1122019)||cm.haveItem(1122024)||cm.haveItem(1122025)||cm.haveItem(1122026)||cm.haveItem(1122027)||cm.haveItem(1122028)||cm.haveItem(1122029)||cm.haveItem(1122030)||cm.haveItem(1122031)||cm.haveItem(1122032)||cm.haveItem(1122033)||cm.haveItem(1122034)||cm.haveItem(1122035)||cm.haveItem(1122036)||cm.haveItem(1122037)||cm.haveItem(1122038)) {
-                //text += "#b嗨！尊敬的玩家#r"+ cm.getChar().getName() +"#b！以下是您的累计：\r\n◤目前已经杀死怪物：#r"+ cm.getChar().getsg() +"#b 头◥\r\n◣目前已经完成副本：#r"+cm.getboss()+"#b 次◢\r\n\r\n#fUI/UIWindow.img/QuestIcon/3/0#\r\n#k"
-                text += "陌生人#r" + cm.getChar().getName() +"#k..\r\n你知道吗,最近冒险岛内的#r冒险之心#k的气息越来越浑浊了..\r\n这条#r神秘项链#k.只要你有足够的材料.\r\n我就可以让#b这条项链解除封印#k..达到觉醒的状态.\r\n步骤说明图：#v1122019#―→#v1122024#―→#v1122029#―→#v1122034#\r\n"; 
-                text += "                                         ↓\r\n";
-                text += "                             #b神秘的道具#k#v2022670#？？？";
-                text += "\r\n#r■■■■■■■■■■■开始进化■■■■■■■■■■■■";
-                text += "\r\n#d初次进化LV11（.）:\r\n#e需要消耗200个#v4001126##n\r\n#e需要消耗冒险币#v2140002# 100万#n\r\n";
-                text += "#d#L1##r#e①#n『冒险之心LV10』#d→#r『封印的冒险之心LV11』(战士)#l\r\n";
-                text += "#d#L11##r#e①#n『冒险之心LV10』#d→#r『封印的冒险之心LV11』(魔法师)#l\r\n";
-                text += "#d#L12##r#e①#n『冒险之心LV10』#d→#r『封印的冒险之心LV11』(弓箭手)#l\r\n";
-                text += "#d#L13##r#e①#n『冒险之心LV10』#d→#r『封印的冒险之心LV11』(飞侠)#l\r\n";
-                text += "#d#L14##r#e①#n『冒险之心LV10』#d→#r『封印的冒险之心LV11』(海盗)#l\r\n";
-                text += "\r\n■■■■■■■■■■■■■■■■■■■■■■■■■■■";
-                text += "\r\n#d再进化LV31（...）:\r\n#e需要消耗300个#v4001126##n\r\n#e需要消耗冒险币#v2140002# 300万#n\r\n";
-                text += "#L3##r#e②#n『封印的冒险之心LV11』#d→#r『苏醒的冒险之心LV31』#l\r\n";
-                text += "\r\n■■■■■■■■■■■■■■■■■■■■■■■■■■■";
-                text += "\r\n#b#e最终进化LV61（..）:\r\n#e需要消耗500个#v4001126#\r\n需要消耗1个#v4000313##n\r\n#e需要消耗冒险币#v2140002# 500万#n\r\n";
-                text += "#L4##r#e#e③『苏醒冒险之心LV31』#d→#r『觉醒的冒险之心LV61』#l\r\n";
-                text += "\r\n■■■■■■■■■■■■■■■■■■■■■■■■■  ";
-                cm.sendSimple(text);
-            }else{
-                cm.sendOk("勇士..你能感觉到#r冒险之心#k#n的神秘波动吗..如果你能拿给我看看,或许我能帮助你.");
-                cm.dispose();
             }
-        } else if (status == 1) {
-            if (selection == 0) {      
-                cm.warp(910000000); 
-                cm.dispose(); 
-            }else if  (selection == 1) { //第一个升级
-                if (cm.haveItem(1122019, 1)&&cm.haveItem(4001126, 200)&&(cm.getMeso() >= 1000000)) { 
-                    cm.gainItem(1122019,-1);
-                    cm.gainMeso(-2000000);
-                    cm.gainItem(4001126,-200); //200个枫叶
-                    cm.gainItem(1122024,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链出现了一丝丝光泽");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『冒险之心』项链！得到了『封印的冒险之心』！")
-                    cm.dispose();
-                } else {
-                    cm.sendOk("我需要冒险之心和200个枫叶.\r\n如果缺少,我没有办法使用力量."); 
-                    cm.dispose();
-                }
-            }else if  (selection == 11) { //第一个升级
-                if (cm.haveItem(1122019, 1)&&cm.haveItem(4001126, 200)&&(cm.getMeso() >= 1000000)) { 
-                    cm.gainItem(1122019,-1);
-                    cm.gainMeso(-2000000);
-                    cm.gainItem(4001126,-200); //200个枫叶
-                    cm.gainItem(1122025,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链出现了一丝丝光泽");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『冒险之心』项链！得到了『封印的冒险之心』！")
-                    cm.dispose();
-                } else {
-                    cm.sendOk("我需要冒险之心和200个枫叶.\r\n如果缺少,我没有办法使用力量."); 
-                    cm.dispose();
-                }
-            }else if  (selection == 12) { //第一个升级
-                if (cm.haveItem(1122019, 1)&&cm.haveItem(4001126, 200)&&(cm.getMeso() >= 1000000)) { 
-                    cm.gainItem(1122019,-1);
-                    cm.gainMeso(-2000000);
-                    cm.gainItem(4001126,-200); //200个枫叶
-                    cm.gainItem(1122026,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链出现了一丝丝光泽");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『冒险之心』项链！得到了『封印的冒险之心』！")
-                    cm.dispose();
-                } else {
-                    cm.sendOk("我需要冒险之心和200个枫叶.\r\n如果缺少,我没有办法使用力量."); 
-                    cm.dispose();
-                }
-            }else if  (selection == 13) { //第一个升级
-                if (cm.haveItem(1122019, 1)&&cm.haveItem(4001126, 200)&&(cm.getMeso() >= 1000000)) { 
-                    cm.gainItem(1122019,-1);
-                    cm.gainMeso(-2000000);
-                    cm.gainItem(4001126,-200); //200个枫叶
-                    cm.gainItem(1122027,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链出现了一丝丝光泽");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『冒险之心』项链！得到了『封印的冒险之心』！")
-                    cm.dispose();
-                } else {
-                    cm.sendOk("我需要冒险之心和200个枫叶.\r\n如果缺少,我没有办法使用力量."); 
-                    cm.dispose();
-                }
-            }else if  (selection == 14) { //第一个升级
-                if (cm.haveItem(1122019, 1)&&cm.haveItem(4001126, 200)&&(cm.getMeso() >= 1000000)) { 
-                    cm.gainItem(1122019,-1);
-                    cm.gainMeso(-2000000);
-                    cm.gainItem(4001126,-200); //200个枫叶
-                    cm.gainItem(1122028,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链出现了一丝丝光泽");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『冒险之心』项链！得到了『封印的冒险之心』！")
-                    cm.dispose();
-                } else {
-                    cm.sendOk("我需要冒险之心和200个枫叶.\r\n如果缺少,我没有办法使用力量."); 
-                    cm.dispose();
-                }
-            }else if  (selection == 3) {      
-                if (cm.haveItem(1122024, 1)&&cm.haveItem(4001126, 300)&&(cm.getMeso() >= 3000000)) { 
-                    cm.gainItem(1122024,-1);
-                    cm.gainMeso(-3000000);
-                    cm.gainItem(4001126,-300); //300个枫叶
-                    cm.gainItem(1122029,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链从一丝丝光泽变成了小小的泛光.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『封印的冒险之心』项链！得到了『苏醒的冒险之心』！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122025, 1)&&cm.haveItem(4001126, 300)&&(cm.getMeso() >= 3000000)){
-                    cm.gainItem(1122025,-1);
-                    cm.gainMeso(-3000000);
-                    cm.gainItem(4001126,-300); //300个枫叶
-                    cm.gainItem(1122030,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链从一丝丝光泽变成了小小的泛光.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『封印的冒险之心』项链！得到了『苏醒的冒险之心』！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122026, 1)&&cm.haveItem(4001126, 300)&&(cm.getMeso() >= 3000000)){
-                    cm.gainItem(1122026,-1);
-                    cm.gainMeso(-3000000);
-                    cm.gainItem(4001126,-300); //300个枫叶
-                    cm.gainItem(1122031,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链从一丝丝光泽变成了小小的泛光.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『封印的冒险之心』项链！得到了『苏醒的冒险之心』！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122027, 1)&&cm.haveItem(4001126, 300)&&(cm.getMeso() >= 3000000)){
-                    cm.gainItem(1122027,-1);
-                    cm.gainMeso(-3000000);
-                    cm.gainItem(4001126,-300); //300个枫叶
-                    cm.gainItem(1122032,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链从一丝丝光泽变成了小小的泛光.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『封印的冒险之心』项链！得到了『苏醒的冒险之心』！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122028, 1)&&cm.haveItem(4001126, 300)&&(cm.getMeso() >= 3000000)){
-                    cm.gainItem(1122028,-1);
-                    cm.gainMeso(-3000000);
-                    cm.gainItem(4001126,-300); //300个枫叶
-                    cm.gainItem(1122033,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链从一丝丝光泽变成了小小的泛光.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『封印的冒险之心』项链！得到了『苏醒的冒险之心』！")
-                    cm.dispose();
-                } else {
-                    cm.sendOk("我需要封印的冒险之心和300个枫叶.\r\n如果缺少,我没有办法使用力量."); 
-                    cm.dispose();
-                }
-            }else if  (selection == 4) { //4000313黄金枫叶
-                if (cm.haveItem(1122029, 1)&&cm.haveItem(4001126, 500)&&cm.haveItem(4000313, 1)&&(cm.getMeso() >= 5000000)) { 
-                    cm.gainItem(1122029,-1);
-                    cm.gainItem(4000313,-1);
-                    cm.gainMeso(-5000000);
-                    cm.gainItem(4001126,-500); //300个枫叶
-                    cm.gainItem(1122034,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链发出了充满力量的光芒.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『苏醒的冒险之心』项链！得到了『觉醒的冒险之心』！！太不可思议了！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122030, 1)&&cm.haveItem(4001126, 500)&&cm.haveItem(4000313, 1)&&(cm.getMeso() >= 5000000)){
-                     cm.gainItem(1122030,-1);
-                    cm.gainItem(4000313,-1);
-                    cm.gainMeso(-5000000);
-                    cm.gainItem(4001126,-500); //300个枫叶
-                    cm.gainItem(1122035,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链发出了充满力量的光芒.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『苏醒的冒险之心』项链！得到了『觉醒的冒险之心』！！太不可思议了！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122031, 1)&&cm.haveItem(4001126, 500)&&cm.haveItem(4000313, 1)&&(cm.getMeso() >= 5000000)){
-                     cm.gainItem(1122031,-1);
-                    cm.gainItem(4000313,-1);
-                    cm.gainMeso(-5000000);
-                    cm.gainItem(4001126,-500); //300个枫叶
-                    cm.gainItem(1122036,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链发出了充满力量的光芒.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『苏醒的冒险之心』项链！得到了『觉醒的冒险之心』！！太不可思议了！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122032, 1)&&cm.haveItem(4001126, 500)&&cm.haveItem(4000313, 1)&&(cm.getMeso() >= 5000000)){
-                     cm.gainItem(1122032,-1);
-                    cm.gainItem(4000313,-1);
-                    cm.gainMeso(-5000000);
-                    cm.gainItem(4001126,-500); //300个枫叶
-                    cm.gainItem(1122037,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链发出了充满力量的光芒.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『苏醒的冒险之心』项链！得到了『觉醒的冒险之心』！！太不可思议了！")
-                    cm.dispose();
-                }else if (cm.haveItem(1122033, 1)&&cm.haveItem(4001126, 500)&&cm.haveItem(4000313, 1)&&(cm.getMeso() >= 5000000)){
-                     cm.gainItem(1122033,-1);
-                    cm.gainItem(4000313,-1);
-                    cm.gainMeso(-5000000);
-                    cm.gainItem(4001126,-500); //300个枫叶
-                    cm.gainItem(1122038,1);
-                    cm.sendOk("一道神秘的光芒照耀在项链上...你的项链发出了充满力量的光芒.");
-                    cm.serverNotice("【薇薇安】玩家:" + cm.c.getPlayer().getName() + "进化了『苏醒的冒险之心』项链！得到了『觉醒的冒险之心』！！太不可思议了！")
-                    cm.dispose();
-                } else {
-                    cm.sendOk("你的材料不够...最后一个阶段的力量很强大..我能理解你是个屌丝..但是我只认钱.."); 
-                    cm.dispose();
-                }
-            }else if  (selection == 5) {
-                cm.openNpc(9030100); 
-            }else if  (selection == 6) {
-                cm.sendOk("#b游戏模式为仿官方。传送都是按照官方的标准采取。想去天空之城/神木村/玩具城的玩家请去坐船。");
+           // text += """本服每周双休日举行#rPK排名赛""\r\n"
+           //             text += "\t\t\t  #e自助赚钱系统#b（建议购买双倍爆率卡） #k!#n\r\n"
+           // text += "       "+ 蓝色角点 +"#L21##rLv30.大王蜈蚣#l\r\n\r\n"//3
+           // text += ""+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+"\r\n"
+           // text += ""+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+"\r\n"
+			//text += "\t\t\t  #e初级系统#b（建议购买双倍爆率卡） #k!#n\r\n"
+           // text += ""+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+"\r\n"
+           // text += "#L1##e#d" + 蓝色角点 + "红蜗牛王#l#L2##d " + 蓝色角点 + "木妖王#l\r\n\r\n"//3
+		   text+="\t\t本服所有BOSS均出#v2022468#快去杀BOSS吧！#l\r\n";
+		   text += "#L30#" + 蓝色角点 +"#r1V1 PK场(2W点卷/人)#L40#" + 蓝色角点 +"#r3V3 PK场(10个#v2002033#/人)\r\n\r\n"//3		   
+          //  text += "#L3##d" + 蓝色角点 + "蘑菇王  #L5##d" + 蓝色角点 + "僵尸菇王#l\r\n\r\n"//3
+         //   text += "#L5##d" + 蓝色角点 + "僵尸菇王#l\r\n\r\n"//3
+          // text += "#L7##d" + 蓝色角点 + "妖怪禅师#l#L8##d " + 蓝色角点 + "鳄鱼王#l\r\n\r\n"//3
+          //  text += "#L9##d" + 蓝色角点 + "艾利杰  #l#L10##d " + 蓝色角点 + "歇尔夫#l\r\n\r\n"//3
+           // text += "#L12##d" + 蓝色角点 + "蝙蝠怪#l\r\n\r\n"//3
+           // text += "#L13##d" + 蓝色角点 + "格瑞分多#l#L14##d" + 蓝色角点 + "喷火龙#l#L12##d" + 蓝色角点 + "蝙蝠怪#l\r\n\r\n"//3
+           // text += "#L15##d" + 蓝色角点 + "多多#l    #L16##d " + 蓝色角点 + "玄冰独角兽#l\r\n\r\n"//3
+            text += ""+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+爱心+"\r\n"
+                     // text += "\t\t\t#e欢迎来到本服特色传送系统#b#k#n\r\n"
+			//text += "" + 红色箭头 +"#L0##b本服BOSS体系说明#l\r\n\r\n"//3 
+			text += "#L1#" + 蓝色角点 + "红蜗牛王#l#L2##d " + 蓝色角点 + "木妖王#l\r\n"//
+			text += "#L7#" + 蓝色角点 + "妖怪禅师#l#L8##d " + 蓝色角点 + "鳄鱼王#l\r\n"//3
+            text += "#L9#" + 蓝色角点 + "艾利杰  #l#L10##d " + 蓝色角点 + "歇尔夫#l\r\n\r\n"//3
+            text += "#d#L3#" + 蓝色角点 + "蘑菇王    #d#L5#" + 蓝色角点 + "僵尸菇王#l    #d#L13#" + 蓝色角点 + "格瑞分多#l\r\n"//3	
+            text += "#d#L14#" + 蓝色角点 + "喷火龙#l    #d#L12#" + 蓝色角点 + "蝙蝠魔#l      #L21#" + 蓝色角点 +"#r大王蜈蚣\r\n\r\n"//3			
+		//	text += "              \r\n\r\n"//3
+			//text += "" + 蓝色角点 +"#L12##r蝙蝠魔\r\n\r\n"//3
+            text += "#L17#" + 蓝色角点 +"#r鱼王皮亚奴斯洞穴      #L18#" + 蓝色角点 +"#r时间塔的本源闹钟\r\n"//3			
+            //text += "" + 蓝色角点 +"#L26##r巨大蝙蝠怪\r\n\r\n"//3
+            text += "#L50#" + 蓝色角点 + "#r蝙蝠怪    #L70#" + 蓝色角点 + "#r妖僧   #L27#" + 蓝色角点 + "#r大树   #L20#" + 蓝色角点 +"#rPB\r\n"//3	" + 蓝色角点 + "#L23##r绯红" + 蓝色角点 + "#L26##r巨大蝙蝠怪
+			//text += "" + 蓝色角点 +"#L23##r绯红\r\n\r\n"//3
+			text += "#L22#" + 蓝色角点 +"#r狮子      #L24#" + 蓝色角点 +"#r黑龙王 #L19#" + 蓝色角点 +"#r扎昆   #L25#" + 蓝色角点 +"#r终极BOSS     \r\n\r\n"//3
+			//text += "" + 蓝色角点 +"#L30##r妖僧\r\n\r\n"//3
+			//text += "    \r\n\r\n"//3
+			//text += "" + 蓝色角点 +"#L27##r大树        " + 蓝色角点 +"#L19##r扎昆\r\n\r\n"//3
+		//	text += "        \r\n\r\n"//3
+			//text += "" + 蓝色角点 +"#L20##rPB\r\n\r\n"//3
+			
+			//text += "" + 蓝色角点 +"#L40##r组队PK场\r\n\r\n"//3
+            // text += "" + 蓝色角点 + "#L19##rLv70.扎昆的祭坛挑战#l\r\n\r\n"//3
+            // text += "" + 蓝色角点 + "#L20##rLv70.暗黑龙王的巢穴挑战#l\r\n\r\n"//3
+          //  text += ""+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+"\r\n"
+			//text += ""+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+星星+"\r\n"
+            cm.sendSimple(text);
+			} else if (selection == 0) {//体系说明
+			cm.sendOk("#e独家BOSS体系,还有许多待开放boss（"+星星+"=5*"+爱心+"）!\r\n\r\n1.大王蜈蚣（难度系数为零）\r\
+n2.蝙蝠魔（难度系数"+爱心+"）\r\
+n3.鱼王（难度系数"+爱心+"）\r\
+n4.巨大蝙蝠怪（难度系数"+爱心+"）\r\
+n5.闹钟（难度系数"+爱心+"）\r\
+n6.绯红1阶（难度系数"+爱心+爱心+"）\r\
+n7.狮子2阶（难度系数"+爱心+爱心+爱心+"）\r\
+n8.黑龙3阶（难度系数"+爱心+爱心+爱心+爱心+"）\r\
+n9.大树4阶（难度系数"+爱心+爱心+爱心+爱心+爱心+"）\r\
+n10.扎昆5阶（难度系数"+星星+星星+星星+星星+星星+"）");
+        } else if (selection == 1) {//红蜗牛王
+            if (cm.getLevel() < 10 ) {  
+            cm.sendOk("本地图限制等级10级。您的能力没有资格挑战红蜗牛王");
                 cm.dispose();
-            }else if  (selection == 7) {     
-                cm.openNpc(1012103);  	     
-            }else if  (selection == 8) {
-                cm.openNpc(1052004);                  
-            }else if  (selection == 9) {  
-                var statup = new java.util.ArrayList();
-                var p = cm.c.getPlayer();
-                if(p.getExp() < 0){
-                    p.setExp(0) 
-                    statup.add (new net.sf.cherry.tools.Pair(net.sf.cherry.client.MapleStat.EXP, java.lang.Integer.valueOf(0))); 
-                    p.getClient().getSession().write (net.sf.cherry.Packages.tools.MaplePacketCreator.updatePlayerStats(statup));
-                    cm.sendOk("经验值已修复完成");
+              }else{
+			cm.warp(104000400);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战红蜗牛王，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      } 
+		  
+		  } else if (selection == 20) {//PB
+			var party = cm.getPlayer().getParty();	
+			if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
+                cm.sendOk("你不是队长。请你们队长来说话吧！");
+                cm.dispose();
+			}else if(party.getMembers().size() < 1) {
+	            cm.sendOk("需要 1 人以上的组队才能进入！!");
+                cm.dispose();
+			//}else 
+			}else if(cm.getLevel() < 120){
+	            cm.sendOk("需要120级才能带队入场.");
+                cm.dispose();
+			}else if(cm.getPlayer().getMeso() < 5000000){
+	            cm.sendOk("需要500W才能入场.");
+                cm.dispose();
+			}else if (cm.getPlayerCount(910000022) > 0){
+	            cm.sendOk("已经有人在挑战PB了.");
+                cm.dispose();
+			}else{
+				cm.warpParty(270050100);
+				cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "带领着队伍开始挑战PB，大家都来战个痛快吧~");
+                cm.dispose();
+                return;
+	      }
+		  
+		  } else if (selection == 30) {//PK 1V1
+			var party = cm.getPlayer().getParty();	
+			if (cm.getPlayer().getNX() < 20000) {
+	            cm.sendOk("需要2W点卷才能入场.");
+                cm.dispose();
+
+			}else{
+				cm.warpParty(910000021);
+				cm.gainNX(-20000);
+				cm.喇叭(2, "[PK传送]：玩家" + cm.getPlayer().getName() + "进入了单人PVP地图~");
+                cm.dispose();
+                return;
+	      }
+		  
+		  } else if (selection == 40) {//PK 组队
+	
+			 if(!cm.haveItem(2002033,10)){
+	            cm.sendOk("需要10个巧克力蛋糕才能入场.");
+                cm.dispose();
+
+			}else{
+				cm.gainItem(2002033,-10);
+				cm.warpParty(910000022);
+				cm.喇叭(2, "[PK传送]：玩家" + cm.getPlayer().getName() + "进入了组队PVP地图~");
+                cm.dispose();
+                return;
+	      }
+		  
+         } else if (selection == 2) {//木妖王
+            if (cm.getLevel() < 20 ) {  
+            cm.sendOk("本地图限制等级20级。您的能力没有资格挑战木妖王");
+                cm.dispose();
+              }else{
+			cm.warp(101030404);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战树妖王，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      } 
+		  
+		} else if (selection == 30) {//妖僧
+            if (cm.getLevel() < 140 ) {  
+            cm.sendOk("本地图限制等级140级。您的能力没有资格挑战妖僧");
+                cm.dispose();
+              }else{
+			cm.warp(702070400);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战妖僧，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      }   
+		  
+        } else if (selection == 3) {//蘑菇王
+            if (cm.getLevel() < 30 ) {  
+            cm.sendOk("本地图限制等级30级。您的能力没有资格挑战蘑菇王");
+                cm.dispose();
+              }else{
+			cm.warp(100000005);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战蘑菇王，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      } 
+        } else if (selection == 4) {//寄居蟹
+            if (cm.getLevel() < 30 ) {  
+            cm.sendOk("本地图限制等级30级。您的能力没有资格挑战寄居蟹");
+                cm.dispose();
+              }else{
+			cm.warp(110040000);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战寄居蟹，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      } 
+       } else if (selection == 5) {//僵尸蘑菇王
+            if (cm.getLevel() < 40 ) {  
+            cm.sendOk("本地图限制等级40级。您的能力没有资格挑战僵尸蘑菇王");
+                cm.dispose();
+              }else{
+			cm.warp(105070002); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战僵尸蘑菇王，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      } 
+		  
+		  } else if (selection == 50) {//蝙蝠魔
+            if (cm.getLevel() < 10 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战蝙蝠魔");
+                cm.dispose();
+              }else{
+			cm.warp(105090900); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战蝙蝠怪，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      }
+        } else if (selection == 6) {//肯德熊
+            if (cm.getLevel() < 50 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战肯德熊");
+                cm.dispose();
+              }else{
+			cm.warp(250010304); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战肯德熊，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      } 
+        } else if (selection == 7) {//妖怪禅师
+            if (cm.getLevel() < 50 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战妖怪禅师");
+                cm.dispose();
+              }else{
+			cm.warp(250010503); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战妖怪禅师，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      } 
+        } else if (selection == 8) {//鳄鱼王
+            if (cm.getLevel() < 50 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战鳄鱼王");
+                cm.dispose();
+              }else{
+			cm.warp(107000300); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战鳄鱼王，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      } 
+        } else if (selection == 9) {//艾利杰
+            if (cm.getLevel() < 50 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战艾利杰");
+                cm.dispose();
+              }else{
+			cm.warp(200010300);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战艾利杰，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      } 
+       } else if (selection == 10) {//歇尔夫
+            if (cm.getLevel() < 50 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战歇尔夫");
+                cm.dispose();
+              }else{
+			cm.warp(230020100);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战歇尔夫，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      } 
+        } else if (selection == 11) {//九尾狐
+            if (cm.getLevel() < 50 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战九尾狐");
+                cm.dispose();
+              }else{
+			cm.warp(222010310);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战九尾狐，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      } 
+       } else if (selection == 12) {//蝙蝠魔
+            if (cm.getLevel() < 10 ) {  
+            cm.sendOk("本地图限制等级50级。您的能力没有资格挑战蝙蝠魔");
+                cm.dispose();
+              }else{
+			cm.warp(101000300); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战蝙蝠怪，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      } 
+         } else if (selection == 13) {//格瑞分多
+            if (cm.getLevel() < 70 ) {  
+            cm.sendOk("本地图限制等级70级。您的能力没有资格挑战格瑞分多");
+                cm.dispose();
+              }else{
+			cm.warp(240020101); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战格瑞芬多，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      } 
+        } else if (selection == 14) {//喷火龙
+            if (cm.getLevel() < 70 ) {  
+            cm.sendOk("本地图限制等级70级。您的能力没有资格挑战喷火龙");
+                cm.dispose();
+              }else{
+			cm.warp(240020402); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战喷火龙，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      }
+        } else if (selection == 15) {//多多
+            if (cm.getLevel() < 70 ) {  
+            cm.sendOk("本地图限制等级70级。您的能力没有资格挑战多多");
+                cm.dispose();
+              }else{
+			cm.warp(270010500);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战多多，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      }
+        } else if (selection == 16) {//玄冰独角兽
+            if (cm.getLevel() < 70 ) {  
+            cm.sendOk("本地图限制等级70级。您的能力没有资格挑战玄冰独角兽");
+                cm.dispose();
+              }else{
+			cm.warp(270020500);  
+						cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战玄冰独角兽，大家都来战个痛快吧~");
+				cm.dispose();
+                return;
+	      }  
+        } else if (selection == 17) {//鱼王
+            if (cm.getLevel() < 70 ) {  
+            cm.sendOk("本地图限制等级70级。您的能力没有资格挑战鱼王");
+                cm.dispose();
+              }else{
+			cm.warp(230040420); 
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战鱼王，大家都来战个痛快吧~");			
+				cm.dispose();
+                return;
+	      }
+        } else if (selection == 18) {//闹钟
+            if (cm.getLevel() < 70 ) {  
+            cm.sendOk("本地图限制等级70级。您的能力没有资格闹钟");
+                cm.dispose();
+              }else{
+			cm.warp(220080000);  
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战闹钟，大家都来战个痛快吧~");	
+				cm.dispose();
+                return;
+	      }
+      
+            } else if (selection == 27) {//大树
+			var party = cm.getPlayer().getParty();	
+			if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
+                cm.sendOk("你不是队长。请你们队长来说话吧！");
+                cm.dispose();
+			}else if(party.getMembers().size() < 1) {
+	            cm.sendOk("需要 1 人以上的组队才能进入！!");
+                cm.dispose();
+			//}else 
+			}else if(cm.getLevel() < 70){
+	            cm.sendOk("需要70级才能入场.");
+                cm.dispose();
+				} else if (cm.getBossLog('dashu') >10) {
+                    cm.sendOk("每天只能打10次大树！");
                     cm.dispose();
-                }else{
-                    cm.sendOk("您的经验值正常,无需修复!");
-                    cm.dispose();
-                }
-            }        
+			}else if(cm.getPlayer().getMeso() < 5000000){
+	            cm.sendOk("需要500W才能入场.");
+                cm.dispose();
+			}else if (cm.getPlayerCount(541020800) > 0){
+	            cm.sendOk("已经有人在挑战大树了.");
+                cm.dispose();
+			}else{
+				cm.warpParty(541020800);
+				cm.setBossLog("dashu");
+				//cm.givePartyBossLog("树精Boss");
+				cm.gainMeso(-5000000);
+				//cm.resetMap(541020800);
+				cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战大树，大家都来战个痛快吧~");
+                cm.dispose();
+                return;
+}
+		  
+        } else if (selection == 19) {//扎昆
+            var party = cm.getPlayer().getParty();	
+			if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
+                cm.sendOk("你不是队长。请你们队长来说话吧！");
+                cm.dispose();
+			}else if(party.getMembers().size() < 1) {
+	            cm.sendOk("需要 1 人以上的组队才能进入！!");
+                cm.dispose(); 
+		}else	if(cm.getLevel() < 70){
+	            cm.sendOk("需要70级才能入场.");
+                cm.dispose();
+			}else if(cm.getPlayer().getMeso() < 15000000){
+	            cm.sendOk("你大金币不足，需要1500W才能入场.");
+                cm.dispose();
+			}else if (cm.getPlayerCount(910000018) > 0){
+	            cm.sendOk("已经有人在挑战扎昆了.");
+                cm.dispose();
+			}else{
+				cm.warpParty(910000018);
+				cm.dispose();
+                return;
+	      }
+        } else if (selection == 21) {//大王蜈蚣
+            if (cm.getLevel() < 30 ) {  
+            cm.sendOk("本地图限制等级30级。您的能力没有资格大王蜈蚣");
+                cm.dispose();
+              }else{
+			cm.warp(701010321);
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战大王蜈蚣，大家都来战个痛快吧~");				
+				cm.dispose();
+                return;
+	      }
+              } else if (selection == 22) {//狮子或熊
+            if (cm.getLevel() < 70 ) {  
+            cm.sendOk("本地图限制等级70级。您的能力没有资格挑战狮子或熊");
+                cm.dispose();
+              }else{
+			cm.warp(551030100);  
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战狮子或熊，大家都来战个痛快吧~");	
+				cm.dispose();
+                return;
+				 }
+				} else if (selection == 23) {//绯红
+            if (cm.getLevel() < 100 ) {  
+            cm.sendOk("本地图限制等级100级。您的能力没有资格挑战绯红");
+                cm.dispose();
+              }else{
+			cm.warp(803001200);
+			cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战绯红，大家都来战个痛快吧~");
+                cm.dispose();
+                return;
+	      }  
+            } else if (selection == 24) {//黑龙
+            var party = cm.getPlayer().getParty();	
+			if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
+                cm.sendOk("你不是队长。请你们队长来说话吧！");
+                cm.dispose();
+			}else if(party.getMembers().size() < 1) {
+	            cm.sendOk("需要 1 人以上的组队才能进入！!");
+                cm.dispose(); 
+		}else	if(cm.getLevel() < 70){
+	            cm.sendOk("需要70级才能入场.");
+                cm.dispose();
+			}else if(cm.getPlayer().getMeso() < 20000000){
+	            cm.sendOk("你大金币不足，需要2000W才能入场.");
+                cm.dispose();
+			}else if (cm.getPlayerCount(910000019) > 0){
+	            cm.sendOk("已经有人在挑战黑龙了.");
+                cm.dispose();
+			}else{
+				cm.warpParty(910000019);
+				cm.dispose();
+                return;
+	      }
+		} else if (selection == 26) {//蝙蝠
+            if (cm.getLevel() < 70 ) {  
+				cm.sendOk("本地图限制等级70级。您的能力没有资格挑战巨大蝙蝠怪");
+                cm.dispose();
+            }else{
+				cm.warp(105100100,0);  //每次传送到地图中间
+				cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战巨魔蝙蝠怪~");
+				cm.dispose();
+                return;
+	        } 	
+
+} else if (selection == 70) {//妖僧
+            if (cm.getLevel() < 130 ) {  
+				cm.sendOk("本地图限制等级130级。您的能力没有资格挑战妖僧");
+                cm.dispose();
+            }else{
+				cm.warp(702070400,0);  //每次传送到地图中间
+				cm.喇叭(2, "[BOSS传送]：玩家" + cm.getPlayer().getName() + "开始挑战妖僧~");
+				cm.dispose();
+                return;
+	        } 	
+			
+		} else if (selection == 25) {//终极
+            var party = cm.getPlayer().getParty();	
+			if (party == null || party.getLeader().getId() != cm.getPlayer().getId()) {
+                cm.sendOk("你不是队长。请你们队长来说话吧！");
+                cm.dispose();
+			}else if(party.getMembers().size() < 1) {
+	            cm.sendOk("需要 1 人以上的组队才能进入！!");
+                cm.dispose(); 
+		}else	if(cm.getLevel() < 200){
+	            cm.sendOk("需要200级才能入场.");
+                cm.dispose();
+			}else if(cm.getPlayer().getMeso() < 20000000){
+	            cm.sendOk("你大金币不足，需要2000W才能入场.");
+                cm.dispose();
+			}else if (cm.getPlayerCount(910000020) > 0){
+	            cm.sendOk("已经有人在挑战终极BOSS了.");
+                cm.dispose();
+			}else{
+				cm.warpParty(910000020);
+				cm.dispose();
+                return;
+	      }
         }
     }
 }
-
-

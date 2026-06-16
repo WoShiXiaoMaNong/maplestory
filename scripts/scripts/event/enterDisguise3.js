@@ -5,7 +5,8 @@
 var instanceId;
 var returnmap;
 
-function init() {}
+function init() {
+}
 
 function monsterValue(eim, mobId) {
     return 1;
@@ -21,7 +22,7 @@ function setup() {
 
     var eventtime = 600000;
     em.schedule("timeOut", eventtime);
-    //    eim.startEventTimer(eventtime);
+//    eim.startEventTimer(eventtime);
 
     return eim;
 }
@@ -37,21 +38,21 @@ function playerExit(eim, player) {
     player.changeMap(exitMap, exitMap.getPortal(0));
 
     if (eim.getPlayerCount() == 0) {
-        eim.dispose();
+	eim.dispose();
     }
 }
 
 function timeOut() {
     var iter = em.getInstances().iterator();
     while (iter.hasNext()) {
-        var eim = iter.next();
-        if (eim.getPlayerCount() > 0) {
-            var pIter = eim.getPlayers().iterator();
-            while (pIter.hasNext()) {
-                playerExit(eim, pIter.next());
-            }
-        }
-        eim.dispose();
+	var eim = iter.next();
+	if (eim.getPlayerCount() > 0) {
+	    var pIter = eim.getPlayers().iterator();
+	    while (pIter.hasNext()) {
+		playerExit(eim, pIter.next());
+	    }
+	}
+	eim.dispose();
     }
 }
 
@@ -68,4 +69,5 @@ function clear(eim) {
     eim.dispose();
 }
 
-function cancelSchedule() {}
+function cancelSchedule() {
+}

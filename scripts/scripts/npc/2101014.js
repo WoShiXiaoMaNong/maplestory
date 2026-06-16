@@ -56,7 +56,7 @@ function action(mode, type, selection){
 			cm.dispose();
 		} else if (selection == 4) {
 			status = 4;
-			cm.sendNext("你有什么本事在大竞技场！如果你的竞技场分数高于 150, 你将得到 #v1113048#(四维+8、攻击+8、魔攻+8) #b冠军戒指#k.\r\n这是真正的斗士的象征.");//#i1113048:#
+			cm.sendNext("你有什么本事在大竞技场！如果你的竞技场分数高于 150, 你将得到 #i1113048:# #b冠军戒指#k.\r\n这是真正的斗士的象征.");
 		}
 	} else if (status == 2) {
 		var sel = selection;

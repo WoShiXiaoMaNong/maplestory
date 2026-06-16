@@ -1,117 +1,184 @@
-/*
-@ 勇士部落教官NPC
-@ 城管大队头头????
-*/
+/**
+ * @作者：MinaMS
+ * @重构完善版本
+ * @用途 战士转职 1~3转 触发NPC 1022000.js 地图 102000003 - 金银岛 - 战士圣殿
+ */
 
-var status;
+var status = 0;
+var job;
 
 function start() {
-	status = -1;
-	action(1,0,0);
-	}
-	
-function action(mode,type,selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else if (mode == 0) {
-			cm.sendOk("...");
-			cm.dispose();
-	} else if (status == -1) {
-		if (cm.getJob().equals(net.sf.odinms.client.MapleJob.BEGINNER)) {
-			status = 0;
-			cm.sendNext("你或许可以成为一个战士. 让我看看你的属性...");
-		} else if (cm.getJob().equals(net.sf.odinms.client.MapleJob.WARRIOR)) {
-			status = 2;
-			cm.sendNext("你或许可以做第二次转职的准备.让我看看...");
-		} else if (cm.getJob().equals(net.sf.odinms.client.MapleJob.FIGHTER) ||
-					cm.getJob().equals(net.sf.odinms.client.MapleJob.PAGE) ||
-					cm.getJob().equals(net.sf.odinms.client.MapleJob.SPEARMAN)) {
-			status = 4;
-			cm.sendNext("啊呀~~好久不见啊~");
-		} else {
-			cm.sendOk("看什么看?再看我吊销你营业执照~！");
-			cm.dispose();
-		}
-	} else if (status == 0) {
-		if (cm.getLevel() <= 9 || cm.getChar().getStr() <= 1) {
-			cm.sendOk("成为一个战士需要达到#r10#k级..力量需要#r35#k或者更多..你哪一项没做到?");
-			cm.dispose();
-		} else {
-			status = 1;
-			cm.sendYesNo("你或许可以成为一个战士..你是否愿意献身于城管大队的行列中呢??");
-		}
-	} else if (status == 1) {
-		cm.changeJob(net.sf.odinms.client.MapleJob.WARRIOR);
-		cm.sendOk("好了,你已经成为了一名战士了.你也进入了城管大队的花名册中.等你#b30#k级的时候,可以找我第二次谈话!");
-		cm.dispose();
-	} else if (status == 2) {
-		if (cm.getLevel() <= 29) {
-			cm.sendOk("第二次转职需要LV30.你到达了吗?");
-			cm.dispose();
-		} else if (cm.getLevel() >= 30 && cm.haveItem(4031012)) {
-			status = 3;
-			cm.sendNext("嘿,你准备好了吗?");
-		} else if (cm.getLevel() >= 30 && cm.haveItem(4031008)) {
-			cm.sendOk("快去找他把!");
-			cm.dispose();
-		} else {
-			cm.sendOk("你的进步很让人吃惊!我可以让你直接转职!避免了做任务的麻烦!\r\n#b你只需要再和我对话一次就可以进行第二次转职了!!");
-			cm.gainItem(4031012,1);
-			cm.dispose();
-		}
-	} else if (status == 3) {
-		if (selection == 0) {
-			status = 8;
-			cm.sendYesNo("你确定你想要成为剑客吗?");
-		} else if (selection == 1) {
-			status = 9;
-			cm.sendYesNo("你确定你想要成为准骑士吗?");
-		} else if (selection == 2) {
-			status = 10;
-			cm.sendYesNo("你确定你想要成为枪战士吗?");
-		} else {
-		cm.sendSimple("下列职业里,你看中哪一个?#b\r\n#L0#剑客#l\r\n#L1#准骑士#l\r\n#L2#枪战士#l#k");
-		}
-	} else if (status == 4) {
-		if (cm.getJob().equals(net.sf.odinms.client.MapleJob.FIGHTER) && cm.getLevel() >= 70){
-			status = 5;
-			cm.sendYesNo("第三次转职的职业是勇士..是一个很强悍的职业,你是否愿意转职呢?");
-		} else if (cm.getJob().equals(net.sf.odinms.client.MapleJob.PAGE) && cm.getLevel() >= 70){
-			status = 6;
-			cm.sendYesNo("准骑士的第三次转职,你没有意见吗?");
-		} else if (cm.getJob().equals(net.sf.odinms.client.MapleJob.SPEARMAN) && cm.getLevel() >= 70){
-			status = 7;
-			cm.sendYesNo("龙骑士...很强的职业,你想成为#r龙骑士#k吗?");
-		} else {
-			cm.sendOk("等你70级的时候,再来找我说话,可以第三次转职哦!");
-			cm.dispose();
-		}
-	} else if (status == 5) {
-		cm.changeJob(net.sf.odinms.client.MapleJob.CRUSADER);
-		cm.sendOk("你已经成功获取了第三次转职的力量了!!\r\n我能教你的都教完了,120级就是你四转的时候!");
-		cm.dispose();
-	} else if (status == 6) {
-		cm.changeJob(net.sf.odinms.client.MapleJob.WHITEKNIGHT);
-		cm.sendOk("你已经成功获取了第三次转职的力量了!!\r\n我能教你的都教完了,120级就是你四转的时候!");
-		cm.dispose();
-	} else if (status == 7) {
-		cm.changeJob(net.sf.odinms.client.MapleJob.DRAGONKNIGHT);
-		cm.sendOk("你已经成功获取了第三次转职的力量了!!\r\n我能教你的都教完了,120级就是你四转的时候!");
-		cm.dispose();
-	} else if (status == 8) {
-			cm.changeJob(net.sf.odinms.client.MapleJob.FIGHTER);
-			cm.gainItem(4031012,-1);
-			cm.sendOk("很好!你已经成功获得了第二次转职的力量了!当你还想再次转职的时候,请你在70级的时候再来和我谈话!你现在已经是一个有名的城管执法队员了!");
-			cm.dispose();
-	} else if (status == 9) {
-			cm.changeJob(net.sf.odinms.client.MapleJob.PAGE);
-			cm.gainItem(4031012,-1);
-			cm.sendOk("很好!你已经成功获得了第二次转职的力量了!当你还想再次转职的时候,请你在70级的时候再来和我谈话!你现在已经是一个有名的城管执法队员了!");
-			cm.dispose();
-	} else if (status == 10) {
-			cm.changeJob(net.sf.odinms.client.MapleJob.SPEARMAN);
-			cm.gainItem(4031012,-1);
-			cm.sendOk("很好!你已经成功获得了第二次转职的力量了!当你还想再次转职的时候,请你在70级的时候再来和我谈话!你现在已经是一个有名的城管执法队员了!");
-			cm.dispose();
-	}
+    status = -1;
+    action(1, 0, 0);
+}
+
+function action(mode, type, selection) {
+    if (mode == 0 && status == 2) {
+        cm.sendOk("下定决心再来找我。");
+        cm.dispose();
+        return;
+    }
+    if (mode == 1)
+        status++;
+    else
+        status--;
+    if (status == 0) {
+//开始写代码
+        if (cm.getJob() == 0) {//如果是新手
+            if (cm.getPlayer().getLevel() >= 10) {//如果角色等级大于等于10
+                cm.sendNext("你想成为一名 #r战士#k 吗？\r\n战士拥有很强的攻击力和体力,因此在战斗中处于非常重要的地位.因为基本攻击很强,所以学习高级技能的话可以发挥超强的力量。");
+            } else {
+                cm.sendOk("你的等级不足10级。无法转职成为战士。");
+                cm.dispose();
+            }
+        } else {
+            //不是新手
+            //如果角色等级大于等于30 并且职业是战士。即判定其准备二转
+            if (cm.getPlayer().getLevel() >= 30 && cm.getJob() == 100) {
+                //如果条件成立，则判断其是否有4031012 - 英雄证书 - 第二次转职时教官授予的英雄证书.
+                if (cm.haveItem(4031012, 1)) {//如果有英雄证书 ,代表完成教官任务归来
+                    if (cm.haveItem(4031012, 1)) {
+                        status = 30; //开始执行二转。跳转到21
+                        cm.sendNext("恭喜你完成了测试。拿到了英雄证书。想要继续转职，请点击下一页!");
+                    } else {//如果没有英雄证书
+                        //防止任务道具丢失,无法进行转职
+                        if (!cm.haveItem(4031008)) {//如果背包没有4031008 - 武术教练的信件 - 从勇士部落的武术教练收到的信件.应该转交给战士教官.
+                            cm.gainItem(4031008, 1);//给予信件。
+                        }
+
+                        //102020300 - 金银岛 - 西部岩山Ⅳ
+                        cm.sendNext("请去找 #r战士二转教官#k.他就在 #r金银岛 - 西部岩山Ⅳ#k.");
+                        cm.dispose();
+                    }
+                } else {
+                    status = 10;//跳转到11
+                    cm.sendNext("你已经可以转职了,要转职请点下一页.");
+                }
+            } else if (cm.getPlayer().getLevel() >= 70 && cm.getJob() == 110 || cm.getJob() == 120 || cm.getJob() == 130 || cm.getJob() == 2110) {
+                //如果条件成立，则判断其是否有4031059  - 黑符 - 在异界打退分身后获取的道符。
+                if (cm.haveItem(4031059, 1)) {// - 黑符 - 在异界打退分身后获取的道符。
+                    //如果有4031059
+                    status = 50;
+                    cm.gainItem(4031057, 1);//给予 4031057 - 力气项链 - 在异界打退分身后贤者给的项链
+                    cm.gainItem(4031059, -1);//删除黑符
+                    cm.sendNext("恭喜你打败分身，拿到黑符，完成了测试！现在拿着这个 #r#t4031057##k 去长老公馆找 #b泰勒斯#k.");
+                } else {
+                    //如果没有
+                    status = 40;
+                    cm.sendNext("恭喜你达到70级，你现在已经可以三转了。如果需要三转请单击下一页.");
+                }
+            } else {
+                cm.sendOk("你好。我是战士转职教官。需要二转、三转，就来找我吧！");
+                cm.dispose();
+            }
+        }
+        //此处开始执行战士一转
+    } else if (status == 1) {
+        cm.sendNextPrev("一旦转职了就不能反悔,如果不想转职请点上一页.");
+    } else if (status == 2) {
+        cm.sendYesNo("你真的想成为一名 #r战士#k 吗?");
+    } else if (status == 3) {
+        if (cm.getJob() == 0) {
+            cm.changeJob(100); // 改变职业为战士
+            cm.resetStats(35, 4, 4, 4);
+        }
+        cm.gainItem(1302077, 1); //1302077 - 新手战士之剑 - (無描述)
+        cm.sendOk("转职成功 ! 你现在是一名战士了.");
+        if (cm.getPlayer().getGender() == 0) {
+            cm.worldMessage("[转职快报]：恭喜帅哥." + cm.getChar().getName() + "  成功转职成为一名战士，让我们热烈的祝福他吧！！！");
+        } else {
+            cm.worldMessage("[转职快报]：恭喜美女." + cm.getChar().getName() + "  成功转职成为一名战士，让我们热烈的祝福她吧！！！");
+        }
+        cm.dispose();
+        //战士一转结束
+
+
+        //战士二转，开始，判断没有英雄证书时，执行
+    } else if (status == 11) {
+        cm.sendNextPrev("战士二转时，你可以选择如下职业：\r\n #r剑客#k, #r准骑士#k 或 #r枪战士#k.");
+    } else if (status == 12) {
+        cm.askAcceptDecline("但是我必须先测试你，有没有资格进行二转,你准备好了吗 ?");
+    } else if (status == 13) {
+        cm.gainItem(4031008, 1);//给予武术教练的信
+        //cm.warp(102020300);//传送到二转教官的地图
+        status = 20;//跳转到21
+        cm.sendNext("请去找 #b战士转职教官#k . 他会教你怎么做！.");
+        //cm.dispose();
+
+
+        //此处是判断已经有了教练的信，再次点击NPC 传送过去的代码
+    } else if (status == 21) {
+        cm.sendNextPrev("什么？你不知道 #r金银岛 - 西部岩山Ⅳ#k 在哪里？");
+    } else if (status == 22) {
+        cm.askAcceptDecline("好吧，我可以送你过去。但是要收费哦！传送费用需要十万金币");
+    } else if (status == 23) {
+        if (cm.getPlayer().getMeso() >= 100000) {//判断玩家金币是否大于十万
+            cm.gainMeso(-100000);//扣除十万金币
+            cm.warp(102020300);//传送到二转教官的地图
+            cm.sendOk("我已经将你传送到二转教官所在地图了。他就在这，去找他吧！");
+            cm.dispose();
+        } else {
+            cm.sendOk("你的金币不足10万，我无法送你过去！\r\n所以你还是自己去百度下那个地图怎么去吧！穷鬼！\r\n你目前拥有 " + cm.getPlayer().getMeso() + " 金币.");
+        }
+
+        //此处开始执行二转
+    } else if (status == 31) {
+        cm.sendSimple("你想转职成为什么职业 ? #b\r\n#L0#剑客#l\r\n#L1#准骑士#l\r\n#L2#枪战士#l#k");
+    } else if (status == 32) {
+        var jobName;
+        if (selection == 0) {
+            jobName = "剑客";
+            job = 110; // 剑客
+        } else if (selection == 1) {
+            jobName = "准骑士";
+            job = 120; // 准骑士
+        } else {
+            jobName = "枪战士";
+            job = 130; // 枪战士
+        }
+        cm.sendYesNo("你真的要成为一名 #r" + jobName + "#k?");
+    } else if (status == 33) {
+        cm.changeJob(job);//改变职业
+        //4031012 - 英雄证书 - 第二次转职时教官授予的英雄证书.
+        cm.gainItem(4031012, -1);//删除英雄证书
+        cm.sendOk("转职成功！");
+        if (cm.getPlayer().getGender() == 0) {
+            cm.worldMessage("[转职快报]：恭喜帅哥." + cm.getChar().getName() + "  成功进行二转，让我们热烈的祝福他吧！！！");
+        } else {
+            cm.worldMessage("[转职快报]：恭喜美女." + cm.getChar().getName() + "  成功进行二转，让我们热烈的祝福她吧！！！");
+        }
+        cm.dispose();
+    } else if (status == 41) {
+        cm.sendNextPrev("想要三转，我必须先测试你的能力！请去 - 金银岛 - 异界II \r\n进去之后，里面有一个黑魔法师冒充的我的分身。请击败他，并且拿到他掉落的 #r黑符#k，回来交给我。");
+    } else if (status == 42) {
+        cm.sendNextPrev("什么？你不知道 - 金银岛 - 异界II 怎么去？");
+    } else if (status == 43) {
+        cm.askAcceptDecline("好吧，我可以送你过去。但是要收费哦！传送费用需要二十万金币!");
+    } else if (status == 44) {
+        if (cm.getPlayer().getMeso() >= 200000) {//判断玩家金币是否大于20万
+            cm.gainMeso(-200000);//扣除20万金币
+            cm.warp(108010201);//传送到二转教官的地图
+            cm.spawnMobOnMap(9001000, 1, 299, 20, 108010201);//召唤出分身//9001000 - 武术教练的分身
+            cm.sendOk("我已经把你送到这里了。请打败黑魔法师冒充的分身，拿到 #r黑符#k 回来交给我.");
+            cm.dispose();
+        } else {
+            cm.sendOk("你的金币不足20万，我无法送你过去！\r\n所以你还是自己去百度下那个地图怎么去吧！穷鬼！\r\n你目前拥有 " + cm.getPlayer().getMeso() + " 金币.");
+
+        }
+        cm.dispose();
+    } else if (status == 50) {
+        cm.sendNextPrev("想去雪域长老公馆，必须先去魔法密林港口，做飞船前往天空之城，然后从天空之城前往雪域。");
+    } else if (status == 51) {
+        cm.askAcceptDecline("什么？你不想坐船？可以啊！我可以送你过去！但是收费哦！需要100万金币呢！");
+    } else if (status == 52) {
+        if (cm.getPlayer().getMeso() >= 1000000) {//判断玩家金币是否大于100万
+            cm.gainMeso(-1000000);//扣除100万金币
+            cm.warp(211000001);//传送到长老公馆
+            cm.sendOk("我已经把你送到长老公馆了。请和 #b泰勒斯#k 对话！");
+            cm.dispose();
+        } else {
+            cm.sendOk("你的金币不足20万，我无法送你过去！\r\n所以你还是老老实实坐船去吧！穷鬼！\r\n你目前拥有 " + cm.getPlayer().getMeso() + " 金币.");
+        }
+        cm.dispose();
+    }
 }

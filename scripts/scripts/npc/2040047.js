@@ -15,7 +15,7 @@ function action(mode, type, selection) {
 		cm.dispose();
 	} else {
 		if (status == 0 && mode == 0) {
-			cm.sendOk("Keep trying!");
+			cm.sendOk("坚持下去！");
 			cm.dispose();
 			return;
 		}
@@ -24,8 +24,8 @@ function action(mode, type, selection) {
 		else
 			status--;
 		if (status == 0) {
-			if (cm.getMapId() != 100000200) {
-				cm.sendYesNo("Are you sure you want to leave the #rParty Quest#k? You'll have to start over if you change your mind.");
+			if (cm.getMapId() != 922010000) {
+				cm.sendYesNo("是否觉得吃力？不想继续挑战了吗？");
 			} else {
 				if (cm.haveItem(4001022)) {
 					cm.removeAll(4001022);
@@ -33,7 +33,6 @@ function action(mode, type, selection) {
 				if (cm.haveItem(4001023)) {
 					cm.removeAll(4001023);
 				}
-				cm.getEventManager("LudiPQ").setProperty("entryPossible", "true");
 				cm.warp(221024500, 0);
 				/*if (cm.haveItem(4001022)) {
 					cm.removeAll(4001022);
@@ -44,15 +43,15 @@ function action(mode, type, selection) {
 				cm.dispose();
 			}
 		} else if (status == 1) {
-			if (cm.getMapId() != 100000200) {
+			if (cm.getMapId() != 922010000) {
 				var eim = cm.getPlayer().getEventInstance();
 				if (eim == null) {
-					cm.warp(100000200);
+					cm.warp(922010000);
 				} else if (cm.isLeader()) {
 					eim.disbandParty();
-					cm.getEventManager("LudiPQ").setProperty("entryPossible", "true");
+					cm.getEventManager("LudiPQ").setProperty("LPQOpen", "true");
 				} else {
-			cm.sendOk("喊你队长来和我说!");
+					eim.leftParty(cm.getPlayer());
 				}
 				cm.dispose();
 			}

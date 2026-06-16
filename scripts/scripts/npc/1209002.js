@@ -1,5 +1,4 @@
-2
-var status = 0;
+var status;
 
 function start() {
     status = -1;
@@ -7,6 +6,22 @@ function start() {
 }
 
 function action(mode, type, selection) {
-    cm.sendOk(":(");
-    cm.dispose();
+
+    if (mode == 0) {
+		cm.dispose();
+	return;
+    } else if (mode == 1){
+	status++;
+    } else {
+	status--;
+    }
+
+    switch (status) {
+        case 0: 
+	    cm.sendOk("你是那个传说中的人么？");
+		cm.dispose();
+            break;
+        case 1: //
+            break;
+    }
 }

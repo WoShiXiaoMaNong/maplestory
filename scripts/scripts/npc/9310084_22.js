@@ -57,7 +57,7 @@ function action(mode, type, selection) {
 				cm.gainItem(1113165,4,4,4,4,400,400,4,4,50,50,15,15,5,5);
 				cm.gainMeso(100000);
             cm.sendOk("兑换成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]用50个[废弃副本蛋]+[新手赏金猎人戒指]进化出[赏金猎人戒指]，多多带新手，攒人品哦~！");
+		//	cm.worldMessage(6,"玩家：["+cm.getName()+"]用50个[废弃副本蛋]+[新手赏金猎人戒指]进化出[赏金猎人戒指]，多多带新手，攒人品哦~！");
             cm.dispose();
 			}else{
             cm.sendOk("您的材料不足！");

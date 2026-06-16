@@ -1,102 +1,88 @@
-var status = 0;
+var status = -1;
+var minLevel = 35; // 35
+var maxLevel = 255; // 65
 
-var minLevel = 51;
-var maxLevel = 200;
-
-var minPartySize = 3;
+var minPartySize = 1;
 var maxPartySize = 6;
 
-function start() {
-	status = -1;
-	action(1, 0, 0);
-}
-
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
+    if (mode == 1) {
+	status++;
+    } else {
+	if (status == 0) {
+	    cm.dispose();
+	    return;
+	}
+	status--;
+    }
+	if (cm.getMapId() == 920010000) { //inside orbis pq
+		cm.sendOk("我们必须拯救他 需要5个云的碎片");
+		cm.spawnNpc(2013001, new java.awt.Point(300, 143));
+		 cm.dispose();
+                   return;
+	}
+    if (status == 0) {
+	for (var i = 4001044; i < 4001064; i++) {
+		cm.removeAll(i); //holy
+	}
+	if (cm.getParty() == null) { // No Party
+	    cm.sendSimple("你貌似没有达到要求...:\r\n\r\n#r要求: " + minPartySize + " 玩家成员, 每个人的等级必须在 " + minLevel + " 到 等级 " + maxLevel + ".#b\r\n#L0#我要用40个女神的羽翼兑换女神手镯#l");
+		 
+	} else if (!cm.isLeader()) { // Not Party Leader
+	    cm.sendSimple("如果你想做任务，请 #b队长#k 跟我谈.#b\r\n#L0#我要用40个女神的羽翼兑换女神手镯#l");
 	} else {
-		if (mode == 0 && status == 0) {
+	    // Check if all party members are within PQ levels
+	    var party = cm.getParty().getMembers();
+	    var mapId = cm.getMapId();
+	    var next = true;
+	    var levelValid = 0;
+	    var inMap = 0;
+	    var it = party.iterator();
+
+	    while (it.hasNext()) {
+		var cPlayer = it.next();
+		if ((cPlayer.getLevel() >= minLevel) && (cPlayer.getLevel() <= maxLevel)) {
+		    levelValid += 1;
+		} else {
+		    next = false;
+		}
+		if (cPlayer.getMapid() == mapId) {
+		    inMap += (cPlayer.getJobId() == 900 ? 6 : 1);
+		}
+	    }
+	    if (party.size() > maxPartySize || inMap < minPartySize) {
+		next = false;
+	    }
+	    if (next) {
+		var em = cm.getEventManager("OrbisPQ");
+		if (em == null) {
+		    cm.sendSimple("找不到脚本请联络GM#b\r\n#L0#我要用40个女神的羽翼兑换女神手镯#l");
+		} else {
+		    var prop = em.getProperty("state");
+		    if (prop.equals("0") || prop == null) {
+			em.startInstance(cm.getParty(), cm.getMap());
 			cm.dispose();
 			return;
+		    } else {
+			cm.sendSimple("其他队伍已经在里面做 #r组队任务了#k 请尝试换频道或者等其他队伍完成。#b\r\n#L0#我要用40个女神的羽翼兑换女神手镯(四围+10)#l");
+		    }
 		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			// Lakelis has no preamble, directly checks if you're in a party
-			if (cm.getParty() == null) { // No Party
-				cm.sendOk("您想要挑战#b远古精灵#k吗?那么您必须要有一个组队噢!\r\n·等级要求:51级-?级.\r\n·队伍要求:3~6人\r\n#k·任务奖励:#b新手大量经验.");
-				cm.dispose();
-
-                       } else if (cm.getChar().getVip()<0) { // Not Party Leader
-				cm.sendOk("队长需要会员等级在1星，或以上，才能进入.");
-				cm.dispose();
-                      } else if (!cm.isLeader()) { // Not Party Leader
-				cm.sendOk("如果想要挑战#b远古精灵组队修炼#k请让你们的#b组队长#k来找我吧!.");
-				cm.dispose();
-			} else {
-				// Check if all party members are within PQ levels
-				var party = cm.getParty().getMembers();
-				var mapId = cm.getPlayer().getMapId();
-				var next = true;
-				var levelValid = 0;
-				var inMap = 0;
-				var it = party.iterator();
-				while (it.hasNext()) {
-					var cPlayer = it.next();
-					if ((cPlayer.getLevel() >= minLevel) && (cPlayer.getLevel() <= maxLevel)) {
-						levelValid += 1;
-
-					} else {
-						next = false;
-					}
-					if (cPlayer.getMapid() == mapId) {
-						inMap += 1;
-					}
-				}
-				if (party.size() < minPartySize || party.size() > maxPartySize || inMap < minPartySize) {
-					next = false;
-				}
-				if (next) {
-					var em = cm.warpParty(920010000);
-					cm.getMap(920010000).addMapTimer(600, 920011200);
-		if (em == null) {
-						cm.sendOk("你已进入副本地图.请查看相关NPC了解副本");
-					} else {
-						if (em.getProperty("entryPossible") != "false") {
-							// Begin the PQ.
-							em.startInstance(cm.getParty(),cm.getPlayer().getMap());
-							// Remove Passes and Coupons
-							
-							cm.removeAll(4001008);
-							cm.removeAll(4001007);
-							if(cm.partyMemberHasItem(4001008) || cm.partyMemberHasItem(4001007)) { 
-								cm.getPlayer().getEventInstance().setProperty("smugglers", "true"); 
-								cm.partyNotice("Your smuggling attempt has been detected. We will allow the attempt, but you will not get any NX cash from this run.");
-
-							}
-							em.setProperty("entryPossible", "false");
-							cm.getPlayer().getEventInstance().setProperty("startTime", new java.util.Date().getTime());
-						} else { // Check if the PQ really has people inside
-							var playersInPQ = 0;
-							for (var mapid = 920010000; mapid <= 920011300; mapid++) {
-								playersInPQ += cm.countPlayersInMap(mapid);
-							}
-							if (playersInPQ <= 1)
-								em.setProperty("entryPossible", "true");
-							cm.sendOk("Another party has already entered the #rKerning Party Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
-						}
-					}
-					cm.dispose();
-	
-					
-                      
-			} else {
-					cm.sendNext("您想要挑战#b远古精灵#k吗?那么您必须要有一个组队噢!\r\n·等级要求:51级-?级.\r\n·队长要求:#r3~6人.\r\n#k·任务奖励:#b经验.#k\r\n\r\n您的组队必须有#b3~6#k名队员,并且都在此地图中.\r\n等级必须在#b51-#b?#k级之间!\r\n目前只有#b" + inMap + "位队员#k在此地图!.");
-					cm.dispose();
-				}
-			}
-		}
+	    } else {
+		cm.sendSimple("你的队伍貌似没有达到要求...:\r\n\r\n#r要求: " + minPartySize + " 玩家成员, 每个人的等级必须在 " + minLevel + " 到 等级 " + maxLevel + ".#b\r\n#L0#我要用40个女神的羽翼兑换女神手镯(四围+10)#l");
+	    }
 	}
+    } else { //broken glass
+	if (!cm.canHold(1082322,1)) {
+	    cm.sendOk("做好了。");
+	} else if (cm.haveItem(4001158,40)) {
+	    
+	    cm.gainItem(4001158, -40, true); 
+           cm.gainItem(1082232,1);
+		   cm.givePartyExp(80000, party);
+	} else {
+	    cm.sendOk("你没有40个 #t4001158#.");
+	}
+	cm.dispose();
+
+    }
 }

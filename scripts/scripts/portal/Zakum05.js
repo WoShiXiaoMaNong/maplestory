@@ -1,70 +1,18 @@
+ï»¿/*
+    Zakum Entrance
+*/
 
-/* 
-    ÔúÀ¥ÃÅ¿Ú½Å±¾
-    Ğ¾ËéÍõ×ÓÖÆ×÷
-    Ç×Ç××ìÃ°ÏÕ
-    ·ÇÍ¬ÒâÄÚ½ûÖ¹×ªÔØ 
-*/ 
-
-importPackage(net.sf.odinms.server.maps); 
-importPackage(net.sf.odinms.net.channel); 
-importPackage(net.sf.odinms.tools); 
-
-function enter(pi) { 
- var nextMap = 280030000; 
- var zakumMap = pi.getC().getChannelServer().getMapFactory().getMap(280030000); 
- var mapobjects = zakumMap.getMapObjects(); 
- var boss = null; 
- var player = null; 
- var iter = mapobjects.iterator(); 
- while (iter.hasNext()) 
-{ 
-	o = iter.next(); 
-	if (o.getType() == MapleMapObjectType.MONSTER)
-	{ 
-		boss = o; 
-	} 
-	if (o.getType() == MapleMapObjectType.PLAYER)
-	{ 
-    		player = o; 
-	} 
-}
-if (pi.getPlayer().getClient().getChannel() !=2) 
-{
-	sendMessage(pi,"ÔúÀ¥´ó¹ÖÎïÖ»ÔÚµÚ¶şÆµµÀÕÙ»½¡£");
+function enter(pi) {
+    if (pi.getQuestStatus(100200) != 2) {
+	pi.playerMessage(5, "æ‚¨å¥½åƒè¿˜æ²’å‡†å¤‡å¥½é¢å¯¹BOSSã€‚");
 	return false;
+
+    } else if (!pi.haveItem(4001017)) {
+	pi.playerMessage(5, "ç”±äºä½ æ²’æœ‰ç«ç„°ä¹‹çœ¼ï¼Œæ‰€ä»¥ä¸èƒ½æŒ‘æˆ˜æ‰æ˜†ã€‚");
+	return false;
+    }
+    
+    pi.playPortalSE();
+    pi.warp(pi.getPlayer().getMapId() + 100, "west00");
+    return true;
 }
-
-if (!pi.haveItem(4001017))
-{ 
-  	sendMessage(pi,"ÄãÃ»ÓĞÕÙ»½ÔúÀ¥ÓÃµÄÄãÃ»ÓĞ»ğÑæµÄÑÛ,Çë¼ì²é..."); 
-	return false; 
-}
-
-if(player != null && boss != null)
-{
-	sendMessage(pi,"¶Ô¿¹´óBOSSÕıÔÚ½øĞĞÖĞ¡£¡£¡£"); 
-  	return false; 
-}
-
- if (pi.getBossLog('zakum')>=10)
-{ 
-  	sendMessage(pi,"Ã¿Ìì×î¶àÖ»ÄÜÌôÕ½10´ÎÔúÀ¥,Äú½ñÌìÒÑ¾­ÎŞ·¨ÔÙ½øÈë"); 
-  	return false; 	
-} 
-
- if (zakumMap.getCharacters().isEmpty() && pi.getBossLog('zakum') < 5)
-{ 
-  	zakumMap.resetReactors(); 
-} 
-  pi.getC().getChannelServer().getMapFactory().getMap(280030000).clearMapTimer(); 
-  pi.getC().getChannelServer().getMapFactory().getMap(280030000).killAllMonsters(); 
-  pi.setBossLog('zakum'); 
-  pi.warp(211042400);  
-  return true; 
-   
-} 
-function sendMessage(pi,message)
-{ 
-	pi.getPlayer().getClient().getSession().write(Packages.tools.MaplePacketCreator.serverNotice(5, message)); 
-} 

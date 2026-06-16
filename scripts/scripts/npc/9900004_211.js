@@ -1,194 +1,324 @@
-var 正在进行中 = "#fUI/UIWindow/Quest/Tab/enabled/1#";
-var 完成 = "#fUI/UIWindow/Quest/Tab/enabled/2#";
-var 正在进行中蓝 = "#fUI/UIWindow/MonsterCarnival/icon1#";
-var 完成红 = "#fUI/UIWindow/MonsterCarnival/icon0#";
+/**
+ * @触发条件：开拍卖功能
+ * @每日签到：领取物品 npc
+ * @npcName：冒险岛运营员
+ * @npcID：   9900004
+ **/
+importPackage(net.sf.cherry.client);
+var status = 0;
+var 黑水晶 = 4021008;
+var 蓝色箭头 = "#fUI/UIWindow/Quest/icon2/7#";
+var 红色箭头 = "#fUI/UIWindow/Quest/icon6/7#";
+var 圆形 = "#fUI/UIWindow/Quest/icon3/6#";
+var 美化new = "#fUI/UIWindow/Quest/icon5/1#";
+var 感叹号 = "#fUI/UIWindow/Quest/icon0#";
+var 正方箭头 = "#fUI/Basic/BtHide3/mouseOver/0#";
+var 忠告 = "#k温馨提示：任何非法程序和外挂封号处理.封杀侥幸心理.";
 function start() {
     status = -1;
-
     action(1, 0, 0);
 }
+
 function action(mode, type, selection) {
     if (mode == -1) {
         cm.dispose();
-    }
-    else {
+    } else {
         if (status >= 0 && mode == 0) {
-
-            cm.sendOk("感谢你的光临！");
             cm.dispose();
             return;
         }
-        if (mode == 1) {
+
+        if (mode == 1)
             status++;
-        }
-        else {
+        else
             status--;
-        }
         if (status == 0) {
-            var tex2 = "";
-            var text = "";
-            for (i = 0; i < 10; i++) {
-                text += "";
-            }
-			text += "\t累计在线时间可领取奖励。 \r\n\t\r\n"
-			//text += "#L1##r领取永久雇佣商人！#v5030001#x1#l\r\n\r\n\r\n\r\n"//3
+            var a1 = "#L1#战神【一转】#g\r\n";
+			var a2 = "#L2#战神【二转】\r\n";
+			var a3 = "#L3#战神【三转】#r\r\n";
+	
+			var a5 = "#L5#战神【四转】\r\n";
+			var a6 = "#L6#火枪手-大副#b\r\n";
+			
+			var a8 = "#L8#斗士-冲锋队长\r\n";
+			var a9 = "#L9#大副-船长\r\n";
+
+
+
+            cm.sendSimple("#d-#k\r\n\r\n\r\n"+a1+""+a2+""+a3+""+a5+"");
+
+            } else if (status == 1) {
+         	if (selection == 1) { 
+			if(cm.getPlayer().getLevel() > 9 && cm.getPlayer().getJob() == 0 ){
+
+				cm.teachSkill(21000000,0,10)
+				cm.teachSkill(21001003,0,20)
+				cm.changeJob(2100);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+			}
+            if (selection == 2) { 
+			if(cm.getPlayer().getLevel() >29 && cm.getPlayer().getJob() == 2100 ){
+
+				cm.teachSkill(21100000,0,20)
+				cm.teachSkill(21100002,0,30)
+				cm.teachSkill(21100004,0,20)
+				cm.teachSkill(21100005,0,20)
+				cm.changeJob(2110);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 3) { 
+			if(cm.getPlayer().getLevel() >69 && cm.getPlayer().getJob() == 2110 ){
+
+				cm.teachSkill(21110002,0,20)
+				//cm.teachSkill(21110007,0,20)
+				//cm.teachSkill(21110008,0,20)
+				cm.changeJob(2111);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+		
+			}
+			 if (selection == 5) { 
+			if(cm.getPlayer().getLevel() >119 && cm.getPlayer().getJob() == 2111 ){
+
+				cm.teachSkill(21120002,0,10)
+				cm.teachSkill(21120004,0,10)
+				cm.teachSkill(21120005,0,10)
+				cm.teachSkill(21120006,0,10)
+				cm.teachSkill(21120007,0,10)
+				cm.teachSkill(21121000,0,10)
+				cm.teachSkill(21121008,0,5)
+				cm.changeJob(2112);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+			}
+			 if (selection == 6) { 
+			if(cm.getPlayer().getLevel() >69 && cm.getPlayer().getJob() == 520 ){
+
 				
-			/*if(cm.getPlayer().getGamePoints() >= 60 && cm.getBossLog("在线奖励") == 0){
-					text += "#L1##r"+完成红+"当天在线时间超过60分钟！"+完成+"#v5030001#x1限时：1天#l\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 60 && cm.getBossLog("在线奖励") > 0){
-					text += ""+完成红+"#r当天在线时间超过60分钟！#l"+完成+"\r\n\r\n"//3
-				} else {
-					text += ""+正在进行中蓝+"#r当天在线时间超过60分钟！#l"+正在进行中+"\r\n\r\n"//3
-			}*/
-			
-			if(cm.getPlayer().getGamePoints() >= 60 && cm.getBossLog("在线奖励") == 0){
-					text += "#L2##r"+完成红+"在线时间超过60分钟！"+完成+"#v1122017#x1限时：1天.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 60 && cm.getBossLog("在线奖励") > 0){
-					text += ""+完成红+"#r在线时间超过60分钟！#l"+完成+"\r\n\r\n"//3
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过60分钟！#l"+正在进行中+"#v1122017#x1限时：1天\r\n\r\n"//3
+				cm.changeJob(521);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
 			}
-			
-			if(cm.getPlayer().getGamePoints() >= 120 && cm.getBossLog("在线奖励") == 1){
-					text += "#L3##r"+完成红+"在线时间超过120分钟！"+完成+"#v2000019#x50.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 120 && cm.getBossLog("在线奖励") > 1){
-					text += ""+完成红+"#r在线时间超过120分钟！#l"+完成+"\r\n\r\n"//3
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过120分钟！#l"+正在进行中+"#v2000019#x50\r\n\r\n"//3
+
+            }
+			 if (selection == 8) { 
+			if(cm.getPlayer().getLevel() >119 && cm.getPlayer().getJob() == 511 ){
+
+				
+				cm.changeJob(512);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
 			}
-			
-			if(cm.getPlayer().getGamePoints() >= 180 && cm.getBossLog("在线奖励") == 2){
-					text += "#L4##r"+完成红+"在线时间超过180分钟！"+完成+"#v2022109#x2.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 180 && cm.getBossLog("在线奖励") > 2){
-					text += ""+完成红+"#r在线时间超过180分钟！#l"+完成+"\r\n\r\n"//3
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过180分钟！#l"+正在进行中+"#v2022109#x2\r\n\r\n"//3
+			 }
+			 if (selection == 9) { 
+			if(cm.getPlayer().getLevel() >119 && cm.getPlayer().getJob() == 521 ){
+
+				
+				cm.changeJob(522);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
 			}
+
+
+
+
+
+
 			
-			if(cm.getPlayer().getGamePoints() >= 240 && cm.getBossLog("在线奖励") == 3){
-					text += "#L5##r"+完成红+"在线时间超过240分钟！"+完成+"#v5072000#x2限时：1天#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 240 && cm.getBossLog("在线奖励") > 3){
-					text += ""+完成红+"#r在线时间超过240分钟！#l"+完成+"\r\n\r\n"//3
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过240分钟！#l"+正在进行中+"#v5072000#x2\r\n\r\n"//3
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+	    	}
+			if (selection == 1001) { //10
+			if (cm.getBossLog('sss2') ==1 && cm.getMapId() == 104040000 && cm.haveItem(4000000,50)){
+				cm.setBossLog("sss2");
+				cm.setBossLog("sss3");
+				cm.gainItem(4000000, -50);
+				cm.gainNX(100);
+				cm.sendOk("恭喜你完成第二阶段奖励，现在请继续第三阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第二阶段，现在请按开始第三阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("需要完成第一阶段\r\n需要50个#i4000000#");
+				cm.dispose();
+				return;
 			}
-			
-			if(cm.getPlayer().getGamePoints() >= 300 && cm.getBossLog("在线奖励") == 4){
-					text += "#L6##r"+完成红+"在线时间超过300分钟！"+完成+"#v4170011#x2.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 300 && cm.getBossLog("在线奖励") > 4){
-					text += ""+完成红+"#r在线时间超过300分钟！#l"+完成+"\r\n\r\n"//3 
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过300分钟！#l"+正在进行中+"#v4170011#x2\r\n\r\n"//3
 			}
-			
-			if(cm.getPlayer().getGamePoints() >= 360 && cm.getBossLog("在线奖励") == 5){
-					text += "#L7##r"+完成红+"在线时间超过360分钟！"+完成+"#v4170005#x2.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 360 && cm.getBossLog("在线奖励") > 5){
-					text += ""+完成红+"#r在线时间超过360分钟！#l"+完成+"\r\n\r\n"//3 
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过360分钟！#l"+正在进行中+"#v4170005#x2\r\n\r\n"//3
+			if (selection == 30) { //10
+			if (cm.getBossLog('sss3') ==1 && cm.getMapId() == 104000000 && cm.getBossLog('ssss1')  > 3){
+				cm.setBossLog("sss3");
+				cm.setBossLog("sss4");
+				cm.gainNX(103);
+				cm.sendOk("恭喜你完成第三阶段奖励，现在请继续第四阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第三阶段，现在请按开始第四阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("怎样了？去和江套近乎吧？或者你已经完成了。");
+				cm.dispose();
+				return;
 			}
-			
-			if(cm.getPlayer().getGamePoints() >= 420 && cm.getBossLog("在线奖励") == 6){
-					text += "#L8##r"+完成红+"在线时间超过420分钟！"+完成+"#v4031138#x100w.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 420 && cm.getBossLog("在线奖励") > 6){
-					text += ""+完成红+"#r在线时间超过420分钟！#l"+完成+"\r\n\r\n"//3 
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过420分钟！#l"+正在进行中+"#v4031138#x100w\r\n\r\n"//3
 			}
-			
-			if(cm.getPlayer().getGamePoints() >= 600 && cm.getBossLog("在线奖励") == 7){
-					text += "#L9##r"+完成红+"在线时间超过600分钟！"+完成+"#v4001126#x250.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 600 && cm.getBossLog("在线奖励") > 7){
-					text += ""+完成红+"#r在线时间超过600分钟！#l"+完成+"\r\n\r\n"//3
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过600分钟！#l"+正在进行中+"#v4001126#x250\r\n\r\n"//3
+			if (selection == 40) { //10
+			if (cm.getBossLog('sss4') ==1 && cm.getMapId() == 100000001 && cm.getBossLog('ssss2')  > 1){
+				cm.setBossLog("sss4");
+				cm.setBossLog("sss5");
+				cm.gainNX(104);
+				cm.sendOk("恭喜你完成第四阶段奖励，现在请继续第五阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第四阶段，现在请按开始第五阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("去过赌场了吗?之后再去玛亚的家！恩，这阶段你完成了？");
+				cm.dispose();
+				return;
 			}
-			
-			if(cm.getPlayer().getGamePoints() >= 720 && cm.getBossLog("在线奖励") == 8){
-					text += "#L10##r"+完成红+"在线时间超过720分钟！"+完成+"#v2340000#x5.#l\r\n\r\n\r\n"//3
-				} else if(cm.getPlayer().getGamePoints() >= 720 && cm.getBossLog("在线奖励") > 8){
-					text += ""+完成红+"#r在线时间超过720分钟！#l"+完成+"\r\n\r\n"//3
-				} else {
-					text += ""+正在进行中蓝+"#r在线时间超过720分钟！#l"+正在进行中+"充值币20余额\r\n\r\n"//3
 			}
-            cm.sendSimple(text);
-        } else if (selection == 1) {
-			if(cm.haveItem(5030001, 1)){
-            cm.sendOk("你已经领取过了。无法重新领取！");
-            cm.dispose();
-			}else if (cm.haveItem(5030000, 1)){
-            cm.sendOk("你已经领取过了。无法重新领取！");
-            cm.dispose();
-			}else{
-			cm.gainItem(5030001, 1);//
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取永久雇佣商人！");
-            cm.dispose();
+			if (selection == 50) { //10
+			if (cm.getBossLog('sss5') ==1 && cm.getMapId() == 100010100 || cm.getMapId() == 100020000 && cm.getBossLog('ssss3')  > 0){
+				cm.setBossLog("sss5");
+				cm.setBossLog("sss6");
+				cm.gainNX(105);
+				cm.sendOk("恭喜你完成第五阶段奖励，现在请继续第六阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第五阶段，现在请按开始第六阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("酷男孩是不是很酷？你根据他的提示来了吗");
+				cm.dispose();
+				return;
 			}
-        } else if (selection == 2) {
-			
-			cm.gainItem(1122017, 1, 1);//精灵吊坠
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了60分钟在线奖励！精灵吊坠30%经验1天.");
-            cm.dispose();
-			
-			
-        } else if (selection == 3) {
-			cm.gainItem(2000019, 50, 1);//超级药水
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了120分钟在线奖励！超级药水50个.");
-            cm.dispose();
-        } else if (selection == 4) {
-			cm.gainItem(2022109, 2);//九灵的气息
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了180分钟在线奖励！九灵的气息2个.");
-            cm.dispose();
-        } else if (selection == 5) {
-			cm.gainItem(5072000, 2, 1);//喇叭
-			cm.givePartyItems(5590000,-1,true);
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了240分钟在线奖励！高质地喇叭2个.");
-            cm.dispose();
-        } else if (selection == 6) {
-			cm.gainItem(4170011, 2);//白蛋
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了300分钟在线奖励！白蛋2个.");
-            cm.dispose();
-        } else if (selection == 7) {
-			cm.gainItem(4170005, 2);//黄蛋
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了360分钟在线奖励！黄蛋2个.");
-            cm.dispose();
-        } else if (selection == 8) {
-			cm.gainItem(5150040, 1);//蓝蛋
-cm.gainMeso(+1000000); //加减金币
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了420分钟在线奖励！奖励100W金币.");
-            cm.dispose();
-		} else if (selection == 9) {
-			cm.gainItem(4001126, 250);//
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了600分钟在线奖励！枫叶250个.");
-            cm.dispose();
-		} else if (selection == 10) {
-				cm.setmoneyb(+20);
-			cm.setBossLog("在线奖励");
-            cm.sendOk("领取奖励成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]领取了720分钟在线奖励！充值币20余额.");
-            cm.dispose();	
-		}
+			}
+			if (selection == 60) { //10
+			if (cm.getBossLog('sss6') ==1 && cm.getMapId() == 102000002  && cm.haveItem(2010000,1)){
+				cm.setBossLog("sss6");
+				cm.setBossLog("sss7");
+				cm.gainItem(2010000, -200);
+				cm.gainNX(106);
+				cm.sendOk("恭喜你完成第六阶段奖励，现在请继续第七阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第六阶段，现在请按开始第七阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("恩，多吃苹果很好。买了就吃，别犹豫，哈哈哈哈");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 7) { //10
+			if (cm.getBossLog('sss7') ==1 && cm.getMapId() == 102000004 ){
+				cm.setBossLog("sss7");
+				cm.setBossLog("sss8");
+				cm.gainNX(106);
+				cm.sendOk("恭喜你完成第七阶段奖励，现在请继续第八阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第七阶段，现在请按开始第八阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("战士的殿堂，神圣的殿堂。");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 8) { //10
+			if (cm.getBossLog('sss8') ==1 && cm.getMapId() == 103000002 ){
+				cm.setBossLog("sss8");
+				cm.setBossLog("sss9");
+				cm.gainNX(108);
+				cm.sendOk("恭喜你完成第八阶段奖励，现在请继续第九阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第八阶段，现在请按开始第九阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("酸爽~~。");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 9) { //10
+			if (cm.getBossLog('sss9') ==1 && cm.getMapId() == 101000200 ){
+				cm.setBossLog("sss9");
+				cm.setBossLog("sss10");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.gainNX(10000);
+				cm.warp(910000000, 0);
+				cm.sendOk("恭喜你完成第九阶段奖励，\r\n点劵 x #r1000 #k~");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第九阶段，现在他开始回自由市场领取奖励了 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("生命在于奇迹。");
+				cm.dispose();
+				return;
+			}
+	    	}
+			if (selection == 100) { //兑换点卷
+			if(cm.getBossLog('hydlj55')<1 ){
+				
+			if ( cm.getBossLog('zymxd') >=20 && cm.getBossLog('hydlj5') == 2 ) {
+				//cm.gainItem(3994416, -100);
+				cm.setBossLog('hydlj55');
+				cm.setBossLog('hydlj5');
+				cm.gainNX(2000);
+				cm.sendOk("恭喜你领取20点活跃度奖励#r点劵 x 2000");
+				cm.worldMessage(6,"[活跃度奖励]：恭喜，玩家 "+cm.getName()+" 领取 20 点活跃度奖励 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("你的活跃度不够，或者你已经领取过了");
+				cm.dispose();
+				return;
+			}
+			}
+			else{
+				cm.sendOk("今天已经领取今天所有的活跃度奖励。");
+				cm.dispose();
+			}
+	    	}
+        }
     }
 }
-
-
-

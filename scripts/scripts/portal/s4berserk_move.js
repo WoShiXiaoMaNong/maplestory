@@ -1,9 +1,11 @@
 function enter(pi) {
-	if(pi.getPlayer().getEventInstance().getProperty("canWarp")) {
-	pi.warp(910500200, "out01");
-	return true;
-	}
+    var num = pi.getMap(910500200).getSpawnedMonstersOnMap();
 
-	pi.playerMessage("You must defeat all the monsters first.");
+    if (num <= 0) {
+	pi.playPortalSE();
+	pi.warp(910500200, "pt00");
 	return true;
+    }
+    pi.playerMessage("Portal is sealed now.");
+    return true;
 }

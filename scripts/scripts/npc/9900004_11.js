@@ -1,103 +1,63 @@
-status = -1;
-var itemList = Array(
-//-------耳环-------
-Array(2340000, 50, 1, 1), //祝福卷轴
-Array(2040801, 400, 1, 1), //手套敏捷卷轴60%
-Array(2040802, 600, 1, 1), //手套敏捷卷轴10%
-Array(2040804, 400, 1, 1), //手套攻击卷轴60%
-Array(2040805, 200, 1, 1), //手套攻击卷轴10%
-Array(2040808, 500, 1, 1), //手套敏捷诅咒卷轴70%
-Array(2040809, 500, 1, 1), //手套敏捷诅咒卷轴30%
-Array(2040810, 100, 1, 1), //手套攻击诅咒卷轴70%
-Array(2040811, 100, 1, 1), //手套攻击诅咒卷轴30%
-Array(2040814, 500, 1, 1), //手套魔力诅咒卷轴70%
-Array(2040815, 500, 1, 1), //手套魔力诅咒卷轴30%
-Array(2040816, 500, 1, 1), //手套魔力卷轴10%
-Array(2040817, 500, 1, 1), //手套魔力卷轴60%
-Array(2040819, 500, 1, 1), //手套敏捷卷轴65%
-Array(2040820, 500, 1, 1), //手套敏捷卷轴15%
-Array(2040821, 600, 1, 1), //手套攻击卷轴65%
-Array(2040822, 600, 1, 1), //手套攻击卷轴15%
-Array(2040906, 500, 1, 1), //盾牌运气卷轴70%
-Array(2040907, 500, 1, 1), //盾牌运气卷轴30%
-Array(2040914, 600, 1, 1), //盾牌攻击卷轴60%
-Array(2040915, 600, 1, 1), //盾牌攻击卷轴10%
-Array(2040916, 400, 1, 1), //盾牌攻击诅咒卷轴70%
-Array(2040917, 200, 1, 1), //盾牌攻击诅咒卷轴30%
-Array(2040919, 200, 1, 1), //盾牌魔力卷轴60%
-Array(2040920, 600, 1, 1), //盾牌魔力卷轴10%
-Array(2040921, 600, 1, 1), //盾牌魔力诅咒卷轴70%
-Array(2040922, 400, 1, 1), //盾牌魔力诅咒卷轴30%
-Array(2040924, 600, 1, 1), //盾牌运气卷轴60%
-Array(2040925, 400, 1, 1), //盾牌运气卷轴10%
-Array(2040930, 600, 1, 1), //盾牌力量卷轴70%
-Array(2040931, 200, 1, 1), //盾牌力量卷轴60%
-Array(2040932, 100, 1, 1), //盾牌力量卷轴30%
-Array(2040933, 600, 1, 1), //盾牌力量卷轴10%
-Array(2041201, 600, 1, 1), //项链运气卷轴10%
-Array(2041202, 600, 1, 1), //项链运气卷轴60%
-Array(2041204, 600, 1, 1), //项链运气诅咒卷轴30%
-Array(2041205, 600, 1, 1), //项链运气诅咒卷轴70%
-Array(2041206, 600, 1, 1), //项链力量卷轴10%
-Array(2041207, 600, 1, 1), //项链力量卷轴60%
-Array(2041209, 600, 1, 1), //项链力量诅咒卷轴30%
-Array(2041210, 600, 1, 1), //项链力量诅咒卷轴70%
-Array(2041301, 600, 1, 1), //腰带力量卷轴60%
-Array(2041304, 600, 1, 1), //腰带智力卷轴60%
-Array(2041307, 600, 1, 1), //腰带敏捷卷轴60%
-Array(2041310, 600, 1, 1), //腰带运气卷轴60%
-Array(2049100, 100, 1, 1)//混沌卷轴60%
-);
-
 function start() {
+    status = -1;
     action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode == 1) {
-        status++;
+    if (mode == -1) {
+        cm.dispose();
     } else {
-        if (status == 0) {
-            cm.sendOk("不想使用吗？…我的肚子里有各类#b奇特座椅或卷轴、装备、新奇道具#k哦！");
+        if (status >= 0 && mode == 0) {
+
+            cm.sendOk("感谢你的光临！");
             cm.dispose();
+            return;
         }
-        status--;
-    }
-    if (status == 0) {
-        if (cm.getHyPay(4) >= 5) {
-            cm.sendYesNo("冒险岛积分中有各类#b装备、卷轴或稀有新奇的道具#k噢！使用“#b5积分#k”就可以交换. 游戏商城中的“其他”－“游戏”区里有噢。现在要玩转蛋机么? ");
+        if (mode == 1) {
+            status++;
         } else {
-            cm.sendOk("你有5点消费积分吗?");
-            cm.safeDispose();
+            status--;
         }
-    } else if (status == 1) {
-        var chance = Math.floor(Math.random() * 1000);
-        var finalitem = Array();
-        for (var i = 0; i < itemList.length; i++) {
-            if (itemList[i][1] >= chance) {
-                finalitem.push(itemList[i]);
-            }
-        }
-        if (finalitem.length != 0) {
-            var item;
-            var random = new java.util.Random();
-            var finalchance = random.nextInt(finalitem.length);
-            var itemId = finalitem[finalchance][0];
-            var quantity = finalitem[finalchance][2];
-            var notice = finalitem[finalchance][3];
-            item = cm.gainGachaponItem(itemId, quantity, "5点消费积分整合型转蛋机", notice);
-            if (item != -1) {
-                cm.delPayReward(5);
-                cm.sendOk("你获得了 #b#t" + item + "##k " + quantity + "个。");
-            } else {
-                cm.sendOk("你确实有#b#5点消费积分#k吗？如果是，请你确认在背包的装备，消耗，其他窗口中是否有一格以上的空间。");
-            }
-            cm.safeDispose();
-        } else {
-            cm.sendOk("今天的运气可真差，什么都没有拿到。");
-                cm.delPayReward(5);
-            cm.gainItem(5220040, 1);
-            cm.safeDispose();
+        if (status == 0) {
+                //如果玩家的账号表 money字段的值 = 0 提示的npc对话
+                cm.sendSimple("#d                  本服无充值\r\n#k");
+       
+            
+        } else if (selection == 1) {
+            cm.openWeb("http://new.shoukabao.com/Payment/Service/695c3a9e30551e1dbbcc4297cc40f798");
+            cm.dispose();
+        } else if (selection == 2) {
+            cm.openNpc(9900004, 2);
+			       } else if (selection == 10) {
+          
+            //脚本开始
+            //首先判断getzb,获取的是账号表：accounts 里面的字段：money 它的值，是否大于0
+            if (cm.getzb() > 0) {
+                //声明一个变量，名为：充值金额，赋予它一个值。 值：cm.getzb() 同上
+                var 充值金额 = cm.getzb();
+                //声明一个变量，名为：点卷倍率，赋予它一个值。值：cm.getzb * 100 就是在money的值基础上 *100 例如money的值是 5 *100就是500 =点卷倍率
+                var 点卷倍率 = 充值金额 * 100;
+                //声明一个变量，名为：积分倍率，赋予它一个值。值：cm.getzb * 1 就是在money的值基础上 * 1 例如money的值是 5 * 1就是5 =积分倍率
+                var 积分倍率 = 充值金额 * 1;
+                //给予玩家点卷 数量 = 点卷倍率
+                cm.gainNX(点卷倍率);//给与点券
+                //给与玩家积分 数量 = 积分倍率
+                cm.gainjf(积分倍率);//给予积分
+                //设置money字段的值为指定的数量。值为：减去的money值数量
+                cm.setzb(-充值金额);//设置money数值
+				cm.setmoneyb(+充值金额);
+                //npc提示对话
+                cm.sendOk("您已成功领取： " + 点卷倍率 + "点卷!\r\n点卷已添加到您的帐户! \r\n享受吧!\r\n同时还获得了:" + 积分倍率 + "积分! #r赶快去商城购买你喜爱的商品吧!#k"); //
+                //角色存档
+                cm.getChar().saveToDB(false, false);
+                //刷出公告
+                cm.worldMessage(12, cm.getC().getChannel(), "〖充值系统〗" + " : " + " [" + cm.getPlayer().getName() + "]充值了" + 点卷倍率 + "点卷，" + 积分倍率 + "积分，赶快去商场挑选喜欢的物品吧！", true);
+                //结束对话
+                cm.dispose();
+			}else{
+				cm.sendOk("你没有可以领取的点卷哦！");
+				cm.dispose();
+			}
         }
     }
 }

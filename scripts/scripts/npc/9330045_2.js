@@ -55,9 +55,9 @@ var tscl = Array(
 
 var xswp = Array(
     Array(5000191, 66666, "神马", 60000 * 60 * 90 * 1, 1),
-    Array(5000212, 20000, "火红小萌新", 60000 * 60 * 90 * 1, 1),
-    Array(5000213, 20000, "幽青小萌新", 60000 * 60 * 90 * 1, 1),
-    Array(5000214, 20000, "雷黄小萌新", 60000 * 60 * 90 * 1, 1),
+    Array(5000212, 20000, "火红小恶魔", 60000 * 60 * 90 * 1, 1),
+    Array(5000213, 20000, "幽青小恶魔", 60000 * 60 * 90 * 1, 1),
+    Array(5000214, 20000, "雷黄小恶魔", 60000 * 60 * 90 * 1, 1),
     Array(5000244, 20000, "冰龙", 60000 * 60 * 90 * 1, 1),
     Array(5000013, 10000, "大象", 60000 * 60 * 90 * 1, 1),
     Array(5000014, 10000, "圣诞鹿", 60000 * 60 * 90 * 1, 1),
@@ -1395,7 +1395,7 @@ function action(mode, type, selection) {
                     toDrop.setExpiration(temptime);
                     toDrop.setLocked(1);
                     cm.getPlayer().getInventory(type).addItem(toDrop);
-                    cm.getC().getSession().write(Packages.tools.MaplePacketCreator.addInventorySlot(type, toDrop));
+                    cm.getC().getSession().write(tools.MaplePacketCreator.addInventorySlot(type, toDrop));
                     cm.sendOk("#b购买成功,请查看背包.");
                     cm.dispose();
                     

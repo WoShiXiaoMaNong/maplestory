@@ -1,74 +1,41 @@
-/*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@odinms.de>
-                       Jan Christian Meyer <vimes@odinms.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 /**
--- Odin JavaScript --------------------------------------------------------------------------------
 	VIP Cab - Victoria Road : Ellinia (101000000)
--- By ---------------------------------------------------------------------------------------------
-	Xterminator
--- Version Info -----------------------------------------------------------------------------------
-	1.0 - First Version by Xterminator
----------------------------------------------------------------------------------------------------
 **/
 
-var status = 0;
+var status = -1;
 var cost;
 
-function start() {
-	status = -1;
-	action(1, 0, 0);
-}
-
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
+    if (mode == 1) {
+	status++;
+    } else {
+	if (status >= 1) {
+	    cm.sendNext("è¿™ä¸ªåŸå¸‚ä¹Ÿæœ‰å¾ˆå¤šä½ æ²¡æ¢ç´¢åˆ°çš„åœ°æ–¹å“¦ã€‚å¦‚æœä½ è§‰å¾—æœ‰å¿…è¦å»èš‚èšå¹¿åœºï¼Œä½ å¯ä»¥æ‰¾æˆ‘ã€‚");
+	    cm.safeDispose();
+	    return;
+	}
+	status--;
+    }
+
+    if (status == 0) {
+	cm.sendNext("å¦‚æœä½ ç»™æˆ‘10000é‡‘å¸ï¼Œæˆ‘å°±é€ä½ å»#bèš‚èšå¹¿åœº#k.");
+    } else if (status == 1) {
+	var job = cm.getJob();
+	if (job == 0 || job == 1000 || job == 2000) {
+	    cm.sendYesNo("æˆ‘ä»¬å¯¹æ–°æ‰‹æœ‰ç™¾åˆ†90çš„ä¼˜æƒ å“¦ï¼å¦‚æœä½ æƒ³è¦å®‰å…¨åˆ°è¾¾#bèš‚èšå¹¿åœº#k,é‚£å°±å¿«ç‚¹ä»˜é’±å§ï¼");
+	    cost = 1000;
 	} else {
-	if (status >= 1 && mode == 0) {
-		cm.sendNext("ÔÚÕâ¸ö´å×ÓÀï»¹ÓĞĞí¶àÆ¯ÁÁµÄ¾°µã£¬Èç¹ûÄãÏëÈ¥ÂìÒÏ¶´¹ã³¡£¬»¶Ó­ËæÊ±Ê¹ÓÃÎÒÃÇµÄ³ö×â³µ·şÎñ¡£");
-		cm.dispose();
-		return;
+	    cm.sendYesNo("é‚£è¾¹æœ‰ä¸€ä¸ª24å°æ—¶æ’æŒ¡å¯ä»¥è¡¥å……ä½ éœ€è¦çš„è¡¥ç»™å“ï¼Œå¿«ç‚¹ä»˜é’±å§ï¼Œæ‰#b10,000é‡‘å¸#kä½ éƒ½å‡ºä¸èµ·ä¹ˆ?");
+	    cost = 10000;
 	}
-	if (mode == 1)
-		status++;
-	else
-		status--;
-	if (status == 0) {
-		cm.sendNext("ÄúºÃ~£¡ÎÒÃÇÊÇĞÇ¼¶³ö×â³µ¡£²»Í¬ÓÚ´åÂäÖ®¼äÀ´ÍùµÄÒ»°ëµÄÖĞ°ÍÎÒÃÇ¸øÄúÌá¹©¸ü¸ß¼¶µÄ·şÎñ¡£Òò´Ë³µ·ÑÓĞµã¹ó¡­ÄúÖ»ÒªÖ§¸¶10000½ğ±Ò£¬ÎÒÃÇ¾Í»á½«Äú°²È«Ñ¸ËÙµÄËÍµ½#bÂìÒÏ¶´¹ã³¡#k¡£µ«ÊÇµÈ¼¶Ì«µÍ½øÈ¥»áºÜÎ£ÏÕÊÇ·ñÒª½øÈ¥ÄØ£¿");
-	} else if (status == 1) {
-		if (cm.getJob().equals(net.sf.odinms.client.MapleJob.BEGINNER)) {
-			cm.sendYesNo("ÂìÒÏ¶´¹ã³¡ÊÇÎ»ÓÚ½ğÒøµºÖĞ¼äµÄÃÔ¹¬Éî´¦¡£ÔÚÄÇÀïÓĞ24Ğ¡Ê±ÅÅµ²¡£ÄãÊÇ·ñÒª¸¶10000½ğ±ÒºóÈ¥ÂìÒÏ¶´¹ã³¡£¿");
-			cost = 1000;
-		} else {
-			cm.sendYesNo("´Ë¶ÎÎ´·­Òë³É¹¦£¬ÇëÁªÏµGM");
-			cost = 10000;
-		}
-	} else if (status == 2) {
-		if (cm.getMeso() < cost) {
-			cm.sendNext("¶Ô²»Æğ£¬ÄãµÄ½ğ±Ò²»¹»Ö§¸¶³µ·Ñ¡£");
-			cm.dispose();
-		} else {
-			cm.gainMeso(-cost);
-			cm.warp(105070001, 0);
-			cm.dispose();
-			}
-		}
+    } else if (status == 2) {
+	if (cm.getMeso() < cost) {
+	    cm.sendNext("ä½ çœçœå§ï¼Œè¿™ä¹ˆä¸€ç‚¹å°é’±éƒ½å‡ºä¸èµ·ï¼Œåä¸èµ·å‡ºç§Ÿè½¦å°±å»åå…¬äº¤ï¼");
+	    cm.safeDispose();
+	} else {
+	    cm.gainMeso(-cost);
+	    cm.warp(105070001, 0);
+	    cm.dispose();
 	}
+    }
 }

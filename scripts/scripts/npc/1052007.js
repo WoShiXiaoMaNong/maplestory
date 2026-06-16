@@ -1,8 +1,8 @@
 /*
-	This file is part of the OdinMS Maple Story Server
+	This file is part of the cherry Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-					   Matthias Butz <matze@odinms.de>
-					   Jan Christian Meyer <vimes@odinms.de>
+					   Matthias Butz <matze@cherry.de>
+					   Jan Christian Meyer <vimes@cherry.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -33,7 +33,7 @@
 
 var itemid = new Array(4031036,4031037,4031038,4031711);
 var mapid = new Array(103000900,103000903,103000906,600010004);
-var mapname = new Array("Construction Site B1", "Construction Site B2", "Construction Site B3","New Leafe city (Normal)");
+var mapname = new Array("地铁B1", "地铁B2", "地铁B3","市新叶（正常）");
 var menu;
 var sw;
 
@@ -48,7 +48,7 @@ function action(mode, type, selection) {
 		cm.dispose();
 	} else {
 		if (mode == 0) {
-			cm.sendNext("You must have some business to take care of here, right?");
+			cm.sendNext("你必须有一些企业对照顾这里，好吗？");
 			cm.dispose();
 			return;
 		}
@@ -58,11 +58,11 @@ function action(mode, type, selection) {
 			if (cm.haveItem(itemid[0]) || cm.haveItem(itemid[1]) || cm.haveItem(itemid[2]) || cm.haveItem(itemid[3])) {
 				status = 1;
 			} else {
-				cm.sendNext("Here's the ticket reader. You are not allowed in without the ticket.");
+				cm.sendOk("这里的票机。不允许你在无票。");
 				cm.dispose();
 			}
 		} if (status == 1) {
-			menu = "Here's the ticket reader. You will be brought in immediately. Which ticket would like to use?\r\n";
+			menu = "这里的票机。你将在马上。这票要用？\r\n";
 			for(i=0; i < itemid.length; i++) {
 				if(cm.haveItem(itemid[i])) {
 					menu += "#L"+i+"##b"+mapname[i]+"#k#l\r\n";
@@ -78,15 +78,15 @@ function action(mode, type, selection) {
 			}
 			else {
 				if(sw == null) {
-					cm.sendNext("Event error, please restart your server for solution");
+					cm.sendNext("事件的错误，请重新启动你的服务器解决方案");
 					cm.dispose();
 				} else if(sw.getProperty("entry").equals("true")) {
-					cm.sendYesNo("It looks like there's plenty of room for this ride. Please have your ticket ready so I can let you in, The ride will be long, but you'll get to your destination just fine. What do you think? Do you want to get on this ride?");
+					cm.sendYesNo("看来这个骑充足的房间。请你把车票准备好所以我可以告诉你，旅行将是漫长的，但你会得到你的目的地就好了。你是怎么想的？你想在这坐?");
 				} else if(sw.getProperty("entry").equals("false") && sw.getProperty("docked").equals("true")) {
-					cm.sendNext("The subway is getting ready for takeoff. I'm sorry, but you'll have to get on the next ride. The ride schedule is available through the usher at the ticketing booth.");
+					cm.sendNext("地铁是准备起飞。我很抱歉，但你得乘坐下一趟。的不论您是亚瑟坐在售票亭.");
 					cm.dispose();
 				} else {
-					cm.sendNext("We will begin boarding 1 minutes before the takeoff. Please be patient and wait for a few minutes. Be aware that the subway will take off right on time, and we stop receiving tickets 1 minute before that, so please make sure to be here on time.");
+					cm.sendNext("我们将在起飞1分钟后开始登机。请耐心等待几分钟。要知道，地铁将在正确的时间，我们停止接收票之前1分钟，所以请务必准时到这里。");
 					cm.dispose();
 				}
 			}

@@ -28,7 +28,7 @@ function action(mode, type, selection) {
             }
 			//显示物品ID图片用的代码是  #v这里写入ID#
             text += "#e#d在我这里租赁特别加成过的装备哦！！！.#l\r\n\r\n"//3
-            text += "#L1##r租赁武器（一天使用权）#l\r\n\r\n"//3
+            text += "#L1##r租赁武器（3小时使用权）#l\r\n\r\n"//3
             cm.sendSimple(text);
         } else if (selection == 1) {
 			//1
@@ -53,10 +53,10 @@ function action(mode, type, selection) {
             cm.dispose();
 			}else */if(cm.haveItem(5220007,1)){
 				cm.gainItem(5220007, -1);
-				cm.gainItem(1332059, 1, 24);//
+				cm.gainItem(1332059,0,3,0,8,0,0,57,0,0,0,5,0,0,0, 10);//
             cm.sendOk("换购成功！");
             cm.dispose();
-cm.喇叭(3, "玩家：[" + cm.getPlayer().getName() + "]在大姐大处租了一把武器，时间为一天使用权");
+cm.喇叭(3, "玩家：[" + cm.getPlayer().getName() + "]在大姐大处租了一把武器，时间为3个小时");
 			}else{
             cm.sendOk("你没有#v5220007##z5220007#，无法租赁!");
             cm.dispose();

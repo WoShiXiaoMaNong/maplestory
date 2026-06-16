@@ -1,32 +1,26 @@
-/*
-	½Å±¾ÀàĞÍ: 		NPC
-	ËùÔÚµØÍ¼:		¹ÂĞÇµî
-	½Å±¾Ãû×Ö:		ºìğ½¹¬µØÍ¼Àë¿ªNPC
-*/
+var status = 0
 
-var status = 0;
-
-function start() {
-    status = -1;
-    action(1, 0, 0);
+function start(){
+	action(1, 0, 0);
 }
 
-function action(mode, type, selection) {
-    if (mode == -1) {
-        cm.dispose();
-    } else {
-        if (mode == 1) {
-            status++;
-        } else {
-            status--;
-        }
-        if (status == -1) {
-            cm.dispose();
-        } else if (status == 0) {
-            cm.sendSimple("×£Á½Î»Ï²½áÄïÔµ£¬Îå¸£ËÄº££¬ÔçÉú¹ó×Ó£¡#b\r\n#L0# ½á»éºÃÁË£¬Ïëµ½Ñç¿ÍÌÃÕĞ´ıÑç¿Í¡£")
-        } else if (status == 1) {
-            cm.warp(700000200)
-            cm.dispose();
-        }
-    }
+function action(mode, type ,selection){
+	if(mode == 1) {
+		status++;
+	} else if(mode == 0) {
+		status--;
+	} else {
+		cm.dispose();
+		return;
+	}
+	if(status == 1){
+		cm.sendYesNo("ä½ æ˜¯å¦è¿”å›?");
+	} else if(status == 2){
+		var map = cm.getSavedLocation("WEDDING");
+		cm.warp(map, 0);
+		cm.clearSavedLocation("WEDDING");
+		cm.dispose();	
+	} else {
+		cm.dispose();
+	}
 }

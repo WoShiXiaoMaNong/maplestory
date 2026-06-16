@@ -1,6 +1,8 @@
-importPackage(net.sf.odinms.client); 
-importPackage(net.sf.odinms.tools); 
-importPackage(net.sf.odinms.server);
+
+
+
+
+
 
 
 var chance1 = Math.floor(Math.random()*200+1);
@@ -36,155 +38,131 @@ function action(mode, type, selection)
 			status--;		
 	if (status == 0)
 	{		
-		cm.sendYesNo(""+ cm.getChar().getName() +"你好,当前时间是#b" + cm.getHour() + "时:" + cm.getMin() + "分:" + cm.getSec() + "秒\r\n#k当时间达到#r21:00-21:05#k之间,请拿起你的鼠标疯狂点击吧~\r\n玩家每次点击有机会获得点卷.\r\n给你5分钟时间,看谁点的快!" );	
+		cm.sendYesNo("当前时间是#b" + cm.getHour() + "时:" + cm.getMin() + "分:" + cm.getSec() + "秒. \r\n#k#r每天20点整#k点击随机获取点券!\r\n每次点击都会获得点卷,运气不错时可以获得更多!\r\n只有5分钟时间,加油!!\r\n\r\n" );	
 	}
 	else if (status == 1) {
-		if (cm.getHour() < 21 ||cm.getHour() > 21) {
+		if (cm.getHour() < 20  ||cm.getHour() > 20 ) {
 cm.sendOk("活动时间还没到.\r\n#r现在服务器时间:" + cm.getHour() + "时:" + cm.getMin() + "分:" + cm.getSec() + "秒");
 cm.dispose();
- } else if (cm.getMin() > 5) {
+ } else if (cm.getMin() > 4) {
 cm.sendOk("已经过了哦.\r\n#r现在服务器时间:" + cm.getHour() + "时:" + cm.getMin() + "分:" + cm.getSec() + "秒");
 cm.dispose();
 
- }else if (cm.getPlayer().getDojoPoints() >= 0) {
+
+ }else if (cm.getLevel() > 0 ) {
        if ((itemchance >= 30) && (itemchance <= 50)) { 
-var zz =1;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(1);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 1 个点卷.");
 cm.dispose();
-}else if ((itemchance >= 51) && (itemchance <= 55)) { 
-var zz =2;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+}else if ((itemchance >= 70) && (itemchance <= 80)) { 
+var zz =4001126;
+cm.gainNX(2);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 2 个点卷.");
 cm.dispose();
-}else if ((itemchance >= 56) && (itemchance <= 60)) { 
-var zz =3;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+}else if ((itemchance >= 80) && (itemchance <= 90)) { 
+var zz =4001126;
+cm.gainNX(3);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 3 个点卷.");
 cm.dispose();
-}else if ((itemchance >= 61) && (itemchance <= 62)) { 
-var zz =4;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 63) && (itemchance <= 64)) { 
-var zz =5;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 65) && (itemchance <= 66)) { 
-var zz =6;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 67) && (itemchance <= 68)) { 
-var zz =7;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 69) && (itemchance <= 70)) { 
-var zz =8;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 71) && (itemchance <= 80)) { 
-var zz =9;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 90) && (itemchance <= 100)) { 
-var zz =10;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+}else if ((itemchance >= 90) && (itemchance <= 110)) { 
+var zz =4001126;
+cm.gainNX(4);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 4 个点卷.");
 cm.dispose();
 }else if ((itemchance >= 110) && (itemchance <= 120)) { 
-var zz =11;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(5);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 5 个点卷.");
 cm.dispose();
-}else if ((itemchance >= 130) && (itemchance <= 140)) { 
-var zz =12;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 150) && (itemchance <= 160)) { 
-var zz =13;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 170) && (itemchance <= 180)) { 
-var zz =14;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+}else if ((itemchance >= 120) && (itemchance <= 140)) { 
+var zz =4001126;
+cm.gainNX(6);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 6 个点卷.");
 cm.dispose();
 }else if ((itemchance >= 190) && (itemchance <= 200)) { 
-var zz =15;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(7);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 7 个点卷.");
 cm.dispose();
-}else if ((itemchance >= 210) && (itemchance <= 220)) { 
-var zz =16;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 230) && (itemchance <= 240)) { 
-var zz =17;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 250) && (itemchance <= 260)) { 
-var zz =18;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
-cm.dispose();
-}else if ((itemchance >= 270) && (itemchance <= 300)) { 
-var zz =19;
-cm.gainNX(zz);
-cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, Packages.tools.MaplePacketCreator.serverNotice(12,cm.getC().getChannel(),"[疯狂点击]" + " : " + cm.getPlayer().getName() +" 疯狂点击获得"+zz+"点卷.大家鼓掌.",true).getBytes());
-cm.dispose();
-}else if ((itemchance >= 310) && (itemchance <= 330)) { 
-var zz =20;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+}else if ((itemchance >= 225) && (itemchance <= 230)) { 
+var zz =4001126;
+cm.gainNX(8);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 8 个点卷.");
+cm.worldMessage(6,"玩家："+cm.getName()+" 在[20点无与伦比]抽取了8点券！");
 cm.dispose();
 }else{
-var zz =1;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(3);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 3 个点卷.");
 cm.dispose();}
 
-}else if (cm.getPlayer().getDojoPoints() >= 50 ) {
+ }else if (cm.getName().getVip() == 1 ||cm.getName().getVip() == 2 ||cm.getName().getVip() == 3 ||cm.getName().getVip() == 4 ||cm.getName().getVip() == 5) {
 if ((itemchance >= 30) && (itemchance <= 50)) { 
-var zz =35;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(6);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 6 个点卷.");
 cm.dispose();
 }else if ((itemchance >= 70) && (itemchance <= 90)) { 
-var zz =21;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(12);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 12 个点卷.");
+cm.worldMessage(6,"玩家："+cm.getName()+" 在20点无与伦比抽取了12点券！");
 cm.dispose();
 }else if ((itemchance >= 110) && (itemchance <= 140)) { 
-var zz =85;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(10);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 10 个点卷.");
 cm.dispose();
 }else if ((itemchance >= 170) && (itemchance <= 200)) { 
-var zz =67;
-cm.gainNX(zz);
-cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, Packages.tools.MaplePacketCreator.serverNotice(12,cm.getC().getChannel(),"[疯狂点击]" + " : " + cm.getPlayer().getName() +" 疯狂点击获得"+zz+"点卷.大家鼓掌.",true).getBytes());
+var zz =4001126;
+cm.gainNX(6);
+cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, net.sf.cherry.tools.MaplePacketCreator.serverNotice(12,cm.getC().getChannel(),"[无与伦比]" + " : " + cm.getName().getName() +" 疯狂点击获得 6 个点卷.大家鼓掌.",true).getBytes());
 cm.dispose();
 }else if ((itemchance >= 210) && (itemchance <= 230)) { 
-var zz =49;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(8);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 8 个点卷.");
 cm.dispose();
 }else{
-var zz =19;
-cm.gainNX(zz);
-cm.serverNotice("[疯狂点击]:[" + cm.getPlayer() + "]疯狂点击获得"+zz+"点卷.");
+var zz =4001126;
+cm.gainNX(12);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 12 个点卷.");
 cm.dispose();}
- 
+ }else if (cm.getName().getVip() == 1 ||cm.getName().getVip() == 2 ||cm.getName().getVip() == 3 ||cm.getName().getVip() == 4 ||cm.getName().getVip() == 5) {
+if ((itemchance >= 30) && (itemchance <= 50)) { 
+var zz =4001126;
+cm.gainNX(6);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 6 个点卷.");
+cm.dispose();
+}else if ((itemchance >= 70) && (itemchance <= 90)) { 
+var zz =4001126;
+cm.gainNX(12);
+//cm.getC().getChannelServer().getWorldInterface().broadcastMessage(null, net.sf.cherry.tools.MaplePacketCreator.serverNotice(12,cm.getC().getChannel(),"[无与伦比]" + " : " + cm.getName().getName() +" 疯狂点击获得 #r12#k 个点卷大家鼓掌.",true).getBytes());
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 12 个点卷.");
+cm.worldMessage(6,"玩家："+cm.getName()+" 在20点无与伦比抽取了12点券！");
+cm.dispose();
+}else if ((itemchance >= 110) && (itemchance <= 140)) { 
+var zz =4001126;
+cm.gainNX(6);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 6 个点卷.");
+cm.dispose();
+}else if ((itemchance >= 170) && (itemchance <= 200)) { 
+var zz =4001126;
+cm.gainNX(6);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 6 个点卷.");
+cm.dispose();
+}else if ((itemchance >= 210) && (itemchance <= 230)) { 
+var zz =4001126;
+cm.gainNX(18);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 18 个点卷.");
+cm.worldMessage(6,"玩家："+cm.getName()+" 在20点无与伦比抽取了18点券！");
+cm.dispose();
+}else{
+var zz =4001126;
+cm.gainNX(4);
+cm.serverNotice("[20点无与伦比]:[" + cm.getName() + "]疯狂点击获得 4 个点卷.");
+cm.dispose();}
 		 }else {
 cm.sendOk("活动时间还没到.\r\n#r现在服务器时间:" + cm.getHour() + "时:" + cm.getMin() + "分:" + cm.getSec() + "秒");
 		cm.dispose();	

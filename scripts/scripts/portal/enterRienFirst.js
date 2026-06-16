@@ -1,7 +1,9 @@
 function enter(pi) {
-	if (!pi.isQuestFinished(21014))
-		pi.warp(140000000, 1);
-	else
-		pi.warp(140000000, 3);
-	return true;
+    pi.playPortalSE();
+    
+    if (pi.getQuestStatus(21014) != 2) {
+	pi.warp(140000000, 1);
+    } else {
+	pi.warp(140000000, 3);
+    }
 }

@@ -1,78 +1,96 @@
 var status = -1;
-var random = java.lang.Math.floor(Math.random() * 9 + 1);
 function action(mode, type, selection) {
     if (cm.getMapId() == 926100600) {
-        cm.removeAll(4001130);
-        cm.removeAll(4001131);
-        cm.removeAll(4001132);
-        cm.removeAll(4001133);
-        cm.removeAll(4001134);
-        cm.removeAll(4001135);
-        var em = cm.getEventManager("Romeo");
-        if (em != null) {
-            var itemid = 4001160;
-            var itemidi = 4001160;
-			var itemjl = 4001160;
-            if (!cm.canHold(itemid, 1)) {
-                cm.sendOk("ÇëÇåÀí³öÒ»¸ö¸ñ×Ó.");
-                cm.dispose();
-                return;
-            }
-            if (!cm.canHold(itemjl, 1)) {
-                cm.sendOk("ÇëÇåÀí³öÒ»¸ö¸ñ×Ó.");
-                cm.dispose();
-                return;
-            }
-            if (!cm.canHold(itemidi, 1)) {
-                cm.sendOk("ÇëÇåÀí³öÒ»¸ö¸ñ×Ó.");
-                cm.dispose();
-                return;
-            }
-			if(random < 5){
-            cm.gainItem(itemidi, 1);
-			}else{
-            cm.gainItem(itemid, 1);
-			}
-            if (em.getProperty("stage").equals("2")) {
-                cm.gainMeso(20000);
-            } else {
-                cm.gainMeso(20000);
-            }
-            cm.gainExp(1000000);
-        }
-       // cm.addTrait("will", 25);
-       // cm.addTrait("sense", 1);
-        cm.getPlayer().endPartyQuest(1205);
-        cm.warp(926100700, 0);
-cm.À®°È(3, "[" + cm.getPlayer().getName() + "]³É¹¦Í¨¹Ø¡¾×é¶ÓÈÎÎñ - ÂŞÃÜÅ·ÓëÖìÀöÒ¶¡¿»ñµÃ½±Àø£¡");
-        cm.dispose();
-        return;
+	    cm.removeAll(4001130);
+	    cm.removeAll(4001131);
+	    cm.removeAll(4001132);
+	    cm.removeAll(4001133);
+	    cm.removeAll(4001134);
+	    cm.removeAll(4001135);
+	var em = cm.getEventManager("Romeo");
+    if (em != null) {
+	var itemid1 = 4001160;
+	var itemid2 = 4170017;
+	var itemid3 = 4251200;
+	var itemid4 = 2022530;
+	if (!cm.canHold(itemid1, 1)) {
+	    cm.sendOk("è¯·æ¸…ç†å‡ºä¸€ä¸ªæ ¼å­");
+	    cm.dispose();
+	    return;
+	}
+		if (!cm.canHold(itemid2, 1)) {
+	    cm.sendOk("è¯·æ¸…ç†å‡ºä¸€ä¸ªæ ¼å­");
+	    cm.dispose();
+	    return;
+	}
+		if (!cm.canHold(itemid3, 1)) {
+	    cm.sendOk("è¯·æ¸…ç†å‡ºä¸€ä¸ªæ ¼å­");
+	    cm.dispose();
+	    return;
+	}
+		if (!cm.canHold(itemid4, 1)) {
+	    cm.sendOk("è¯·æ¸…ç†å‡ºä¸€ä¸ªæ ¼å­");
+	    cm.dispose();
+	    return;
+	}
+	
+	
+	
+	cm.gainItem(itemid1, 1);
+	cm.gainItem(itemid2, 1);
+	cm.gainItem(itemid3, 1);
+	cm.gainItem(itemid4, 1);
+	
+	
+	if (em.getProperty("stage").equals("2")) {
+//    		cm.gainNX(5000);
+    		cm.gainExpR(140000);
+	} else {
+//		cm.gainNX(3500);
+		cm.gainExpR(105000);
+	}
+    }
+    cm.getPlayer().endPartyQuest(1205);
+    cm.warp(926100700,0);
+    cm.dispose();
+    return;
     }
     if (mode > 0) {
-        status++;
+	status++;
     } else {
-        status--;
+	status--;
     }
     if (status == 0) {
-        cm.removeAll(4001130);
-        cm.removeAll(4001131);
-        cm.removeAll(4001132);
-        cm.removeAll(4001133);
-        cm.removeAll(4001134);
-        cm.removeAll(4001135);
-        cm.sendSimple("#b#L0#ÈÃÎÒÀë¿ªÕâÀï#l\r\n#L1#¸øÎÒ°®µÄÖ¤Ã÷¶Ò»»ÏîÁ´.#l#k");
+	    cm.removeAll(4001130);
+	    cm.removeAll(4001131);
+	    cm.removeAll(4001132);
+	    cm.removeAll(4001133);
+	    cm.removeAll(4001134);
+	    cm.removeAll(4001135);
+	cm.sendSimple("#b#L0#è®©æˆ‘ç¦»å¼€è¿™é‡Œ#l\r\n#L1#ç»™æˆ‘ Horus' Eye.#l\r\n#L2#ç»™æˆ‘ Rock of Wisdom#l#k");
     } else {
-        if (selection == 0) {
-            cm.warp(926100600, 0);
-        } else if (selection == 1) {
-            if (cm.canHold(1122010, 1) && cm.haveItem(4001160, 10) && cm.haveItem(4001159, 10)) {
-                cm.gainItem(1122010, 1);
-                cm.gainItem(4001160, -10);
-                cm.gainItem(4001159, -10);
-            } else {
-                cm.sendOk("Äã½«ĞèÒª10¸ö¿¨ÅÁÀ³ÌØÖé×ÓºÍ10¸öÃÉÌØğ¯Öé×ÓµÃµ½°®µÄÖ¤Ã÷£¬ÒÔ¼°×ã¹»µÄ±³°ü¿Õ¼ä¡£");
-            }
-        }
-        cm.dispose();
+	if (selection == 0) {
+    	    cm.warp(926100600,0);
+	} else if (selection == 1) {
+	    if (cm.canHold(1122010,1) && cm.haveItem(4001160,25) && cm.haveItem(4001159,25)) {
+		cm.gainItem(1122010,1);
+		cm.gainItem(4001160,-25);
+		cm.gainItem(4001159,-25);
+	    } else {
+		cm.sendOk("ä½ è¦æ‹¿äºŒåäº”ä¸ªç å­æ¥å’Œæˆ‘æ¢");
+	    }
+	} else {
+	    if (cm.canHold(2041212,1) && (cm.haveItem(4001160,10) || cm.haveItem(4001159,10))) {
+		cm.gainItem(2041212,1);
+		if (cm.haveItem(4001160,10)) {
+			cm.gainItem(4001160,-10);
+		} else {
+			cm.gainItem(4001159,-10);
+		}
+	    } else {
+		cm.sendOk("ä½ è¦æ‹¿åä¸ªç å­æ¥å’Œæˆ‘æ¢");
+	    }
+	}
+    	cm.dispose();
     }
 }

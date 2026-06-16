@@ -51,7 +51,7 @@ function action(mode, type, selection) {
             
 			text += "您当前拥有：" + cm.getFishingJF() + "钓鱼积分!\r\n\r\n";
 			text += "#L1##b#n你当前可以兑换:" + jifen + " 钓鱼积分!\r\n\r\n";
-			text += "#L2##r钓鱼积分兑换物品列表";
+			text += "#L2#兑换物品列表";
             cm.sendSimple(text);
             zones == 0;
 
@@ -83,9 +83,9 @@ function action(mode, type, selection) {
 					cm.removeAll(4031629);
                     cm.dispose();
         } else if (selection == 2) {
-			cm.openNpc(9330045, 2);
-                    //cm.sendOk("暂未开放！");
-                    //cm.dispose();
+			//cm.openNpc(9330045, 2);
+                    cm.sendOk("暂未开放！");
+                    cm.dispose();
         }
     }
 }	

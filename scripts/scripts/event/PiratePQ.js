@@ -95,7 +95,7 @@ function playerEntry(eim, player) {
 	player.changeMap(map, map.getPortal(0));
 	
 	//THE CLOCK IS SHIT o_O
-	player.getClient().getSession().write(Packages.tools.MaplePacketCreator.getClock((Long.parseLong(eim.getProperty("entryTimestamp")) - System.currentTimeMillis()) / 1000));
+	player.getClient().getSession().write(net.sf.odinms.tools.MaplePacketCreator.getClock((Long.parseLong(eim.getProperty("entryTimestamp")) - System.currentTimeMillis()) / 1000));
 }
 
 function playerDead(eim, player) {
@@ -227,7 +227,7 @@ function timeOut() {
 //
 //function playerClocks(eim, player) {
 //  if (player.getMap().hasTimer() == false){
-//		player.getClient().getSession().write(Packages.tools.MaplePacketCreator.getClock((Long.parseLong(eim.getProperty("entryTimestamp")) - System.currentTimeMillis()) / 1000));
+//		player.getClient().getSession().write(net.sf.odinms.tools.MaplePacketCreator.getClock((Long.parseLong(eim.getProperty("entryTimestamp")) - System.currentTimeMillis()) / 1000));
 //		//player.getMap().setTimer(true);
 //	}
 //}

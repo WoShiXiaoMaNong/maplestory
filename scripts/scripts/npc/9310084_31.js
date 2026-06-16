@@ -28,7 +28,7 @@ function action(mode, type, selection) {
             }
 			//显示物品ID图片用的代码是  #v这里写入ID#
             text += "#e#d每日活动奖励兑换处.#l\r\n\r\n"//3
-            text += "#L1##r兑换#v2340000#祝福卷轴#l\r\n\r\n"//3
+            text += "#L1##r兑换#v4251200#下等水晶#l\r\n\r\n"//3
             cm.sendSimple(text);
         } else if (selection == 1) {
 			//1
@@ -51,12 +51,12 @@ function action(mode, type, selection) {
 			}else if(!cm.beibao(5,1)){
             cm.sendOk("现金栏空余不足1个空格！");
             cm.dispose();
-			}else */if(cm.haveItem(4032226,8)){
-				cm.gainItem(4032226, -8);
-				cm.gainItem(2340000,1);
+			}else */if(cm.haveItem(4000176,4)){
+				cm.gainItem(4000176, -4);
+				cm.gainItem(4251200,1);
 				//cm.gainMeso(100000);
             cm.sendOk("兑换成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]用8个[黄金猪猪]兑换了[祝福卷轴]，多多参加在线活动，兑换丰厚奖励~！");
+			//cm.worldMessage(6,"玩家：["+cm.getName()+"]用5个[毒菇]兑换了[下等五彩水晶]，多多参加在线活动，兑换丰厚奖励~！");
             cm.dispose();
 			}else{
             cm.sendOk("您的材料不足！");

@@ -14,7 +14,7 @@ function action(mode, type, selection) {
 	    cm.removeAll(4001134);
 	    cm.removeAll(4001135);
 	    if (cm.getPlayer().getParty() == null || !cm.isLeader()) {
-		cm.sendOk("The leader of the party must be here.");
+		cm.sendOk("队长必须在这里！");
 	    } else {
 		var party = cm.getPlayer().getParty().getMembers();
 		var mapId = cm.getPlayer().getMapId();

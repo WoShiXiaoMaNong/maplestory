@@ -1,576 +1,312 @@
-
-importPackage(net.sf.cherry.server.maps); 
-
-var a = 0;
-var Text = "#b想把老公老婆戒指升到什么境界?#r\r\n重点提示:#L51#升级说明到50后全属性30攻击30#d\r\n#L2##v1112446#老公老婆戒指LV2\r\n#L3##v1112446#老公老婆戒指LV3\r\n#L4##v1112446#老公老婆戒指LV4\r\n#L5##v1112446#老公老婆戒指LV5\r\n#L6##v1112446#老公老婆戒指LV6\r\n#L7##v1112446#老公老婆戒指LV7\r\n#L8##v1112446#老公老婆戒指LV8\r\n#L9##v1112446#老公老婆戒指LV9\r\n#L10##v1112446#老公老婆戒指LV10\r\n#L11##v1112446#老公老婆戒指LV11\r\n#L12##v1112446#老公老婆戒指LV12\r\n#L13##v1112446#老公老婆戒指LV13\r\n#L14##v1112446#老公老婆戒指LV14\r\n#L15##v1112446#老公老婆戒指LV15\r\n#L16##v1112446#老公老婆戒指LV16\r\n#L17##v1112446#老公老婆戒指LV17\r\n#L18##v1112446#老公老婆戒指LV18\r\n#L19##v1112446#老公老婆戒指LV19\r\n#L20##v1112446#老公老婆戒指LV20\r\n#L21##v1112446#老公老婆戒指LV21\r\n#L22##v1112446#老公老婆戒指LV22\r\n#L23##v1112446#老公老婆戒指LV23\r\n#L24##v1112446#老公老婆戒指LV24\r\n#L25##v1112446#老公老婆戒指LV25\r\n#L26##v1112446#老公老婆戒指LV26\r\n#L27##v1112446#老公老婆戒指LV27\r\n#L28##v1112446#老公老婆戒指LV28\r\n#L29##v1112446#老公老婆戒指LV29\r\n#L30##v1112446#老公老婆戒指LV30\r\n#L31##v1112446#老公老婆戒指LV31\r\n#L32##v1112446#老公老婆戒指LV32\r\n#L33##v1112446#老公老婆戒指LV33\r\n#L34##v1112446#老公老婆戒指LV34\r\n#L35##v1112446#老公老婆戒指LV35\r\n#L36##v1112446#老公老婆戒指LV36\r\n#L37##v1112446#老公老婆戒指LV37\r\n#L38##v1112446#老公老婆戒指LV38\r\n#L39##v1112446#老公老婆戒指LV39\r\n#L40##v1112446#老公老婆戒指LV40\r\n#L41##v1112446#老公老婆戒指LV41\r\n#L42##v1112446#老公老婆戒指LV42\r\n#L43##v1112446#老公老婆戒指LV43\r\n#L44##v1112446#老公老婆戒指LV44\r\n#L45##v1112446#老公老婆戒指LV45\r\n#L46##v1112446#老公老婆戒指LV46\r\n#L47##v1112446#老公老婆戒指LV47\r\n#L48##v1112446#老公老婆戒指LV48\r\n#L49##v1112446#老公老婆戒指LV49\r\n#L50##v1112446#老公老婆戒指LV50";
-var db;
-var time;
-
+/**
+ * @触发条件：开拍卖功能
+ * @每日签到：领取物品 npc
+ * @npcName：冒险岛运营员
+ * @npcID：   9900004
+ **/
+importPackage(net.sf.cherry.client);
+var status = 0;
+var 黑水晶 = 4021008;
+var 蓝色箭头 = "#fUI/UIWindow/Quest/icon2/7#";
+var 红色箭头 = "#fUI/UIWindow/Quest/icon6/7#";
+var 圆形 = "#fUI/UIWindow/Quest/icon3/6#";
+var 美化new = "#fUI/UIWindow/Quest/icon5/1#";
+var 感叹号 = "#fUI/UIWindow/Quest/icon0#";
+var 正方箭头 = "#fUI/Basic/BtHide3/mouseOver/0#";
+var 忠告 = "#k温馨提示：任何非法程序和外挂封号处理.封杀侥幸心理.";
 function start() {
-	a = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 1)
-			a++;
-		else
-			a--;
-			if (a == -1){
+    if (mode == -1) {
+        cm.dispose();
+    } else {
+        if (status >= 0 && mode == 0) {
+            cm.dispose();
+            return;
+        }
+
+        if (mode == 1)
+            status++;
+        else
+            status--;
+        if (status == 0) {
+            var a1 = "#L1#风灵使者【一转】#g\r\n";
+			var a2 = "#L2#风灵使者【二转】\r\n";
+			var a3 = "#L3#风灵使者【三转】#r\r\n";
+	
+			var a5 = "#L5#拳手-斗士\r\n";
+			var a6 = "#L6#火枪手-大副#b\r\n";
+			
+			var a8 = "#L8#斗士-冲锋队长\r\n";
+			var a9 = "#L9#大副-船长\r\n";
+
+
+
+            cm.sendSimple("#d-#k\r\n\r\n\r\n"+a1+""+a2+""+a3+"");
+
+            } else if (status == 1) {
+         	if (selection == 1) { 
+			if(cm.getPlayer().getLevel() > 9 && cm.getPlayer().getJob() == 0 ){
+
+				
+				cm.changeJob(1300);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
 				cm.dispose();
-			        }else if (a == 0) {
-							 a = 0;
-cm.sendSimple(Text);		
-			}else if (a == 1){
-			if (selection == 1) {
-                cm.sendOk("#b升级错误:#k\r\n#i1112446##t1112446#通过点卷商城或任务等其它渠道获得");
-                    cm.dispose();
-		}else if (selection == 51){
-                cm.sendOk("#b升级说明:#k\r\n1.#z4001322#过抽奖等渠道获得\r\n2.每升1个等级老公老婆戒指需要#v4001322##z4001322#x10\r\n3.当老公老婆戒指LV30的时候每升1个等级需要100个#v4001322##z4001322#");
-                    cm.dispose();
-		}else if (selection == 2){
-if (cm.itemQuantity(1112446) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112447,1);
-cm.gainItem(1112446,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV2了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV1")
-cm.dispose();
-}
-		}else if (selection == 3){
-if (cm.itemQuantity(1112447) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112448,1);
-cm.gainItem(1112447,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV3了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV2")
-cm.dispose();
-}
-		}else if (selection == 4){
-if (cm.itemQuantity(1112448) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112449,1);
-cm.gainItem(1112448,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV4了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV3")
-cm.dispose();
-}
-		}else if (selection == 5){
-if (cm.itemQuantity(1112449) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112450,1);
-cm.gainItem(1112449,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV5了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV4")
-cm.dispose();
-}
-		}else if (selection == 6){
-if (cm.itemQuantity(1112450) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112451,1);
-cm.gainItem(1112450,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV6了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV5")
-cm.dispose();
-}
-		}else if (selection == 7){
-if (cm.itemQuantity(1112451) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112452,1);
-cm.gainItem(1112451,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV7了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV6")
-cm.dispose();
-}
-		}else if (selection == 8){
-if (cm.itemQuantity(1112452) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112453,1);
-cm.gainItem(1112452,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV8了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV7")
-cm.dispose();
-}
-		}else if (selection == 9){
-if (cm.itemQuantity(1112453) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112454,1);
-cm.gainItem(1112453,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV9了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV8")
-cm.dispose();
-}
-		}else if (selection == 10){
-if (cm.itemQuantity(1112454) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112455,1);
-cm.gainItem(1112454,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV10了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV9")
-cm.dispose();
-}
-		}else if (selection == 11){
-if (cm.itemQuantity(1112455) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112456,1);
-cm.gainItem(1112455,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV11了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV10")
-cm.dispose();
-}
-		}else if (selection == 12){
-if (cm.itemQuantity(1112456) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112457,1);
-cm.gainItem(1112456,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV12了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV11")
-cm.dispose();
-}
-		}else if (selection == 13){
-if (cm.itemQuantity(1112457) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112458,1);
-cm.gainItem(1112457,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV13了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV12")
-cm.dispose();
-}
-		}else if (selection == 14){
-if (cm.itemQuantity(1112458) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112459,1);
-cm.gainItem(1112458,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV14了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV13")
-cm.dispose();
-}
-		}else if (selection == 15){
-if (cm.itemQuantity(1112459) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112460,1);
-cm.gainItem(1112459,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV15了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV14")
-cm.dispose();
-}
-		}else if (selection == 16){
-if (cm.itemQuantity(1112460) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112461,1);
-cm.gainItem(1112460,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV16了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV15")
-cm.dispose();
-}
-		}else if (selection == 17){
-if (cm.itemQuantity(1112461) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112462,1);
-cm.gainItem(1112461,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV17了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV16")
-cm.dispose();
-}
-		}else if (selection == 18){
-if (cm.itemQuantity(1112462) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112463,1);
-cm.gainItem(1112462,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV18了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV17")
-cm.dispose();
-}
-		}else if (selection == 19){
-if (cm.itemQuantity(1112463) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112464,1);
-cm.gainItem(1112463,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV19了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV18")
-cm.dispose();
-}
-		}else if (selection == 20){
-if (cm.itemQuantity(1112464) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112465,1);
-cm.gainItem(1112464,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV20了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV19")
-cm.dispose();
-}
-		}else if (selection == 21){
-if (cm.itemQuantity(1112465) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112466,1);
-cm.gainItem(1112465,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV21了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV20")
-cm.dispose();
-}
-		}else if (selection == 22){
-if (cm.itemQuantity(1112466) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112467,1);
-cm.gainItem(1112466,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV22了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV21")
-cm.dispose();
-}
-		}else if (selection == 23){
-if (cm.itemQuantity(1112467) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112468,1);
-cm.gainItem(1112467,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV23了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV22")
-cm.dispose();
-}
-		}else if (selection == 24){
-if (cm.itemQuantity(1112468) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112469,1);
-cm.gainItem(1112468,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV24了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV23")
-cm.dispose();
-}
-		}else if (selection == 25){
-if (cm.itemQuantity(1112469) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112470,1);
-cm.gainItem(1112469,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV25了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV24")
-cm.dispose();
-}
-		}else if (selection == 26){
-if (cm.itemQuantity(1112470) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112471,1);
-cm.gainItem(1112470,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV26了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV25")
-cm.dispose();
-}
-		}else if (selection == 27){
-if (cm.itemQuantity(1112471) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112472,1);
-cm.gainItem(1112471,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV27了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV26")
-cm.dispose();
-}
-		}else if (selection == 28){
-if (cm.itemQuantity(1112472) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112473,1);
-cm.gainItem(1112472,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV28了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV27")
-cm.dispose();
-}
-		}else if (selection == 29){
-if (cm.itemQuantity(1112473) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112474,1);
-cm.gainItem(1112473,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV29了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV28")
-cm.dispose();
-}
-		}else if (selection == 30){
-if (cm.itemQuantity(1112474) >=1 && cm.itemQuantity(4001322) >=10){
-cm.gainItem(1112475,1);
-cm.gainItem(1112474,-1);
-cm.gainItem(4001322,-10);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV30了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV29")
-cm.dispose();
-}
-		}else if (selection == 31){
-if (cm.itemQuantity(1112475) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112476,1);
-cm.gainItem(1112475,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV31了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV30")
-cm.dispose();
-}
-		}else if (selection == 32){
-if (cm.itemQuantity(1112476) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112477,1);
-cm.gainItem(1112476,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV32了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV31")
-cm.dispose();
-}
-		}else if (selection == 33){
-if (cm.itemQuantity(1112477) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112478,1);
-cm.gainItem(1112477,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV33了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV32")
-cm.dispose();
-}
-		}else if (selection == 34){
-if (cm.itemQuantity(1112478) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112479,1);
-cm.gainItem(1112478,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV34了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV33")
-cm.dispose();
-}
-		}else if (selection == 35){
-if (cm.itemQuantity(1112479) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112480,1);
-cm.gainItem(1112479,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV35了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV34")
-cm.dispose();
-}
-		}else if (selection == 36){
-if (cm.itemQuantity(1112480) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112481,1);
-cm.gainItem(1112480,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV36了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV35")
-cm.dispose();
-}
-		}else if (selection == 37){
-if (cm.itemQuantity(1112481) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112482,1);
-cm.gainItem(1112481,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV37了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV36")
-cm.dispose();
-}
-		}else if (selection == 38){
-if (cm.itemQuantity(1112482) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112483,1);
-cm.gainItem(1112482,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV38了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV37")
-cm.dispose();
-}
-		}else if (selection == 39){
-if (cm.itemQuantity(1112483) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112484,1);
-cm.gainItem(1112483,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV39了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV38")
-cm.dispose();
-}
-		}else if (selection == 40){
-if (cm.itemQuantity(1112484) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112485,1);
-cm.gainItem(1112484,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV40了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV39")
-cm.dispose();
-}
-		}else if (selection == 41){
-if (cm.itemQuantity(1112485) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112486,1);
-cm.gainItem(1112485,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV41了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV40")
-cm.dispose();
-}
-		}else if (selection == 42){
-if (cm.itemQuantity(1112486) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112487,1);
-cm.gainItem(1112486,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV42了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV41")
-cm.dispose();
-}
-		}else if (selection == 43){
-if (cm.itemQuantity(1112487) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112488,1);
-cm.gainItem(1112487,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV43了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV42")
-cm.dispose();
-}
-		}else if (selection == 44){
-if (cm.itemQuantity(1112488) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112489,1);
-cm.gainItem(1112488,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV44了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV43")
-cm.dispose();
-}
-		}else if (selection == 45){
-if (cm.itemQuantity(1112489) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112490,1);
-cm.gainItem(1112489,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV45了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV44")
-cm.dispose();
-}
-		}else if (selection == 46){
-if (cm.itemQuantity(1112490) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112491,1);
-cm.gainItem(1112490,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV46了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV45")
-cm.dispose();
-}
-		}else if (selection == 47){
-if (cm.itemQuantity(1112491) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112492,1);
-cm.gainItem(1112491,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV47了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV46")
-cm.dispose();
-}
-		}else if (selection == 48){
-if (cm.itemQuantity(1112492) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112493,1);
-cm.gainItem(1112492,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV48了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV47")
-cm.dispose();
-}
-		}else if (selection == 49){
-if (cm.itemQuantity(1112493) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112494,1);
-cm.gainItem(1112493,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV49了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV48")
-cm.dispose();
-}
-		}else if (selection == 50){
-if (cm.itemQuantity(1112494) >=1 && cm.itemQuantity(4001322) >=100){
-cm.gainItem(1112495,30,30,30,30);
-cm.gainItem(1112494,-1);
-cm.gainItem(4001322,-100);
-	cm.sendNext("#b升级提示:#r\r\n老公老婆戒指LV50了，恭喜你！")
-cm.dispose();
-}else{
-cm.sendOk("#b升级提示:#d\r\n1.检测#z4001322#不足\r\n2.检测无老公老婆戒指LV49")
-cm.dispose();
-}
+				return;
+			}
+			}
+            if (selection == 2) { 
+			if(cm.getPlayer().getLevel() >29 && cm.getPlayer().getJob() == 1300 ){
+
+				
+				cm.changeJob(1310);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 3) { 
+			if(cm.getPlayer().getLevel() >69 && cm.getPlayer().getJob() == 1310 ){
+
+				
+				cm.changeJob(1311);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+		
+			}
+			 if (selection == 5) { 
+			if(cm.getPlayer().getLevel() >69 && cm.getPlayer().getJob() == 510 ){
+
+				
+				cm.changeJob(511);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+			}
+			 if (selection == 6) { 
+			if(cm.getPlayer().getLevel() >69 && cm.getPlayer().getJob() == 520 ){
+
+				
+				cm.changeJob(521);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+
             }
-        } 
-    } 
+			 if (selection == 8) { 
+			if(cm.getPlayer().getLevel() >119 && cm.getPlayer().getJob() == 511 ){
+
+				
+				cm.changeJob(512);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+			 }
+			 if (selection == 9) { 
+			if(cm.getPlayer().getLevel() >119 && cm.getPlayer().getJob() == 521 ){
+
+				
+				cm.changeJob(522);
+			cm.getPlayer().setRemainingSp(1);cm.sendOk("快速转职成功~");
+            cm.dispose();
+			} else {
+				cm.sendOk("前置职业不符合。");
+				cm.dispose();
+				return;
+			}
+
+
+
+
+
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+	    	}
+			if (selection == 1001) { //10
+			if (cm.getBossLog('sss2') ==1 && cm.getMapId() == 104040000 && cm.haveItem(4000000,50)){
+				cm.setBossLog("sss2");
+				cm.setBossLog("sss3");
+				cm.gainItem(4000000, -50);
+				cm.gainNX(100);
+				cm.sendOk("恭喜你完成第二阶段奖励，现在请继续第三阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第二阶段，现在请按开始第三阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("需要完成第一阶段\r\n需要50个#i4000000#");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 30) { //10
+			if (cm.getBossLog('sss3') ==1 && cm.getMapId() == 104000000 && cm.getBossLog('ssss1')  > 3){
+				cm.setBossLog("sss3");
+				cm.setBossLog("sss4");
+				cm.gainNX(103);
+				cm.sendOk("恭喜你完成第三阶段奖励，现在请继续第四阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第三阶段，现在请按开始第四阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("怎样了？去和江套近乎吧？或者你已经完成了。");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 40) { //10
+			if (cm.getBossLog('sss4') ==1 && cm.getMapId() == 100000001 && cm.getBossLog('ssss2')  > 1){
+				cm.setBossLog("sss4");
+				cm.setBossLog("sss5");
+				cm.gainNX(104);
+				cm.sendOk("恭喜你完成第四阶段奖励，现在请继续第五阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第四阶段，现在请按开始第五阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("去过赌场了吗?之后再去玛亚的家！恩，这阶段你完成了？");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 50) { //10
+			if (cm.getBossLog('sss5') ==1 && cm.getMapId() == 100010100 || cm.getMapId() == 100020000 && cm.getBossLog('ssss3')  > 0){
+				cm.setBossLog("sss5");
+				cm.setBossLog("sss6");
+				cm.gainNX(105);
+				cm.sendOk("恭喜你完成第五阶段奖励，现在请继续第六阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第五阶段，现在请按开始第六阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("酷男孩是不是很酷？你根据他的提示来了吗");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 60) { //10
+			if (cm.getBossLog('sss6') ==1 && cm.getMapId() == 102000002  && cm.haveItem(2010000,1)){
+				cm.setBossLog("sss6");
+				cm.setBossLog("sss7");
+				cm.gainItem(2010000, -200);
+				cm.gainNX(106);
+				cm.sendOk("恭喜你完成第六阶段奖励，现在请继续第七阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第六阶段，现在请按开始第七阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("恩，多吃苹果很好。买了就吃，别犹豫，哈哈哈哈");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 7) { //10
+			if (cm.getBossLog('sss7') ==1 && cm.getMapId() == 102000004 ){
+				cm.setBossLog("sss7");
+				cm.setBossLog("sss8");
+				cm.gainNX(106);
+				cm.sendOk("恭喜你完成第七阶段奖励，现在请继续第八阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第七阶段，现在请按开始第八阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("战士的殿堂，神圣的殿堂。");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 8) { //10
+			if (cm.getBossLog('sss8') ==1 && cm.getMapId() == 103000002 ){
+				cm.setBossLog("sss8");
+				cm.setBossLog("sss9");
+				cm.gainNX(108);
+				cm.sendOk("恭喜你完成第八阶段奖励，现在请继续第九阶段");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第八阶段，现在请按开始第九阶段 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("酸爽~~。");
+				cm.dispose();
+				return;
+			}
+			}
+			if (selection == 9) { //10
+			if (cm.getBossLog('sss9') ==1 && cm.getMapId() == 101000200 ){
+				cm.setBossLog("sss9");
+				cm.setBossLog("sss10");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.setBossLog("zymxd");
+				cm.gainNX(10000);
+				cm.warp(910000000, 0);
+				cm.sendOk("恭喜你完成第九阶段奖励，\r\n点劵 x #r1000 #k~");
+				cm.worldMessage(6,"[游山玩水]：恭喜，玩家 "+cm.getName()+" 完成第九阶段，现在他开始回自由市场领取奖励了 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("生命在于奇迹。");
+				cm.dispose();
+				return;
+			}
+	    	}
+			if (selection == 100) { //兑换点卷
+			if(cm.getBossLog('hydlj55')<1 ){
+				
+			if ( cm.getBossLog('zymxd') >=20 && cm.getBossLog('hydlj5') == 2 ) {
+				//cm.gainItem(3994416, -100);
+				cm.setBossLog('hydlj55');
+				cm.setBossLog('hydlj5');
+				cm.gainNX(2000);
+				cm.sendOk("恭喜你领取20点活跃度奖励#r点劵 x 2000");
+				cm.worldMessage(6,"[活跃度奖励]：恭喜，玩家 "+cm.getName()+" 领取 20 点活跃度奖励 。");
+				cm.dispose();
+			} else {
+				cm.sendOk("你的活跃度不够，或者你已经领取过了");
+				cm.dispose();
+				return;
+			}
+			}
+			else{
+				cm.sendOk("今天已经领取今天所有的活跃度奖励。");
+				cm.dispose();
+			}
+	    	}
+        }
+    }
 }

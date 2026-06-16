@@ -19,9 +19,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-importPackage(net.sf.odinms.server.maps);
-importPackage(net.sf.odinms.net.channel);
-importPackage(net.sf.odinms.tools);
+importPackage(org.rise.server.maps);
+importPackage(org.rise.net.channel);
+importPackage(org.rise.tools);
 
 /*
 Amoria: 2nd stage to 3rd stage portal
@@ -29,14 +29,14 @@ Amoria: 2nd stage to 3rd stage portal
 
 function enter(pi) {
 	var nextMap = 670010500;
-	var eim = pi.getPlayer().getEventInstance()
+	var eim = pi.getPlayer().getEventInstance();
 	var target = eim.getMapInstance(nextMap);
 	var targetPortal = target.getPortal("st00");
 	// only let people through if the eim is ready
 	var avail = eim.getProperty("3stageclear");
 	if (avail == null) {
 		// do nothing; send message to player
-		pi.getPlayer().getClient().getSession().write(Packages.tools.MaplePacketCreator.serverNotice(6, "�ŵ�ǰ�ǹرյ�"));
+		pi.getClient().getSession().write(MaplePacketCreator.serverNotice(6, "这门关上了."));
 		return false;	}
 	else {
 		pi.getPlayer().changeMap(target, targetPortal);

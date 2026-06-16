@@ -150,7 +150,7 @@ function action(mode, type, selection) {
         cm.getPlayer().modifyCSPoints(Cash, -neededCash, false);
         // var text = cm.getText();
         var text = "      " + s + " - " + h + " 快来这边找我买吧!";
-        World.Broadcast.broadcastMessage(Packages.tools.MaplePacketCreator.getGachaponMega(cm.getPlayer().getName(), " : " + text, statsSel, 0).getBytes());
+        World.Broadcast.broadcastMessage(MaplePacketCreator.getGachaponMega(cm.getPlayer().getName(), " : " + text, statsSel, 0).getBytes());
         cm.dispose();
     } else {
         cm.dispose();

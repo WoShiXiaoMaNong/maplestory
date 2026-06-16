@@ -1,39 +1,5 @@
-/*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-					   Matthias Butz <matze@odinms.de>
-					   Jan Christian Meyer <vimes@odinms.de>
+importPackage(Packages.tools);
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/**
--- Odin JavaScript --------------------------------------------------------------------------------
-	AirPlane between KC and CBD
--- By ---------------------------------------------------------------------------------------------
-	Information
--- Version Info -----------------------------------------------------------------------------------
-	1.1 - Fix something [Sadiq]
-	1.0 - First Version by Information
----------------------------------------------------------------------------------------------------
-**/
-
-importPackage(net.sf.odinms.tools);
-
-//Time Setting is in millisecond
 var closeTime = 240000; //The time to close the gate
 var beginTime = 300000; //The time to begin the ride
 var rideTime = 60000; //The time that require move to destination
@@ -44,51 +10,73 @@ var CBD_bfd;
 var Plane_to_KC;
 var KC_docked;
 
+var stopEntryTask;
+var stopEntryOpen;
+var takeoffTask;
+var takeoffOpen;
+var arrivedTask;
+var arrivedOpen;
+
+
 function init() {
-	KC_bfd = em.getChannelServer().getMapFactory().getMap(540010100);
-	CBD_bfd = em.getChannelServer().getMapFactory().getMap(540010001);
-	Plane_to_CBD = em.getChannelServer().getMapFactory().getMap(540010101);
-	Plane_to_KC = em.getChannelServer().getMapFactory().getMap(540010002);
-	CBD_docked = em.getChannelServer().getMapFactory().getMap(540010000);
-	KC_docked = em.getChannelServer().getMapFactory().getMap(103000000);
-	scheduleNew();
+    KC_bfd = em.getChannelServer().getMapFactory().getMap(540010100);
+    CBD_bfd = em.getChannelServer().getMapFactory().getMap(540010001);
+    Plane_to_CBD = em.getChannelServer().getMapFactory().getMap(540010101);
+    Plane_to_KC = em.getChannelServer().getMapFactory().getMap(540010002);
+    CBD_docked = em.getChannelServer().getMapFactory().getMap(103000000);
+    KC_docked = em.getChannelServer().getMapFactory().getMap(540010000);
+	stopEntryOpen = false;
+	takeoffOpen = false;
+	arrivedOpen = false;
+    scheduleNew();
 }
 
 function scheduleNew() {
-	em.setProperty("entry", "true");
-	setupTask1 = em.schedule("stopEntry", closeTime);
-	setupTask2 = em.schedule("takeoff", beginTime);
+    stopEntryTask = em.schedule("stopEntry", closeTime);
+	stopEntryOpen = true;
+    takeoffTask = em.schedule("takeoff", beginTime);
+	takeoffOpen = true;
 }
 
 function stopEntry() {
-	em.setProperty("entry","false");
+    em.setProperty("entry","false");
 }
 
 function takeoff() {
-	var temp1 = KC_bfd.getCharacters().iterator();
-	while(temp1.hasNext()) {
-		temp1.next().changeMap(Plane_to_CBD, Plane_to_CBD.getPortal(0));
-	}
-	var temp2 = CBD_bfd.getCharacters().iterator();
-	while(temp2.hasNext()) {
-		temp2.next().changeMap(Plane_to_KC, Plane_to_KC.getPortal(0));
-	}
-	em.schedule("arrived", rideTime);
-	scheduleNew();
+    em.setProperty("entry", "true");
+    var temp1 = KC_bfd.getCharacters().iterator();
+    while(temp1.hasNext()) {
+        temp1.next().changeMap(Plane_to_KC, Plane_to_KC.getPortal(0));
+    }
+    var temp2 = CBD_bfd.getCharacters().iterator();
+    while(temp2.hasNext()) {
+        temp2.next().changeMap(Plane_to_CBD, Plane_to_CBD.getPortal(0));
+    }
+    arrivedTask = em.schedule("arrived", rideTime);
+	arrivedOpen = true;
+    scheduleNew();
 }
 
 function arrived() {
-	var temp1 = Plane_to_CBD.getCharacters().iterator();
-	while(temp1.hasNext()) {
-		temp1.next().changeMap(CBD_docked, CBD_docked.getPortal(0));
-	}
-	var temp2 = Plane_to_KC.getCharacters().iterator();
-	while(temp2.hasNext()) {
-		temp2.next().changeMap(KC_docked, KC_docked.getPortal(0));
-	}
+    var temp1 = Plane_to_CBD.getCharacters().iterator();
+    while(temp1.hasNext()) {
+        temp1.next().changeMap(CBD_docked, CBD_docked.getPortal(0));
+    }
+    var temp2 = Plane_to_KC.getCharacters().iterator();
+    while(temp2.hasNext()) {
+        temp2.next().changeMap(KC_docked, KC_docked.getPortal(0));
+    }
 }
 
 function cancelSchedule() {
-	setupTask1.cancel(true);
-	setupTask2.cancel(true);
+	if( stopEntryOpen ) {
+		stopEntryTask.cancel(true);
+	}
+	if( takeoffOpen ) {
+		takeoffTask.cancel(true);
+	}
+	if( arrivedOpen ) {
+		arrivedTask.cancel(true);
+	}
+	
 }

@@ -1,182 +1,219 @@
 /*
-This file is part of the OdinMS Maple Story Server
-Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-	Matthias Butz <matze@odinms.de>
-	Jan Christian Meyer <vimes@odinms.de>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License version 3
-as published by the Free Software Foundation. You may not use, modify
-or distribute this program under any other version of the
-GNU Affero General Public License.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	NPC Name: 		Mark of the Squad
+	Map(s): 		Entrance to Horned Tail's Cave
+	Description: 		Horntail Battle starter
 */
-
-importPackage(java.lang);
-importPackage(net.sf.odinms.server);
-importPackage(net.sf.odinms.tools);
-
-var status = 0;
+var status = -1;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+		if (cm.getPlayer().getLevel() < 80) {
+			cm.sendOk("挑战这里最低等级需要80级,历练到80级再来吧");
+			cm.dispose();
+			return;
+		}
+		if (cm.getPlayer().getClient().getChannel() != 2 && cm.getPlayer().getClient().getChannel() != 3) {
+			cm.sendOk("黑龙只能在2或3频道挑战！");
+			cm.dispose();
+			return;
+		}
+    var em = cm.getEventManager("HorntailBattle");
+
+    if (em == null) {
+	cm.sendOk("事件尚未启动，请联系GM处理该事情。");
+	cm.dispose();
+	return;
+    }
+    var prop = em.getProperty("state");
+
+	    var marr = cm.getQuestRecord(160100);
+	    var data = marr.getCustomData();
+	    if (data == null) {
+		marr.setCustomData("0");
+	        data = "0";
+	    }
+	    var time = parseInt(data);
+    if (prop == null || prop.equals("0")) {
+	var squadAvailability = cm.getSquadAvailability("Horntail");
+	if (squadAvailability == -1) {
+	    status = 0;
+	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
+		cm.sendOk("你已经去了黑龙在过去12小时。剩下的时间： " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 3600000)));
+		cm.dispose();
+		return;
+	    }
+	    cm.sendYesNo("你有兴趣成为探险队的领队吗？");
+
+	} else if (squadAvailability == 1) {
+	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
+		cm.sendOk("你已经去了黑龙在过去12小时。剩下的时间: " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 3600000)));
+		cm.dispose();
+		return;
+	    }
+	    // -1 = Cancelled, 0 = not, 1 = true
+	    var type = cm.isSquadLeader("Horntail");
+	    if (type == -1) {
+		cm.sendOk("组队已经结束了，请重新开始任务.");
+		cm.dispose();
+	    } else if (type == 0) {
+		var memberType = cm.isSquadMember("Horntail");
+		if (memberType == 2) {
+		    cm.sendOk("你被禁止入队.");
+		    cm.dispose();
+		} else if (memberType == 1) {
+		    status = 5;
+		    cm.sendSimple("你想做什么？ \r\n#b#L0#检查成员#l \r\n#b#L1#加入队伍#l \r\n#b#L2#退出队伍#l");
+		} else if (memberType == -1) {
+		    cm.sendOk("The squad has ended, please re-register.");
+		    cm.dispose();
+		} else {
+		    status = 5;
+		    cm.sendSimple("你想做什么？? \r\n#b#L0#检查成员#l \r\n#b#L1#加入队伍#l \r\n#b#L2#退出队伍#l");
+		}
+	    } else { // Is leader
+		status = 10;
+		cm.sendSimple("你想做什么？? \r\n#b#L0#检查成员#l \r\n#b#L1#删除成员#l \r\n#b#L2#编辑限制列表#l \r\n#r#L3#进入地图#l");
+	    // TODO viewing!
+	    }
+	} else {
+			var eim = cm.getDisconnected("HorntailBattle");
+			if (eim == null) {
+				var squd = cm.getSquad("Horntail");
+				if (squd != null) {
+	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
+		cm.sendOk("你已经去了黑龙在过去12小时。剩下的时间: " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 3600000)));
+		cm.dispose();
+		return;
+	    }
+					cm.sendYesNo("小队与黑龙的战斗已经开始了。\r\n" + squd.getNextPlayer());
+					status = 3;
+				} else {
+					cm.sendOk("小队与黑龙的战斗已经开始了.");
+					cm.safeDispose();
+				}
+			} else {
+				cm.sendYesNo("啊，你回来了。你愿意再加入你的队伍吗？");
+				status = 1;
+			}
+	}
+    } else {
+			var eim = cm.getDisconnected("HorntailBattle");
+			if (eim == null) {
+				var squd = cm.getSquad("Horntail");
+				if (squd != null) {
+	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
+		cm.sendOk("你已经去了黑龙在过去12小时。剩下的时间: " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 3600000)));
+		cm.dispose();
+		return;
+	    }
+					cm.sendYesNo("小队与黑龙的战斗已经开始了.\r\n" + squd.getNextPlayer());
+					status = 3;
+				} else {
+					cm.sendOk("小队与黑龙的战斗已经开始了.");
+					cm.safeDispose();
+				}
+			} else {
+				cm.sendYesNo("啊，你回来了。你愿意再加入你的队伍吗？?");
+				status = 1;
+			}
+    }
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (mode == 0) {
-			cm.sendOk("�����#b�ڰ�����#k�ǳ�ǿ�󣡣���ƾһ���˵�Ŭ����սʤ�������ģ�");
-			cm.dispose();
-			return;
+    switch (status) {
+	case 0:
+	    	if (mode == 1) {
+			if (cm.registerSquad("Horntail", 5, " 被任命为小组队长（常规）。如果您愿意参加，请在时间段内为远征队登记。")) {
+				cm.sendOk("你被任命为小组队长。在接下来的5分钟里，你可以加入探险队的成员。");
+			} else {
+				cm.sendOk("增加小组时出现错误.");
+			}
+	    	}
+	    cm.dispose();
+	    break;
+	case 1:
+		if (!cm.reAdd("HorntailBattle", "Horntail")) {
+			cm.sendOk("错误…请再试一次。");
 		}
+		cm.safeDispose();
+		break;
+	case 3:
 		if (mode == 1) {
-			status++;
+			var squd = cm.getSquad("Horntail");
+			if (squd != null && !squd.getAllNextPlayer().contains(cm.getPlayer().getName())) {
+				squd.setNextPlayer(cm.getPlayer().getName());
+				cm.sendOk("你已经预订好位置了.");
+			}
+		}
+		cm.dispose();
+		break;
+	case 5:
+	    if (selection == 0) {
+		if (!cm.getSquadList("Horntail", 0)) {
+		    cm.sendOk("由于一个未知的错误，对小组的要求被拒绝了.");
+		}
+	    } else if (selection == 1) { // join
+		var ba = cm.addMember("Horntail", true);
+		if (ba == 2) {
+		    cm.sendOk("队伍已满，请稍后再试。");
+		} else if (ba == 1) {
+		    cm.sendOk("你已经成功地加入了小组。");
 		} else {
-			status--;
+		    cm.sendOk("You are already part of the squad.");
 		}
-		
-		if (status == 0) {
-			if (cm.getSquadState(MapleSquadType.HORNTAIL) == 0) {
-				cm.sendYesNo("�������������µ���ս����������Ҫ#b����һ��Զ����#k�������С�Ӷ��������������Ž����������#b��սǿ��Ĺ���?\r\nϵͳ��⵽��û��С��\r\n#r�Ƿ񴴽�һ��Զ���ӣ�");
-			} else if (cm.getSquadState(MapleSquadType.HORNTAIL) == 1) {
-				if (cm.checkSquadLeader(MapleSquadType.HORNTAIL)) {
-					cm.sendSimple("��ʿ...����Ҫ��ʲô?\r\n#b#L1#�鿴ĿǰԶ������Ϣ#l\r\n#L2#Close registrations#l\r\n#L3#Start the fight#l\r\n#L4#�ر�/�˳��ҵ���Ϣ#l\r\n");
-					status = 19;
-				} else if (cm.isSquadMember(MapleSquadType.HORNTAIL)) {
-					var noOfChars = cm.numSquadMembers(MapleSquadType.HORNTAIL);
-					var toSend = "The following warriors are ready to fight Horntail:\r\n";
-					for (var i = 1; i <= noOfChars; i++) {
-						if (i == 1) {
-							toSend += "#L" + i + "##rNo. " + i + ": " + cm.getSquadMember(MapleSquadType.HORNTAIL, i - 1).getName() + "#l#k" + "\r\n";
-						}
-						else {
-							toSend += "#L" + i + "#No. " + i + ": " + cm.getSquadMember(MapleSquadType.HORNTAIL, i - 1).getName() + "#l" + "\r\n";
-						}
-					}
-					cm.sendSimple(toSend);
-					cm.dispose();
-					return;
-				} else {
-					cm.sendYesNo("Would you like to join the Horntail squad? Victorious warriors are looked upon greatly and will recieve immense rewards!");
-					status = 9;
-				}
-			} else if (cm.getSquadState(MapleSquadType.HORNTAIL) == 2) {
-				if (cm.checkSquadLeader(MapleSquadType.HORNTAIL)) {
-					cm.sendSimple("��ʿ...����Ҫ��ʲô??\r\n#L1#�鿴Զ������Ϣ#l\r\n#L2#Open registrations#l\r\n#L3#Start the fight!#l");
-					status = 19;
-				} else if (cm.isSquadMember(MapleSquadType.HORNTAIL)) {
-					var noOfChars = cm.numSquadMembers(MapleSquadType.HORNTAIL);
-					var toSend = "The following members make up the squad:\r\n";
-					for (var i = 1; i <= noOfChars; i++) {
-						toSend += "#L" + i + "# " + i + " - " + cm.getSquadMember(MapleSquadType.HORNTAIL, i - 1).getName() + "#l" + "\r\n";
-					}
-					cm.sendSimple(toSend);
-					cm.dispose();
-				} else {
-					cm.sendOk("���Զ���Ӷ����Ѿ��������Ҽ�¼�����ˣ�����������Ҫ���룬����������ѡ����룡");
-					cm.dispose();
-					return;
-				}
-			} else {
-				cm.sendOk("The battle against Horntail has begun. You must await their completion before you can go further!");
-				cm.dispose();
-				return;
-			}
-		} else if (status == 1) {
-			if (cm.createMapleSquad(MapleSquadType.HORNTAIL) != null) {
-				cm.getPlayer().getMap().broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(6, cm.getPlayer().getName() + " has been appointed the leader of the Horntail Squad. Please apply now if you would like to join " + cm.getPlayer().getName() + " in defeating Horntail!"));
-				cm.sendOk("���Զ�����Ѿ������ˡ��Ѿ���¼����Ϣ�ڣ���");
-				cm.dispose();
-				return;
-			} else {
-				cm.sendOk("Please make sure a squad hasn't already been created!");
-				cm.dispose();
-				return;
-			}
-		} else if (status == 10) {
-				if (cm.numSquadMembers(MapleSquadType.HORNTAIL) > 29) {
-					cm.sendOk("Sorry, the Honrtail squad is full.");
-					cm.dispose();
-				} else {
-					if (cm.canAddSquadMember(MapleSquadType.HORNTAIL)) {
-						cm.addSquadMember(MapleSquadType.HORNTAIL);
-						cm.sendOk("You have signed up, please wait for further instructions from your squad leader.");
-						cm.dispose();
-					} else {
-						cm.sendOk("Sorry, but the leader has stopped you from joining!");
-						cm.dispose();
-					}
-				}
-		} else if (status == 20) {
-			if (selection == 1) {
-				var noOfChars = cm.numSquadMembers(MapleSquadType.HORNTAIL);
-				var toSend = "Ŀǰ��Զ������Ϣ�����򲻷�ʵ����:\r\n";
-				for (var i = 1; i <= noOfChars; i++) {
-					if (i == 1) {
-						toSend += "#L" + i + "##r�� " + i + ": " + cm.getSquadMember(MapleSquadType.HORNTAIL, i - 1).getName() + "#l#k" + "\r\n";
-					}
-					else {
-						toSend += "#L" + i + "#�� " + i + ": " + cm.getSquadMember(MapleSquadType.HORNTAIL, i - 1).getName() + "#l" + "\r\n";
-					}
-				}
-				cm.sendSimple(toSend);
-			} else if (selection == 2) {
-				if (cm.getSquadState(MapleSquadType.HORNTAIL) == 1) {
-					cm.setSquadState(MapleSquadType.HORNTAIL, 2);
-					cm.sendOk("Registrations have been closed, please talk to me again to start the fight or to re-open them.");
-				} else {
-					cm.setSquadState(MapleSquadType.HORNTAIL, 1);
-					cm.sendOk("Registrations have been opened, please talk to me again to start the fight or to close them.");
-				}
-				cm.dispose();
-				return;
-			} else if (selection == 3) {
-				if (cm.numSquadMembers(MapleSquadType.HORNTAIL) < 5) {
-					cm.sendOk("You need to rethink your strategy. You'll need at least 5 warriors to begin the fight against the mighty Horntail!");
-					cm.dispose();
-					return;
-				} else {
-					cm.sendOk("I wish you the best of luck on defeating Horntail.");
-					status = 29;
-				}
-			} else if (selection == 4) {
-				if (cm.checkSquadLeader(MapleSquadType.HORNTAIL)) {
-					cm.removeMapleSquad(MapleSquadType.HORNTAIL);
-				} else {
-					cm.dispose();
-					return;
-				}
-			}
-		} else if (status == 21) {
-			if (selection > 0) {
-				cm.removeSquadMember(MapleSquadType.HORNTAIL, selection - 1, true);
-				cm.sendOk("The selected member has been banned.");	
-				cm.dispose();
-				return;
-			} else {
-				if (cm.getSquadState(MapleSquadType.HORNTAIL) == 1) {
-					cm.sendSimple("What would you like to do?\r\n#L1#View the squad members#l\r\n#L2#Close registrations#l\r\n#L3#Start the fight#l");
-				} else {
-					cm.sendSimple("What would you like to do?\r\n#L1#View the squad members#l\r\n#L2#Open registrations#l\r\n#L3#Start the fight#l");
-				}	
-				status = 19;
-			}
-		} else if (status == 30) {
-			cm.setSquadState(MapleSquadType.HORNTAIL, 3);
-			cm.warpSquadMembers(MapleSquadType.HORNTAIL, 240060000);
-			cm.setSquadBossLog(MapleSquadType.HORNTAIL, 'HORNTAIL');
+	    } else {// withdraw
+		var baa = cm.addMember("Horntail", false);
+		if (baa == 1) {
+		    cm.sendOk("你已经退出了小组的成功");
+		} else {
+		    cm.sendOk("You are not part of the squad.");
+		}
+	    }
+	    cm.dispose();
+	    break;
+	case 10:
+	    if (mode == 1) {
+		if (selection == 0) {
+		    if (!cm.getSquadList("Horntail", 0)) {
+			cm.sendOk("由于一个未知的错误，对小组的要求被拒绝了。");
+		    }
+		    cm.dispose();
+		} else if (selection == 1) {
+		    status = 11;
+		    if (!cm.getSquadList("Horntail", 1)) {
+			cm.sendOk("由于一个未知的错误，对小组的要求被拒绝了。");
 			cm.dispose();
-			return;
+		    }
+		} else if (selection == 2) {
+		    status = 12;
+		    if (!cm.getSquadList("Horntail", 2)) {
+			cm.sendOk("由于一个未知的错误，对小组的要求被拒绝了。");
+			cm.dispose();
+		    }
+		} else if (selection == 3) { // get insode
+		    if (cm.getSquad("Horntail") != null) {
+			var dd = cm.getEventManager("HorntailBattle");
+			dd.startInstance(cm.getSquad("Horntail"), cm.getMap(), 160100);
+		    } else {
+			cm.sendOk("由于一个未知的错误，对小组的要求被拒绝了。");
+		    }
+		    cm.dispose();
 		}
-	}
+	    } else {
+		cm.dispose();
+	    }
+	    break;
+	case 11:
+	    cm.banMember("Horntail", selection);
+	    cm.dispose();
+	    break;
+	case 12:
+	    if (selection != -1) {
+		cm.acceptMember("Horntail", selection);
+	    }
+	    cm.dispose();
+	    break;
+	default:
+	    cm.dispose();
+	    break;
+    }
 }

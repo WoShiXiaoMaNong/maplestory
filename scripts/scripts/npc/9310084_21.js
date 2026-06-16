@@ -56,7 +56,7 @@ function action(mode, type, selection) {
 				cm.gainItem(1113164,2,2,2,2,200,200,2,2,10,10,10,10,5,5);
 				cm.gainMeso(100000);
             cm.sendOk("兑换成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]用30个[月妙副本蛋]兑换了[新手赏金猎人戒指]，多多带新手，攒人品哦~！");
+		//	cm.worldMessage(6,"玩家：["+cm.getName()+"]用30个[月妙副本蛋]兑换了[新手赏金猎人戒指]，多多带新手，攒人品哦~！");
             cm.dispose();
 			}else{
             cm.sendOk("您的材料不足！");

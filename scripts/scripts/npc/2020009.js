@@ -1,31 +1,3 @@
-/*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-		       Matthias Butz <matze@odinms.de>
-		       Jan Christian Meyer <vimes@odinms.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-//BY MOOGRA
-/* Robeira
-	Magician 3rd job advancement
-	El Nath: Chief's Residence (211000001)
-	Custom Quest 100100, 100102
-*/
-
 var status = 0;
 var job;
 
@@ -48,59 +20,69 @@ function action(mode, type, selection) {
         else
             status--;
         if (status == 0) {
-		if (cm.getJob() == 211 || cm.getJob() == 221 || cm.getJob() == 231 || cm.getJob() == 212 || cm.getJob() == 222 || cm.getJob() == 232) {	
-	    cm.sendOk("您属于法师部,但是您已经成功三转了,已经超越了教官的强度了!");
-	    cm.dispose();
-	    return;
-		}
-            if (!(cm.getJob()==210 ||cm.getJob()==220||cm.getJob()==230)) {
-		cm.sendOk("请找您的转职教官,您不属于法师部的滚吧!");
+            if (cm.getJob() == 211 || cm.getJob() == 221 || cm.getJob() == 231 || cm.getJob() == 212 || cm.getJob() == 222 || cm.getJob() == 232) {
+                cm.sendOk("您属于魔法师职业群,但是您已经成功三转了,已经超越了教官的强度了!");
                 cm.dispose();
                 return;
-			} else if (cm.getPlayer().getLevel() < 70) {
-				cm.sendOk("你的等级尚未满70等");
-				cm.dispose();
-				return;		
-            }	
-			if (cm.haveItem(4031057, 1)){
-                cm.sendNext("恭喜你到达这里,最后我将给你一个考验!");			
-            } else if (!(cm.haveItem(4031057,1))) {
-				cm.warp(101000003);
+            }
+            if (!(cm.getJob() == 210 || cm.getJob() == 220 || cm.getJob() == 230)) {
+                cm.sendOk("请找您的转职教官,您不属于魔法师职业群的!");
+                cm.dispose();
+                return;
+            } else if (cm.getPlayer().getLevel() < 70) {
+                cm.sendOk("你的等级尚未满70");
+                cm.dispose();
+                return;
+            }
+            if (cm.haveItem(4031057, 1)) {
+                cm.sendNext("恭喜你到达这里,最后我将给你一个考验!");
+            } else if (!(cm.haveItem(4031057, 1))) {
+                cm.warp(101000003);
                 cm.sendOk("去找 #r汉斯#k 他会帮助你的!");
                 cm.dispose();
             } else if (cm.getPlayer().getRemainingSp() <= (cm.getLevel() - 70) * 3) {
                 cm.sendNext("你的技能点数还没点完..");
-		} else {
+            } else {
                 cm.sendOk("你还不能转职...");
                 cm.dispose();
             }
         } else if (status == 1) {
             if (cm.haveItem(4031058, 1)) {
-                if (cm.getJob()==210) {
+                if (cm.getJob() == 210) {
                     cm.changeJob(211);
                     //cm.getPlayer().gainAp(5);
-					cm.gainItem(4031057, -1);
-					cm.gainItem(4031058, -1);
-					cm.sendOk("恭喜你现在已经成为最帅的魔导士(火.毒)了!");
-					cm.worldMessage("‘转职快报’：恭喜玩家."+ cm.getChar().getName() +"  成功三转-魔导士(火.毒)让我们热烈的祝福他/她吧！");
+                    cm.gainItem(4031057, -1);
+                    cm.gainItem(4031058, -1);
+                    cm.sendOk("恭喜你现在已经成为最帅的魔导士(火.毒)了!");
+                    if (cm.getPlayer().getGender() == 0) {
+                        cm.worldMessage("[转职快报]：恭喜帅哥." + cm.getChar().getName() + "  成功转职成为一名 巫师（火，毒），让我们热烈的祝福他吧！！！");
+                    } else {
+                        cm.worldMessage("[转职快报]：恭喜美女." + cm.getChar().getName() + "  成功转职成为一名 巫师（火，毒），让我们热烈的祝福她吧！！！");
+                    }
                     cm.dispose();
-                } else if (cm.getJob()==220) {
+                } else if (cm.getJob() == 220) {
                     cm.changeJob(221);
                     //cm.getPlayer().gainAp(5);
-					cm.gainItem(4031057, -1);
-					cm.gainItem(4031058, -1);
+                    cm.gainItem(4031057, -1);
+                    cm.gainItem(4031058, -1);
                     cm.sendOk("恭喜你现在已经成为最帅的魔导士(冰.雷)了!");
-					cm.worldMessage("‘转职快报’：恭喜玩家."+ cm.getChar().getName() +"  成功三转-魔导士(冰.雷)让我们热烈的祝福他/她吧！");
-					
+                    if (cm.getPlayer().getGender() == 0) {
+                        cm.worldMessage("[转职快报]：恭喜帅哥." + cm.getChar().getName() + "  成功转职成为一名 巫师（雷，冰），让我们热烈的祝福他吧！！！");
+                    } else {
+                        cm.worldMessage("[转职快报]：恭喜美女." + cm.getChar().getName() + "  成功转职成为一名 巫师（雷，冰），让我们热烈的祝福她吧！！！");
+                    }
                     cm.dispose();
-                } else if (cm.getJob()==230) {
+                } else if (cm.getJob() == 230) {
                     cm.changeJob(231);
                     //cm.getPlayer().gainAp(5);
-					cm.gainItem(4031057, -1);
-					cm.gainItem(4031058, -1);
+                    cm.gainItem(4031057, -1);
+                    cm.gainItem(4031058, -1);
                     cm.sendOk("恭喜你现在已经成为最帅的祭司了!");
-					cm.worldMessage("‘转职快报’：恭喜玩家."+ cm.getChar().getName() +"  成功三转-祭司让我们热烈的祝福他/她吧！");
-                    cm.dispose();
+                    if (cm.getPlayer().getGender() == 0) {
+                        cm.worldMessage("[转职快报]：恭喜帅哥." + cm.getChar().getName() + "  成功转职成为一名 祭司，让我们热烈的祝福他吧！！！");
+                    } else {
+                        cm.worldMessage("[转职快报]：恭喜美女." + cm.getChar().getName() + "  成功转职成为一名 祭司，让我们热烈的祝福她吧！！！");
+                    } cm.dispose();
                 }
             } else if (cm.haveItem(4031057, 1))
                 cm.sendAcceptDecline("你准备承担最终测试??");

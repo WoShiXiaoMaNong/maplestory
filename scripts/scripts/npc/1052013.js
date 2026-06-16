@@ -6,7 +6,7 @@ var maps = Array(190000000, 191000000, 192000000, 195000000, 196000000, 19700000
 );
 
 function start() {
-    var selStr = "Select your desired premium map exclusively for you!#b";
+    var selStr = "这里是电脑世界，你确定要前往电脑网吧世界么？#b";
     for (var i = 0; i < maps.length; i++) {
 	selStr += "\r\n#L" + i + "##m" + maps[i] + "# #l";
     }

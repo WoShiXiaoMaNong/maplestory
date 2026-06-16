@@ -1,5 +1,5 @@
 /*
-	This file is part of the odinms Maple Story Server
+	This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
 					   Matthias Butz <matze@odinms.de>
 					   Jan Christian Meyer <vimes@odinms.de>
@@ -20,10 +20,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* @Luckyman
+/* @Author Jvlaple
  * 
- * 2092001.js: Happyville Box - drops Magical Mitten 
+ * OPQ Lobby Reactor
 */
-function act() {
+
+function act(){
 	rm.dropItems();
 }

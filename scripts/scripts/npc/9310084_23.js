@@ -57,7 +57,7 @@ function action(mode, type, selection) {
 				cm.gainItem(1113166,6,6,6,6,600,600,6,6,50,50,15,15,5,5);
 				cm.gainMeso(100000);
             cm.sendOk("兑换成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]用30个[玩具副本蛋]+[赏金猎人戒指]进化出[高手赏金猎人戒指]，再接再厉哦！");
+		//	cm.worldMessage(6,"玩家：["+cm.getName()+"]用30个[玩具副本蛋]+[赏金猎人戒指]进化出[高手赏金猎人戒指]，再接再厉哦！");
             cm.dispose();
 			}else{
             cm.sendOk("您的材料不足！");

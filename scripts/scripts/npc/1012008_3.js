@@ -1,70 +1,132 @@
+importPackage(java.lang);
+importPackage(Packages.tools);
+importPackage(Packages.client);
+importPackage(Packages.server);
+var status = 0;
+var 黑水晶 = 4021008;
+var 感叹号 = "#fUI/UIWindow/Quest/icon0#";
+var 正方箭头 = "#fUI/Basic/BtHide3/mouseOver/0#";
+var 牌9 = "#fEffect/SkillName1.img/1001003/牌9#";
+var 牌8 = "#fEffect/SkillName1.img/1001003/牌8#";
+var 牌6 = "#fEffect/SkillName1.img/1001003/牌6#";
+var 牌7 = "#fEffect/SkillName1.img/1001003/牌7#";
 function start() {
     status = -1;
-
     action(1, 0, 0);
 }
+
 function action(mode, type, selection) {
     if (mode == -1) {
         cm.dispose();
-    }
-    else {
+    } else {
         if (status >= 0 && mode == 0) {
-
-            cm.sendOk("感谢你的光临！");
             cm.dispose();
             return;
         }
-        if (mode == 1) {
+        if (mode == 1)
             status++;
-        }
-        else {
+        else
             status--;
-        }
         if (status == 0) {
-            var tex2 = "";
-            var text = "";
-            for (i = 0; i < 10; i++) {
-                text += "";
-            }
-			//显示物品ID图片用的代码是  #v这里写入ID#
-            text += "#e#d制作#v4080002#需要#v4000010#x200.#v4000017#x10,#v4031891#100万.搜集好道具我就可以为您制作了.#l\r\n\r\n"//3
-            text += "#L1##r制作五子棋#l\r\n\r\n"//3
-            cm.sendSimple(text);
-        } else if (selection == 1) {
-			//1
-			//2
-			//3
-			//4
-			//5
-			/*if(!cm.beibao(1,3)){
-            cm.sendOk("装备栏空余不足3个空格！");
-            cm.dispose();
-			}else if(!cm.beibao(2,2)){
-            cm.sendOk("消耗栏空余不足2个空格！");
-            cm.dispose();
-			}else if(!cm.beibao(3,1)){
-            cm.sendOk("设置栏空余不足1个空格！");
-            cm.dispose();
-			}else if(!cm.beibao(4,1)){
-            cm.sendOk("其他栏空余不足1个空格！");
-            cm.dispose();
-			}else if(!cm.beibao(5,1)){
-            cm.sendOk("现金栏空余不足1个空格！");
-            cm.dispose();
-			}else */if(cm.haveItem(4000010,200) && cm.haveItem(4000017,10) && cm.getMeso() > 1000000){
-				cm.gainItem(4000010, -200);
-				cm.gainItem(4000017, -10);
-				cm.gainItem(4080002, 1);
-				cm.gainMeso(-1000000);
-            cm.sendOk("制作成功！");
-			cm.worldMessage(6,"玩家：["+cm.getName()+"]制作了[绿水灵/猪猪五子棋]，快快享受游戏的乐趣吧！");
-            cm.dispose();
-			}else{
-            cm.sendOk("您的材料不足！");
-            cm.dispose();
+	    var a1 = "#L1##b" + 牌8 + "";
+		var a2 = "#L2##b" + 牌9 + "";
+		var a3 = "#L3##b" + 牌6 + "";
+		var a4 = "#L4##b" + 牌7 + "";
+
+
+            cm.sendSimple("自由冒险岛翻牌小游戏#r第三关#k。\r\n\r\n"+a1+""+a2+""+a3+""+a4+"");
+            
+	    } else if (selection == 1) {
+			
+		if (cm.getMeso()>=0  ) {
+			var rand=Math.floor(Math.random()*100);
+			if(rand<40){
+            cm.gainMeso(25000);
+			cm.setBossRankCount("翻牌");
+			cm.dispose();
+			cm.openNpc(1012008,4);
+			return;
 			}
+			else {
+			cm.gainMeso(-25000);
+			cm.sendOk("瞬间爆炸。完成单杀。");
+			cm.dispose();
+			return;
+				}
+		} else {
+			cm.sendOk("哈哈哈····");
+			cm.dispose();
+			return;
 		}
+		} else if (selection == 2) {
+			
+		if (cm.getMeso()>=0  ) {
+			var rand=Math.floor(Math.random()*100);
+			if(rand<45){
+            cm.gainMeso(25000);
+			cm.setBossRankCount("翻牌");
+			cm.dispose();
+			cm.openNpc(1012008,4);
+			return;
+			}
+			else {
+			cm.gainMeso(-25000);	
+			cm.sendOk("瞬间爆炸。完成单杀。");
+			cm.dispose();
+			return;
+				}
+		} else {
+			cm.sendOk("哈哈哈····");
+			cm.dispose();
+			return;
+		}
+		} else if (selection == 3) {
+			
+		if (cm.getMeso()>=0  ) {
+			var rand=Math.floor(Math.random()*100);
+			if(rand<45){
+            cm.gainMeso(25000);
+			cm.setBossRankCount("翻牌");
+			cm.dispose();
+			cm.openNpc(1012008,4);
+			return;
+			}
+			else {
+		    cm.gainMeso(-25000);
+			cm.sendOk("瞬间爆炸。完成单杀。");
+			cm.dispose();
+			return;
+				}
+		} else {
+			cm.sendOk("哈哈哈····");
+			cm.dispose();
+			return;
+		}
+		} else if (selection == 4) {
+			
+		if (cm.getMeso()>=0  ) {
+			var rand=Math.floor(Math.random()*100);
+			if(rand<45){
+            cm.gainMeso(25000);
+			cm.setBossRankCount("翻牌");
+			cm.dispose();
+			cm.openNpc(1012008,4);
+			return;
+			}
+			else {
+		    cm.gainMeso(-25000);
+			cm.sendOk("瞬间爆炸。完成单杀。");
+			cm.dispose();
+			return;
+				}
+		} else {
+			cm.sendOk("哈哈哈····");
+			cm.dispose();
+			return;
+		}
+        
+
+		}
+		
     }
 }
-
-

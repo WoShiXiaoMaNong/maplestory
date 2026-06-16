@@ -72,4 +72,5 @@ function onMapLoad(eim, player) {
     // Happens when player change map - Unused for now.
 }
 
-function cancelSchedule() {}
+function cancelSchedule() {
+}

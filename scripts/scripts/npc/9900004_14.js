@@ -1,90 +1,407 @@
-function start() {
-    status = -1;
+/*
+ *
+ *  此脚本由乐章网络制作完成
+ * 购买商业脚本请加群:1049548
+ *
+ */
 
-    action(1, 0, 0);
-}
-function action(mode, type, selection) {
-    if (mode == -1) {
-        cm.dispose();
-    } else {
-        if (status >= 0 && mode == 0) {
 
-            cm.sendOk("感谢你的光临！");
-            cm.dispose();
-            return;
-        }
-        if (mode == 1) {
-            status++;
-        } else {
-            status--;
-        }
-        if (status == 0) {
-            var tex2 = "";
-            var text = "";
-            for (i = 0; i < 10; i++) {
-                text += "";
-            }
-            text += "#L9##dLv10.英语学院副本#l\r\n\r\n"//3
-            text += "#L1##dLv10.月妙组队副本#l\r\n\r\n"//3
-            text += "#L2##dLv10.废弃组队副本#l\r\n\r\n"//3
-            text += "#L10##dLv30.怪物嘉年华(组队对抗副本.最低2V2)#l\r\n\r\n"//3
-            text += "#L3##dLv35.玩具组队副本#l\r\n\r\n"//3
-            text += "#L4##dLv51.天空组队副本#l\r\n\r\n"//3
-            text += "#L6##dLv55.海盗组队副本#l\r\n\r\n"//3
-            text += "#L5##dLv70.毒物组队副本#l\r\n\r\n"//3
-            text += "#L7##dLv100.罗密欧与朱丽叶#l\r\n\r\n"//3
-            text += "#L11##dLv120.千年树精王遗迹Ⅱ(极品眼饰出处.)#l\r\n\r\n"//3
-            text += "#L12##dLv130.人偶师BOSS挑战(必爆坐骑卷，白色礼物盒.)#l\r\n\r\n"//3
-            text += "#L8##d遗址公会对抗战(家族副本)#l\r\n\r\n"//3
-            cm.sendSimple(text);
-        } else if (selection == 1) { //月妙组队副本
-            cm.warp(100000200);
-            cm.dispose();
-            //cm.openNpc(1012112, 0);
-        } else if (selection == 2) {  //废弃组队副本
-            cm.warp(103000000);
-            cm.dispose();
-            //cm.openNpc(9020000, 0);
-        } else if (selection == 3) { //玩具组队副本
-            cm.warp(221024500);
-            cm.dispose();
-            //cm.openNpc(2040034, 0);
-        } else if (selection == 4) {//天空组队副本
-            cm.warp(200080101);
-            cm.dispose();
-            //cm.openNpc(2013000, 0);
-        } else if (selection == 5) {//毒物组队副本
-            cm.warp(300030100);
-            cm.dispose();
-            //cm.openNpc(2133000, 0);
-        } else if (selection == 6) {//海盗组队副本
-            cm.warp(251010404);
-            cm.dispose();
-            //cm.openNpc(2094000, 0);
-        } else if (selection == 7) {//罗密欧与朱丽叶组队副本
-            cm.warp(261000011);
-            cm.dispose();
-        } else if (selection == 8) {//遗址公会对抗战
-            cm.warp(101030104);
-            cm.dispose();
-        } else if (selection == 9) {//英语学院副本
-            cm.warp(702090400);
-            cm.dispose();
-            //cm.openNpc(9310057, 0);
-        } else if (selection == 11) {//英语学院副本
-            cm.warp(541020700);
-            cm.dispose();
-            //cm.openNpc(9310057, 0);
-        } else if (selection == 12) {//英语学院副本
-            cm.warp(910510001);
-            cm.dispose();
-            //cm.openNpc(9310057, 0);
-        } else if (selection == 10) {//英语学院副本
-            cm.warp(980000000);
-            cm.dispose();
-            //cm.openNpc(9310057, 0);
-        }
+importPackage(net.sf.cherry.client);
+
+var aaa = "#fUI/UIWindow.img/Quest/icon9/0#";
+var zzz = "#fUI/UIWindow.img/Quest/icon8/0#";
+var sss = "#fUI/UIWindow.img/QuestIcon/3/0#";
+
+//------------------------------------------------------------------------
+
+var chosenMap = -1;
+var monsters = 0;
+var towns = 0;
+var bosses = 0;
+var fuben = 0;
+var feixing = 0;
+
+// 在处理第一阶段（显示菜单）和第二阶段（扣费传送）前，先计算动态费用
+
+var town_fee =5000;  // 基础费用，实际费用为 town_fee+ (cm.getPlayer().getLevel() * 350); // 20级收8000，100级收32000
+
+//------------------------------------------------------------------------
+
+var bossmaps = Array( 
+                                        Array(100000005,0,"蘑菇王副本"), 
+                                        Array(800010100,0,"蓝蘑菇王副本"), 
+                                        Array(105070002,0,"僵尸蘑菇王副本"), 
+                                        Array(701010322,0,"蜈蚣王副本--可刷金币"), 
+										Array(105090900,0,"被诅咒的寺院 - 小蝙蝠魔-0.5h"), 
+                                       // Array(921100300,0,"蝙蝠魔之家"), 
+                                        //Array(910300000,0,"达克鲁的训练场 - 暗影杀手"), 
+										//Array(551030200,0,"阴森世界 - 暴力熊心疤狮"),
+										Array(541020700,0,"克雷塞尔的遗迹I - 树精BOSS"),
+										//Array(702070400,0,"藏经阁七层   - 少林妖僧"), 
+										Array(240020400,0,"喷火龙栖息地 - 神木喷火龙-2h"),
+										Array(240020100,0,"格瑞芬多森林 - 神木天鹰-2h"),
+										Array(230040420,0,"皮亚奴斯洞穴 - 鱼王-左4h右3h"),
+										Array(220080001,0,"时间塔的本源 - 闹钟"), 
+                                       // Array(801030000,0,"黑道boss -     老板-2h"),
+                                       // Array(800020130,0,"大佛的邂逅Boss - 天狗  -4h"), 
+                                        //Array(801010000,0,"街道boss   -  最强保镖 -4h"), 
+                                        //Array(800020300,0,"墓地boss   -  大姐大   -4h"),  
+										Array(551030100,0,"暴力熊 "), 
+										//Array(211042400,0,"扎昆入口   -  扎昆"), 
+										Array(211042400,0,"扎昆入口   -  扎昆"), 
+										//Array(280030000,0,"挑战扎昆 - 掉线以后再进，不然召唤不了扎昆"), 
+										Array(240050400,0,"生命之穴 - 暗黑龙王")
+										//Array(270050000,0,"神的黄昏     - 品克缤")  
+										);
+
+//------------------------------------------------------------------------
+
+var monstermaps = Array(
+		Array(104040000,0,"射手训练场Ⅰ<怪物多>　适合 1 ~ 15 级玩家。"),
+        Array(104040001,0,"射手训练场Ⅱ<怪物多>  适合 1 ~ 15 级玩家。"),		
+		Array(103000101,0,"地铁一号线<第1地区> 适合 20 ~ 30 级玩家。"), 
+	    Array(103000104,0,"地铁一号线<第3地区><怪物多>　适合 30 ~ 50 级玩家。"),
+		Array(103000105,0,"地铁一号线<第4地区> 适合 50 ~ 70 级玩家。"), 
+		Array(101030110,0,"第1军营　　　　　　 适合 40 ~ 60 级玩家。"), 
+		Array(106000002,0,"危险的峡谷Ⅱ　　　　适合 40 ~ 60 级玩家。"), 
+		Array(101030103,0,"遗迹发掘地Ⅲ　　　　适合 40 ~ 60 级玩家。"), 
+		Array(101040001,0,"野猪的领土          适合 20 ~ 35 级玩家。"), 
+		Array(101040003,0,"钢之黑怪之地　　　　适合 20 ~ 35 级玩家。"), 
+		Array(101030001,0,"野猪的领土Ⅱ　　    适合 20 ~ 35 级玩家。"), 
+		Array(104010001,0,"猪的海岸<怪物多>　　适合 10 ~ 20 级玩家。"), 
+		Array(105070001,0,"蚂蚁广场 　　　　　 适合 20 ~ 40 级玩家。"), 
+		Array(106000200,0,"幽深峡谷Ⅲ<怪物多>　适合 20 ~ 40 级玩家。"),  
+		Array(105090300,0,"龙穴　　　　　　　　适合 40 ~ 70 级玩家。"), 
+		Array(105040306,0,"巨人之林<怪物多> 　 适合 60 ~ 80 级玩家。"),
+		Array(261020300,0,"研究所C-1地区       适合 65 ~ 80 级玩家。"),
+		Array(230020000,0,"东海叉路　　　　　　适合 30 ~ 40 级玩家。"), 
+		Array(230010400,0,"西海叉路　　　　　　适合 40 ~ 50 级玩家。"), 
+		Array(211041400,0,"死亡之林Ⅳ　　　　　适合 55 ~ 70 级玩家。"), 
+		Array(222010000,0,"乌山入口　　　　　　适合 20 ~ 50 级玩家。"), 
+		Array(220010500,0,"露台大厅<怪物多>　  适合 40 ~ 70 级玩家。"), 
+		Array(251010000,0,"十年药草地　　　　　适合 45 ~ 60 级玩家。"), 
+		Array(250020000,0,"初级修炼场　　　　　适合 50 ~ 60 级玩家。"),
+		Array(800020130,0,"大佛的邂逅　　　　　适合 50 ~ 70 级玩家。"), 
+		Array(200040000,0,"云彩公园Ⅲ　　　　　适合 35 ~ 60 级玩家。"),
+		Array(541010010,0,"幽灵船２<怪物多>    适合 60 ~ 90 级玩家。"),
+		Array(251010402,0,"红鼻子海盗团老巢 2  适合 70 ~ 90 级玩家。"),
+		Array(200010301,0,"黑暗庭院Ⅰ　　　　　适合 70 ~ 90 级玩家。"),
+		Array(600020300,0,"狼蛛洞穴Ⅰ　　　　　适合 80 ~ 120 级玩家。"), 
+		Array(240020100,0,"火焰死亡战场　　　　适合 85 ~ 120 级玩家。"),
+		Array(240020500,0,"冰火战场<怪物多>    适合 85 ~ 120 级玩家。"),
+		Array(220070201,0,"消失的时间　　　　　适合 85 ~ 120 级玩家。"), 
+		Array(220070301,0,"时间停止之间　　　　适合 95 ~ 120 级玩家。"),
+		Array(240040000,0,"龙的峡谷　　　　    适合 95 ~ 120 级玩家。"),
+		Array(551030100,0,"阴森世界入口<怪物多>适合 95 ~ 120 级玩家。"),  
+		Array(541020000,0,"乌鲁城入口　　　　　适合 95 ~ 150 级玩家。"),
+		Array(240040500,0,"龙之巢穴入口　　　　适合 100 ~ 150 级玩家。"), 
+        Array(541020610,0,"毁灭的公园II<怪物多>适合 120 ~ 160 级玩家。")  
+		); 
+
+//------------------------------------------------------------------------
+
+var townmaps = Array(
+		//Array(209080100,0,"【泡点地图】圣诞组队室"), 
+		Array(701000210,town_fee,"大擂台"), 		
+		Array(1000000,town_fee,"彩虹岛新手村"), 
+		Array(104000000,town_fee,"明珠港"), 
+		Array(100000000,town_fee,"射手村"), 
+		Array(101000000,town_fee,"魔法密林"), 
+		Array(102000000,town_fee,"勇士部落"), 
+		Array(103000000,town_fee,"废弃都市"), 
+		Array(120000000,town_fee,"诺特勒斯号码头"),
+		Array(105040300,town_fee,"林中之城"),
+		Array(140000000,town_fee,"里恩"),
+		Array(200000000,town_fee,"天空之城"),
+		Array(211000000,town_fee,"冰峰雪域"), 
+		Array(230000000,town_fee,"水下世界"),  
+		Array(222000000,town_fee,"童话村"), 
+		Array(220000000,town_fee,"玩具城"),
+		Array(701000000,town_fee,"东方神州"),
+		Array(250000000,town_fee,"武陵"), 
+		Array(702000000,town_fee,"少林寺"), 
+		Array(500000000,town_fee,"泰国"),
+		Array(260000000,town_fee,"阿里安特"),  
+		Array(600000000,town_fee,"新叶城"), 
+		Array(240000000,town_fee,"神木村"),  
+		Array(261000000,town_fee,"马加提亚"), 
+		Array(221000000,town_fee,"地球防御本部"), 
+		Array(251000000,town_fee,"百草堂"),
+		Array(701000200,town_fee,"上海豫园"),
+		Array(550000000,town_fee,"吉隆大都市"),
+		Array(130000000,town_fee,"圣地"),
+		Array(551000000,town_fee,"甘榜村"),
+		Array(801000000,town_fee,"昭和村"), 
+		Array(540010000,town_fee,"新加坡机场"),
+		Array(541000000,town_fee,"新加坡码头"),
+		Array(300000000,town_fee,"艾林森林"), 
+		Array(270000100,town_fee,"时间神殿"), 
+		Array(702100000,town_fee,"藏经阁"), 
+		Array(800000000,town_fee,"古代神社"), 
+		Array(130000200,town_fee,"圣地岔路"),
+		Array(741000208,town_fee,"钓鱼场"),
+		Array(925020000,town_fee,"武陵道场入口"),
+		//Array(930000000,town_fee,"毒雾森林"),
+		//Array(930000010,town_fee,"森林入口"),	
+		Array(702090101,town_fee,"英语村"),  
+		Array(700000000,town_fee,"红鸾宫")
+		//Array(749020000,0,"国庆蛋糕地图")
+		);
+
+//------------------------------------------------------------------------
+
+var fubenmaps = Array(
+        //Array(109080000,0,"打椰子"),
+       // Array(109080010,0,"冰地"),
+       // Array(109040000,0,"向高地"),
+		//Array(109030001,0,"上楼"),
+		//Array(109060000,0,"滚雪球"),
+		//Array(109010000,0,"寻宝"),
+		Array(105040316,10,"沉睡森林跳跳"),	
+										Array(103000900,10,"地铁三号线跳跳"), 
+										Array(109040001,10,"冒险岛活动跳跳"),     
+										Array(280020000,10,"火山跳跳"), 
+										Array(101000100,10,"忍苦跳跳") 											
+		);//
+//------------------------------------------------------------------------
+var feixing = Array(
+		Array(200090010   ,0,"航海中 - 开往天空之城"), 
+										Array(200090100    ,0,"航海中 - 开往玩具城"), 
+										Array(200090200     ,0,"航海中 - 开往神木村"), 
+										Array(200090300      ,0,"航海中 - 开往武陵"), 
+										Array(200090400       ,0,"航海中 - 开往阿里安特"), 
+										Array(200090500        ,0,"飞行中 - 前往时间神殿"), 
+										Array(222020211        ,0,"电梯 - 前往童话村"), 
+										Array(222020111         ,0,"电梯 - 前往玩具城")
+							);
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------
+
+	function start() {
+		status = -1;
+		action(1, 0, 0);
+		}
+	function action(mode, type, selection) {
+	if (mode == -1) {
+		cm.sendOk("#b好的,下次再见.");
+		cm.dispose();
+		} else {
+	if (status >= 0 && mode == 0) {
+		cm.sendOk("#b好的,下次再见.");
+		cm.dispose();
+		return;
+		}
+	if (mode == 1) {
+		status++;
+		} else {
+		status--;
+		}
+
+//------------------------------------------------------------------------
+
+	if (status == 0) {
+
+   	    var add = "　　　　　　　　　#r#k\r\n\r\n";
+
+//		add += "#r　　　　　　　　　新物品展览#k\r\n";
+
+//		add += "#b座椅#k\r\n";
+
+//		add += "#v3010154# #v3010179# #v3010169# #v3010171# #v3010174# #v3010182# #v3010183# #v3010053##b\r\n\r\n";
+
+//		add += "#b坐骑#k\r\n";
+
+//		add += "#v1902060# #v1912053# #v1902062# #v1912055# #v1902063# #v1912056# #v1902040# #v1912057#\r\n\r\n";
+
+		//add += "#L2##r#e组队副本#l  ";
+
+		add += "#L0##b#e城镇传送#l\r\n\r\n ";
+
+		//add += "#L1##b练级传送#l";
+		
+
+		//add += "#L3##r小BOSS传送#l";
+
+	//	  add += "#L4##d跳跳专区#l"; 
+		
+		//add += "#L6##d坐船地图#l";
+		
+	//	add += "#L5##d副本传送#l"; 
+		cm.sendSimple (add);    
+
+//------------------------------------------------------------------------
+				
+	} else if (status == 1) {
+
+	if (selection == 0){
+		var selStr = "#d　　选择你的目的地吧!(等级越高，费用越高).#k#b";
+		for (var i = 0; i < townmaps.length; i++) {
+		selStr += "\r\n#L" + i + "#" + townmaps[i][2] + "";
+		}
+		cm.sendSimple(selStr);
+		towns = 1;
+		}
+
+	if (selection == 1) {
+		var selStr = "#d　　　　　　　　　选择你的目的地吧.#k#b";
+		for (var i = 0; i < monstermaps.length; i++) {
+		selStr += "\r\n#L" + i + "#" + monstermaps[i][2] + "";
+		}
+		cm.sendSimple(selStr);
+		monsters = 1;
+		}
+	if (selection == 6) {
+                       var selStr = "选择你的目的地吧.#b";
+                       for (var i = 0; i < feixing.length; i++) {
+				selStr += "\r\n#L" + i + "#" + feixing[i][2] + "";
+                       }
+                       cm.sendSimple(selStr);
+                       feixingaa = 1;
+                   }
+
+	if (selection == 2) {
+		cm.warp(701000210, 0);
+		}
+
+	if (selection == 3) {
+		var selStr = "#k\r\n#d　　　　　　　　　选择你的目的地吧.#k#b";
+		for (var i = 0; i < bossmaps.length; i++) {
+		selStr += "\r\n#L" + i + "#" + bossmaps[i][2] + "";
+		}
+		cm.sendSimple(selStr);
+		bosses = 1;
+		}
+
+	if (selection == 4) {
+		var selStr = "#d　　　　　　　　　选择你的目的地吧.#k#b";
+		for (var i = 0; i < fubenmaps.length; i++) {
+		selStr += "\r\n#L" + i + "#" + fubenmaps[i][2] + "";
+		}
+		cm.sendSimple(selStr);
+		fuben = 1;
+		}
+		
+		if (selection == 5){
+		 cm.openNpc(9310037, 0); 
+				cm.dispose();
+				}
+
+
+//------------------------------------------------------------------------
+
+	} else if (status == 2) {
+
+	if (towns == 1) {
+		var fee_base = townmaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + townmaps[selection][2] + "? (需要支付 " + fee + " 金币)");
+		chosenMap = selection;
+		towns = 2;
+
+	} else if (monsters == 1) {
+		var fee_base = monstermaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + monstermaps[selection][2] + "? (需要支付 " + fee + " 金币)");
+		chosenMap = selection;
+		monsters = 2;
+
+	} else if (bosses == 1) {
+		var fee_base = bossmaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + bossmaps[selection][2] + "? (需要支付 " + fee + " 金币)");
+		chosenMap = selection;
+		bosses = 2;
+
+	} else if (fuben == 1) {
+		var fee_base = fubenmaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + fubenmaps[selection][2] + "? (需要支付 " + fee + " 金币)");
+		chosenMap = selection;
+		fuben = 2;
+
+		}
+
+//----------------------------------------------------------------------
+
+	} else if (status == 3) {
+
+	if (towns == 2) {
+		var fee_base = townmaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
+			cm.warp(townmaps[chosenMap][0], 0);
+			cm.gainMeso(-fee);
+		}else{
+			cm.sendOk("你没有足够的金币哦!");
+		}
+		cm.dispose();
+
+	} else if (monsters == 2) {
+		var fee_base = monstermaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
+		cm.warp(monstermaps[chosenMap][0], 0);
+		cm.gainMeso(-fee);
+		}else{
+		cm.sendOk("你没有足够的金币哦!");
+		}
+		cm.dispose();
+
+	} else if (bosses == 2) {
+		var fee_base =bossmaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
+		cm.warp(bossmaps[chosenMap][0], 0);
+		cm.gainMeso(-fee);
+		}else{
+		cm.sendOk("你没有足够的金币哦!");
+		}
+		cm.dispose();
+
+	} else if (fuben == 2) {
+		var fee_base = fubenmaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
+		cm.warp(fubenmaps[chosenMap][0], 0);
+		cm.gainMeso(-fee);
+		}else{
+		cm.sendOk("你没有足够的金币哦!");
+		}
+		cm.dispose();
+
+                }
+
+//------------------------------------------------------------------------
+
+		}
+		}
+		}
+
+function getFee(baseFee) {
+    // 此时 cm 已经有效了，可以安全使用
+    var level = cm.getPlayer().getLevel();
+    var coefficient = 0; // 动态等级系数
+
+    // 1. 新手阶段（1 ~ 30级）：低系数，保护新手口袋
+    if (level <= 30) {
+        coefficient = 300 * level; 
+    } 
+    // 2. 发展阶段（31 ~ 70级）：中系数，平滑过渡
+    else if (level > 30 && level <= 70) {
+        coefficient = 800 * level;  
+    } 
+    // 3. 后期四转阶段（71级以上）：高系数，精准回收金币
+    else if (level > 70) {
+        coefficient = 60000; 
     }
+
+    // 严格遵循你要求的：基础价 + 等级 * 阶段动态系数
+    return Math.floor(baseFee + coefficient);
 }
-
-

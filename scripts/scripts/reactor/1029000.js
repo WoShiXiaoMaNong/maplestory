@@ -1,8 +1,4 @@
-/**
-	Reactor for Perion - Kills all boogies in the map.
-	@author Jvlaple
-*/
-	function act() {
-	rm.getPlayer().getMap().killAllBoogies();
+function act() {
+	rm.getPlayer().getMap().KillFk(true);
 	return true;
 }

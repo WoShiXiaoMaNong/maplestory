@@ -1,21 +1,27 @@
 var status = -1;
 function action(mode, type, selection) {
     if (mode == 1) {
-	status++;
+        status++;
     } else {
-	cm.dispose();
-	return;
+        cm.dispose();
+        return;
     }
     if (status == 0) {
-		if (cm.getPlayer().getLevel() < 40 && cm.haveItem(1452084)) {
-			cm.sendYesNo("ä½ æƒ³ç§»åŠ¨åˆ°éšè—åœ°å›¾?");
-		} else {
-			cm.sendOk("ä½ éœ€è¦å°äºŽ40çº§ï¼Œéœ€è¦è¿›å…¥è¦æœ‰æ‰€ç½—é—¨ä¹‹å¼“.");
-			cm.dispose();
-		}
-} else {
-	cm.spawnMob_map(9400610, 677000003,34,35 );
-	cm.warp(677000002,0);
-	cm.dispose();
+        if (cm.getPlayer().getLevel() < 40 && cm.haveItem(4032492)) {
+            cm.sendYesNo("ÄãÏë½øÈ¥½øÐÐÖ°ÒµÍ·ÈÎÎñ?");
+        } else {
+            cm.sendOk("ÄãÐèÒªÐ¡ÓÚ40¼¶£¬½øÈëÐèÒª#v4032492#.");
+            cm.dispose();
+        }
+    } else if (status == 1) {
+        if (cm.getPlayerCount(677000003) == 0) {
+            cm.warp(677000003, 0);
+            cm.killMob(9400610);
+            cm.spawnMob_map(9400610, 677000003, 186, 35);
+            cm.dispose();
+        } else {
+            cm.sendOk("ÀïÃæÒÑ¾­ÓÐÈËÔÚ½øÐÐÖ°ÒµÍ·ÈÎÎñÁË£¬ÄãÉÔºóÔÙÊÔ");
+            cm.dispose();
+        }
     }
 }

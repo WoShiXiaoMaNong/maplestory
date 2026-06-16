@@ -1,45 +1,178 @@
-var status; 
+importPackage(java.lang);
+importPackage(Packages.tools);
+importPackage(Packages.client);
+importPackage(Packages.server);
+var status = 0;
+var 黑水晶 = 4021008;
+var 蓝色箭头 = "#fUI/UIWindow/Quest/icon2/7#";
+var 红色箭头 = "#fUI/UIWindow/Quest/icon6/7#";
+var 圆形 = "#fUI/UIWindow/Quest/icon3/6#";
+var 美化new = "#fUI/UIWindow/Quest/icon5/1#";
+var 感叹号 = "#fUI/UIWindow/Quest/icon0#";
+var 正方箭头 = "#fUI/Basic/BtHide3/mouseOver/0#";
+var 忠告 = "#k温馨提示：任何非法程序和外挂封号处理.封杀侥幸心理.";
+function start() {
+    status = -1;
+    action(1, 0, 0);
+}
 
-function start() { 
-    status = -1; 
-    action(1, 0, 0); 
-} 
+function action(mode, type, selection) {
+    if (mode == -1) {
+        cm.dispose();
+    } else {
+        if (status >= 0 && mode == 0) {
+            cm.dispose();
+            return;
+        }
+        if (mode == 1)
+            status++;
+        else
+            status--;
+        if (status == 0) {
+	    var a1 = "#L1##b" + 正方箭头 + "装备智力提升#i4000038# x 1     金币 x 100.000\r\n";
+		//var a2 = "#L2##b强 化 装 备（属性强化）金杯/1  【30% 】\r\n";
+		//var a3 = "#L3##r强 化 装 备（属性强化）金猪/1  【40% 】\r\n";
+		//var a4 = "#L4##r金 猪 必 成（属性强化）金猪/20 【100%】\r\n";
+		//var a5 = "#L5##r金 猪 提 升（次数提升）金猪/5  【 5% 】";
+		//var a6 = "#L6##r强 化 说 明\r\n";
+		//var a7 = "#L7##r强 化 装 备（属性强化）金杯/20 【40% 】\r\n";
 
-function action(mode, type, selection) { 
-    if (mode == 1) { 
-        status++; 
-    }else{ 
-        status--; 
-    } 
-    if (status == 0) { 
-    if (cm.getPlayer().getJob() == 0) { 
-        cm.sendNext("Welcome, Beginning Explorer! In Maple Story,you can\r\nchoose a #rjob#k when you reach #rLv 8#k.\r\n\r\nIn other words, you'll be choosing your own future path!\r\nWhen you get a job,you get to use various skills and magic nwhice will make your experience in Maple Story more enjoyable.So,work hard to carve your own destiny"); 
-    } else { 
-        cm.sendOk("It looks like you've already made a job advancement!\r\nTransportation can only be used by beginners"); 
-        cm.dispose(); 
-    } 
-    } else if (status == 1) { 
-        cm.sendNextPrev("My role is to help you become a #rMagician.#k\r\n\r\nPursuing ancient knowledge is their lifelong task, therefore high intelligence is required to become a Magician. While their strength and defense is low compared to other job classes, Magicians use elemental magic skills that create wondrous displays and secondary magic skills that can be useful while hunting in a party. Elemental magic skills can be learned with the 2nd job advancement, which can cause great damage to enemies with opposiing elemental natures."); 
-    } else if (status == 2) { 
-        cm.sendNextPrev("Weapons used include the #bWands#k and #bStaffs#k\r\n\r\nRequired Level: #rOver Lv 8#k\r\nLocation: #rMagic Library#k in #bEllinia#k\r\nJob Instructor: #rGrendel the Really Old#k"); 
-    } else if (status == 3) { 
-        cm.sendSimple("Would you like to become a #rMagician?#k\r\n#b#L0#Yes#l\r\n#L1#No#l#k"); 
-    } else if (status == 4) { 
-      if (selection == 0) { 
-        cm.sendSimple("In order to make the job advancement, you must visit #rGrendel the Really Old#k at the #rMagic Library#k in #bEllinia#k.Would you like to be trasported there now?-The transportation service cannot be used once you make the job advancement-\r\n\r\n#b#L0#Yes#l\r\n#L1#No#l#k"); 
-    } else if (selection == 1) { 
-        cm.sendNext("Please talk to me again if you have any questions."); 
-        cm.dispose(); 
-    } 
-    } else if (status == 5) { 
-      if (selection == 0) { 
-        cm.sendNext("Alright.I will now take you to the #rMagician#k in #bEllinia.#k"); 
-    } else if (selection == 1) { 
-        cm.sendNext("Please talk to me again if you have any questions."); 
-        cm.dispose(); 
-    } 
-  } else if (status == 6) { 
-        cm.warp(101000003, 10); 
-	cm.dispose();
-  } 
-}  
+            cm.sendSimple("#r#i3994115##i3994115##i3994115##i3994115##i3994115#\r\n#d- 我可以帮你提升#r装备【智力】【魔力】#k\r\n\r\n"+a1+"");
+	    } else if (selection == 1) {
+		if (cm.haveItem(4000038, 1) && cm.getMeso()>=100000 ) {
+			cm.gainItem(4000038, -1);
+			cm.gainMeso(-100000);
+			var rand=Math.floor(Math.random()*100);
+			if(rand<30){
+			cm.gainEquiPproperty(0,0,0,0,0,3,0,0,20,0,0);//次数/w攻击/m攻击/力量/敏捷/智力/运气/HP/MP/命中/回避/
+			cm.sendOk("#fEffect/BasicEff.img/Fishing/6#\r\n\r\n#r增加属性#k;#b   智 力 + 3  魔 力 + 20");
+			cm.dispose();
+			cm.worldMessage(6,"[公告]：恭喜，玩家  "+cm.getName()+"  准备提升智力成功。");
+			return;
+			}
+			else {
+			cm.gainEquiPproperty(0,0,0,0,0,-3,0,0,-20,0,0);
+			//cm.sendOk("真遗憾，提升失败，还损失了一些属性。");
+			cm.dispose();
+			cm.sendOk("很遗憾失败了:#r\r\n智力-3 \r\n魔力-20");
+			cm.worldMessage(6,"[公告]：遗憾，玩家  "+cm.getName()+"  装备提升智力失败。");
+			return;
+				}
+		} else {
+			cm.sendOk("你没有#i4000038#，或者#i4031039#金币 x 100000!!!");
+			cm.dispose();
+			return;
+		}
+		} else if (selection == 2) {
+		if (cm.haveItem(4000038, 1) ) {
+			cm.gainItem(4000038, -1);
+			var rand=Math.floor(Math.random()*100);
+			if(rand<30){
+			cm.gainEquiPproperty(0,1,2,3,3,3,3,30,30,3,3);
+			cm.sendOk("恭喜你啊，强化好了，看看是不是比之前更漂亮了。");
+			cm.dispose();
+			return;
+			}
+			else {
+			cm.gainEquiPproperty(0,-2,-4,-5,-5,-5,-5,-50,-50,-5,-5);
+			cm.sendOk("真遗憾，强化失败，损失了一些属性~");
+			cm.dispose();
+			return;
+			}
+		} else {
+			cm.sendOk("你没有金杯，所以不能强化!!!");
+			cm.dispose();
+			return;
+		}
+		} else if (selection == 3) {
+		if (cm.haveItem(4032226, 1) ) {
+			cm.gainItem(4032226, -1);
+			var rand=Math.floor(Math.random()*100);
+			if(rand<40){
+			cm.gainEquiPproperty(0,2,4,4,4,4,4,40,40,4,4);
+			cm.sendOk("恭喜你啊，强化好了，看看是不是比之前更漂亮了。");
+			cm.dispose();
+			return;
+			}
+			else {
+			cm.gainEquiPproperty(0,-2,-4,-2,-2,-2,-2,-20,-20,-2,-2);
+			cm.sendOk("真遗憾，强化失败，损失了一些属性~");
+			cm.dispose();
+			return;
+			}
+		} else {
+			cm.sendOk("你没有金猪，所以不能强化!!!");
+			cm.dispose();
+			return;
+		}
+		} else if (selection == 4) {
+		if (cm.haveItem(4032226, 20) ) {
+			cm.gainItem(4032226, -20);
+			var rand=Math.floor(Math.random()*100);
+			if(rand<50){
+			cm.gainEquiPproperty(0,2,4,6,6,6,6,60,60,6,6);
+			cm.sendOk("恭喜你强化出第一种属性");
+			cm.dispose();
+			return;
+			}
+			else {
+			cm.gainEquiPproperty(0,1,2,3,3,3,3,30,30,3,3);
+			cm.sendOk("恭喜你强化出第二种属性");
+			cm.dispose();
+			return;
+			}
+		} else {
+			cm.sendOk("你没有金猪，所以不能强化!!!");
+			cm.dispose();
+			return;
+		}
+		} else if (selection == 5) {
+		if (cm.haveItem(4032226, 5) ) {
+			cm.gainItem(4032226, -5);
+			var rand=Math.floor(Math.random()*100);
+			if(rand<5){
+			cm.gainEquiPproperty(1,0,0,0,0,0,0,0,0,0,0);
+			cm.sendOk("恭喜你提升次数成功了");
+			cm.dispose();
+			return;
+			}
+			else {
+			cm.gainEquiPproperty(0,0,0,-1,-1,-1,-1,-1,-1,-1,-1);
+			cm.sendOk("提升失败，装备损失一些属性");
+			cm.dispose();
+			return;
+			}
+		} else {
+			cm.sendOk("你没有金猪，所以不能提升!!!");
+			cm.dispose();
+			return;
+		}
+		} else if (selection == 7) {
+		if (cm.haveItem(4000038, 20) ) {
+			cm.gainItem(4000038, -20);
+			var rand=Math.floor(Math.random()*100);
+			if(rand<40){
+			cm.gainEquiPproperty(0,1,2,3,3,3,3,30,30,3,3);
+			cm.sendOk("恭喜你强化成功，成功提升装备属性。");
+			cm.dispose();
+			return;
+			}
+			else {
+			cm.gainEquiPproperty(0,-2,-4,-5,-5,-5,-5,-50,-50,-5,-5);
+			cm.sendOk("真遗憾，强化失败，还损失了一些属性。");
+			cm.dispose();
+			return;
+			}
+		} else {
+			cm.sendOk("你没有金杯，所以不能强化!!!");
+			cm.dispose();
+			return;
+		}
+		}else if(selection == 6){
+			var strlen = "#r看群文件的强化攻略有详细说明。#k";
+			cm.sendOk(strlen);
+			cm.dispose();
+		}
+		
+    }
+}

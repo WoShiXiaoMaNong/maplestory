@@ -31,21 +31,30 @@ function action(mode, type, selection) {
             text += "#L2##e#d#v4001159#x20 + #v4170017#x20 兑换 #i1122116:# 罗密欧的吊坠.#l\r\n"//3
             text += "#L3##e#d#v4001160#x20 + #v4170017#x20 兑换 #i1122117:# 朱丽叶的吊坠.#l\r\n"//3
             text += "#L4##e#d#v1122116#x 1 + #v1122117#x 1 合成 #i1122118:#永恒爱情证物.#l\r\n"//3
+			text += "#L5##e#d#v4170017#x 10 合成 #i4030006:#俄罗斯方块.#l\r\n"//3
             cm.sendSimple(text);
         } else if (selection == 1) {
 		cm.openNpc(9000017, 70);
         } else if (selection == 6) {
 		cm.openNpc(9310059, 5);
-        } else if (selection == 5) {
-		cm.openNpc(9310059, 4);
         } else if (selection == 2) {
 		cm.openNpc(9310084, 241);
         } else if (selection == 3) {
 		cm.openNpc(9310084, 242);
         } else if (selection == 4) {
 		cm.openNpc(9310084, 243);
+	    } else if (selection == 5) {
+                 if (!cm.haveItem(4170017,10)) {
+    cm.sendOk("请带来#v4170017##z4170017#*10");
+         cm.dispose();
+                  } else if (cm.haveItem(4170017,10)) {
+cm.gainItem(4030006,1);
+cm.gainItem(4170017,-10);
+
+         cm.dispose();
+		  
 	}
     }
-}
+}}
 
 

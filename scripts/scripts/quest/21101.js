@@ -1,40 +1,50 @@
-importPackage(net.sf.odinms.client);
-
 var status = -1;
-
+var skills = Array(21001003, 21000000, 21100002, 21100004, 21100005, 21110002);
+//polearm booster, combo ability, polearm mastery, final charge, combo smash, combo drain, full swing
 function start(mode, type, selection) {
-	if (mode == -1) {
-		qm.sendNext("#b(You need to think about this for a second...)#k");
-        	qm.dispose();
-    	} else {
-        	if (mode > 0)
-            		status++;
-        	else
-            		status--;
-		if (status == 0) {
-			qm.sendYesNo("#b(让我确认自己是不是使用#p1201001#的英雄？使劲抓住#p1201001#试试，肯定会有什么反映的。)#k");
-		} else if (status == 1) {
-			if (qm.getPlayer().getJob().getId() == 2000) {
-				qm.updateQuest(21101, "create@");
-				qm.completeQuest();
-				qm.getPlayer().changeJob(net.sf.odinms.client.MapleJob.Ares_1);
-				qm.getPlayer().setStr(35);
-				qm.getPlayer().setDex(4);
-				qm.getPlayer().setRemainingAp((qm.getPlayer().getLevel() - 1) * 5 - 22);
-				qm.getPlayer().setRemainingSp((qm.getPlayer().getLevel() - 10) * 3 + 1);
-				qm.getPlayer().setMaxHp(qm.getPlayer().getMaxHp() + 275);
-				qm.getPlayer().setMaxMp(qm.getPlayer().getMaxMp() + 15);
-				qm.getPlayer().changeSkillLevel(net.sf.odinms.client.SkillFactory.getSkill(20009000), 0, -1);
-				qm.getPlayer().changeSkillLevel(net.sf.odinms.client.SkillFactory.getSkill(20009000), 1, 0);
-				qm.sendNextPrev("#b(似乎想起来了什么……)#k", 3);
-			}
-		} else if (status == 2) {
-			qm.warp(914090100);
-			qm.dispose();
-		}
+    if (mode == 1) {
+	status++;
+    } else {
+	if (status == 0) {
+	    qm.sendNext("#b(再考虑一下好了...)#k");
+	    qm.dispose();
+	    return;
+	} else if (status == 2) {
+	    qm.MovieClipIntroUI(true);
+	    qm.warp(914090100, 0);
+	    qm.dispose();
+	    return;
 	}
+	status--;
+    }
+    if (status == 0) {
+	qm.sendYesNo("#b(我自己确信是使用过 #p1201001#的英雄吗？ 确定的话就拿出力量抓住 #p1201001#吧 一定会有什么反应。)#k");
+    } else if (status == 1) {
+	if (qm.getJob() == 2000) {
+	    qm.changeJob(2100);
+	    qm.forceCompleteQuest();
+	    qm.resetStats(35, 4, 4, 4);
+	    qm.expandInventory(1, 4);
+	    qm.expandInventory(2, 4);
+	    qm.expandInventory(3, 4);
+	    qm.expandInventory(4, 4);
+	    qm.gainItem(1142129, 1);
+	    qm.forceCompleteQuest(29924); //medal
+	    qm.teachSkill(20009000, 0, -1);
+	    qm.teachSkill(20009000, 1, 0);
+		for (var i = 0; i < skills.length; i++) {
+			qm.teachSkill(skills[i], 0);
+		}
+	    qm.sendNextS("#b(好像想起什么了...)#k", 3);
+	}
+    } else if (status == 2) {
+	qm.sendYesNoS("是否要跳过动画？？", 1);
+    } else if (status == 3) {
+	qm.warp(140000000, 0)
+	qm.dispose();
+    }
 }
 
 function end(mode, type, selection) {
-
+    qm.dispose();
 }

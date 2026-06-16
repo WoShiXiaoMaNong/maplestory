@@ -1,49 +1,27 @@
-/* Author: Xterminator
-	NPC Name: 		Trainer Bartos
-	Map(s): 		Victoria Road : Pet-Walking Road (100000202)
-	Description: 		Pet Trainer
-*/
-var status = 0;
+var status;
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
+
+    if (mode == 0) {
 		cm.dispose();
-	} else {
-		if (status == 0 && mode == 0) {
-			cm.dispose();
-			return;
-		} else if (status >= 1 && mode == 0) {
-			cm.sendNext("Å¶ºß~¿´À´ÄãÏÖÔÚÃ»¿Õ£¿ÄÇÊ²Ã´Ê±ºò¸Ä±äÏë·¨ÁË¾ÍÀ´ÕÒÎÒ°É¡£");
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendSimple("ÕÒÎÒÓĞÊ²Ã´ÊÂ£¿\r\n#L0##bÇë¸æËßÎÒ¹ØÓÚÕâÀï¡£#l\r\n#L1#Ñı¾« ÂêÀö½éÉÜÎÒµ½ÕâÀïÀ´µÄ¡­#k#l");
-		} else if (status == 1) {
-			if (selection == 0) {
-				if (cm.haveItem(4031035)) {
-					cm.sendNext("ÕâÌõÂ·ÊÇÄãºÍ³èÎïÒ»Æğ¶ÍÁ¶µÄµØ·½¡£Äã¿ÉÒÔÔÚÕâÀïÖ»É¢É¢²½£¬µ«Ò²¿ÉÒÔÀûÓÃÕâÀïµÄÕÏ°­ÎïÑµÁ·³èÎï¡£Èç¹ûÄãºÍ³èÎï»¹²»¹»Ç×ÃÜµÄ»°£¬Ëü¿ÉÄÜ»á²»ÌıÄãµÄ»°¡£ÄãÏëÔÚÕâÀïÑµÁ·ÄãµÄ³èÎïÂğ£¿");
-					cm.dispose();
-				} else {
-					cm.sendYesNo("ÕâÌõÂ·ÊÇÄãºÍ³èÎïÒ»Æğ¶ÍÁ¶µÄµØ·½¡£Äã¿ÉÒÔÔÚÕâÀïÖ»É¢É¢²½£¬µ«Ò²¿ÉÒÔÀûÓÃÕâÀïµÄÕÏ°­ÎïÑµÁ·³èÎï¡£Èç¹ûÄãºÍ³èÎï»¹²»¹»Ç×ÃÜµÄ»°£¬Ëü¿ÉÄÜ»á²»ÌıÄãµÄ»°¡£ÄãÏëÔÚÕâÀïÑµÁ·ÄãµÄ³èÎïÂğ£¿");
-				}
-			} else {
-				cm.sendOk("Î¹~ ÄãÕæµÄ¼û¹ı#bÑı¾« ÂêÀö#kÂğ? ÄùÃ×ÓĞÈö»Ñ°É£¿ÎÒÊÇ²»»áÉÏµ±µÄ£¡");
-				cm.dispose();
-			}
-		} else if (status == 2) {
-			cm.gainItem(4031035, 1);
-			cm.sendNext("ºÃ£¡ÕâÀïÓĞ·âĞÅ¼ş¡£ÄãÃ»ÓĞÕâ·âĞÅ£¬¿ÖÅÂÎÒµÜµÜ²»ÖªµÀÊÇÎÒÈÃÄãÉÏÈ¥µÄ¡£¸ú³èÎïÒ»ÆğÈÆ¹ıÕÏ°­Îïµ½×îÉÏÃæ¡£ÔÚÄÇÀï¸ú°ÍÂŞµÂËµ»°£¬È»ºó×ª½»ÎÒµÄĞÅ¡£ÄãÍ¨¹ıÕÏ°­ÎïµÄÊ±ºòÒª¶à×¢ÒâÄãµÄ³èÎï¡£¼ÓÓÍ£¡");
-			cm.dispose();
-		}
-	}
+	return;
+    } else if (mode == 1){
+	status++;
+    } else {
+	status--;
+    }
+
+    switch (status) {
+        case 0: 
+	    cm.sendOk("æ¬¢è¿æ¥åˆ°å® ç‰©å…¬å›­ï¼");
+		cm.dispose();
+            break;
+        case 1: //
+            break;
+    }
 }

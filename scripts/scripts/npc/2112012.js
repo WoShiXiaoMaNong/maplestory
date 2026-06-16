@@ -10,12 +10,14 @@ function action(mode, type, selection) {
 	var em = cm.getEventManager("Juliet");
     if (em != null) {
 	var itemid = 4001159;
+	var itemid1 = 2450000;
 	if (!cm.canHold(itemid, 1)) {
 	    cm.sendOk("Please clear 1 ETC slot.");
 	    cm.dispose();
 	    return;
 	}
 	cm.gainItem(itemid, 1);
+	cm.gainItem(itemid1, 1);
 	if (em.getProperty("stage").equals("2")) {
     		//cm.gainNX(5000);
     		cm.gainExpR(140000);
@@ -41,10 +43,18 @@ function action(mode, type, selection) {
 	    cm.removeAll(4001133);
 	    cm.removeAll(4001134);
 	    cm.removeAll(4001135);
-	cm.sendSimple("#b#L0#Get me out of here#l\r\n#L1#Get me Horus' Eye.#l\r\n#L2#Get me Rock of Wisdom#l#k");
+		
+		//cm.gainItem(4310014, 1);//BOSS币
+	cm.sendSimple("#b#L0#离开这儿#l\r\n#L1#Get me Horus' Eye.#l\r\n#L2#Get me Rock of Wisdom#l#k");
     } else {
 	if (selection == 0) {
     	    cm.warp(926110600,0);
+			//cm.gainItem(4002001, 1);//蓝蜗牛邮票
+			//cm.gainItem(4031456, 1);//给枫叶珠1个
+		//cm.gainItem(4310030, 1);//运动币
+			cm.gainItem(4170017, 1);//运动币
+			cm.gainItem(4000313, 2);//金叶
+			cm.gainMeso(+200000);//金币
 	} else if (selection == 1) {
 	    if (cm.canHold(1122010,1) && cm.haveItem(4001160,25) && cm.haveItem(4001159,25)) {
 		cm.gainItem(1122010,1);

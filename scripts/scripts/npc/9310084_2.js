@@ -27,14 +27,17 @@ function action(mode, type, selection) {
                 text += "";
             }
 			//显示物品ID图片用的代码是  #v这里写入ID#
-            text += "#e#r这里是固定副本奖励兑换处.通关副本，获得的副本蛋，累计可兑换当前副本固定奖励.请点击查看.\r\n\r\n"//3
+            text += "#e#r这里是固定副本奖励兑换处.通关副本，获得的副本蛋，累计可兑换当前副本固定奖励.请点击查看.\r\n\r\n"//3			
             text += "#L1##e#d#v4170013#月妙  副本蛋固定奖励#l\r\n"//3
             text += "#L2##e#d#v4170002#废气  副本蛋固定奖励#l\r\n"//3
             text += "#L3##e#d#v4170005#玩具  副本蛋固定奖励#l\r\n"//3
-            text += "#L5##e#d#v4170009#海盗  副本蛋固定奖励#l\r\n"//3
-            text += "#L7##e#d#v4170006#天空  副本蛋固定奖励#l\r\n"//3
+          //  text += "#L5##e#d#v4170009#海盗  副本蛋固定奖励#l\r\n"//3
+          //  text += "#L7##e#d#v4170006#天空  副本蛋固定奖励#l\r\n"//3
             text += "#L4##e#d#v4170017#罗密欧副本蛋固定奖励#l\r\n"//3
             text += "#L6##e#d#v4170001#毒雾  副本蛋固定奖励#l\r\n"//3
+		//	text += "#L8##e#d#v4002000#绿蜗牛邮票兑换（废气副本产出）#l\r\n"//3
+		//	text += "#L9##e#d#v4002001#蓝蜗牛邮票兑换（玩具副本产出）#l\r\n"//3
+		//	text += "#L10##e#d#v4002003#绿水灵邮票兑换（毒雾副本产出）#l\r\n"//3
             cm.sendSimple(text);
         } else if (selection == 1) {
 		cm.openNpc(9310084, 21);
@@ -50,6 +53,12 @@ function action(mode, type, selection) {
 		cm.openNpc(9310084, 26);
         } else if (selection == 7) {
 		cm.openNpc(9310084, 7);
+		} else if (selection == 8) {
+		cm.openNpc(9310084, 8);
+		} else if (selection == 9) {
+		cm.openNpc(9310084, 9);
+		} else if (selection == 10) {
+		cm.openNpc(9310084, 10);
         } else if (selection == 26) {
 		cm.openNpc(9310084, 13);
 	}

@@ -11,7 +11,7 @@ function action(mode, type, selection) {
     }
     if (status == 0) {
         if (cm.getMap().getAllMonstersThreadsafe().size() <= 0) {
-            cm.sendOk("当前地图没有怪物");
+            cm.sendOk("当前地图没有怪物");
             cm.dispose();
             return;
         }

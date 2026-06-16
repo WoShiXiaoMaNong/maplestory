@@ -1,5 +1,5 @@
-
 function enter(pi) {
-		pi.warp(230040420, "out00");
-		return true;
+    pi.playPortalSE();
+    pi.warp(230040420, "out00");
+    return true;
 }

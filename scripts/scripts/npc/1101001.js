@@ -1,30 +1,14 @@
-importPackage(net.sf.odinms.client);
-
-var status = 0;
-var zones = 0;
-var selectedMap = -1;
+ /* 
+	NPC Name: 		Divine Bird
+	Map(s): 		Erev
+	Description: 		Buff
+*/
 
 function start() {
-	status = -1;
-	action(1, 0, 0);
+    cm.useItem(2022458);
+    cm.sendOk("不要停止训练，这个世界需要你来守护。");
 }
 
 function action(mode, type, selection) {
-	if (mode == -1) {
-		cm.dispose();
-	} else {
-		if (status >= 0 && mode == 0) {
-			cm.dispose();
-			return;
-		}
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			cm.sendOk("欢迎来到圣地！");
-		} else if (status == 1) {
-			cm.dispose();
-		}
-	}
-}	
+    cm.dispose();
+}

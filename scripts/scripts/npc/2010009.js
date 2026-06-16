@@ -1,4 +1,28 @@
-importPackage(net.sf.odinms.net.world.guild);
+/*
+	This file is part of the OdinMS Maple Story Server
+	Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+					   Matthias Butz <matze@odinms.de>
+					   Jan Christian Meyer <vimes@odinms.de>
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as
+	published by the Free Software Foundation version 3 as published by
+	the Free Software Foundation. You may not use, modify or distribute
+	this program under any other version of the GNU Affero General Public
+	License.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Affero General Public License for more details.
+
+	You should have received a copy of the GNU Affero General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * Guild Alliance NPC
+ */
 
 var status;
 var choice;
@@ -6,101 +30,108 @@ var guildName;
 var partymembers;
 
 function start() {
+	//cm.sendOk("The Guild Alliance is currently under development.");
+	//cm.dispose();
 	partymembers = cm.getPartyMembers();
 	status = -1;
 	action(1,0,0);
 }
 
 function action(mode, type, selection) {
-	if (mode == 1)
+	if (mode == 1) {
 		status++;
-	else {
+	} else {
 		cm.dispose();
 		return;
-	}
-	
-	 
-	if (status == 0)
-	    cm.sendSimple("你好！  我是!  #b家族联盟的管理员#k\r\n#b#L0#你想知道家族联盟是什么吗?#l\r\n#L1#如何使用家族成为家族联盟吗?#l\r\n#L2#我想让家族成为家族联盟.#l\r\n#L3#我想要为家族联盟增加较多的家族.#l\r\n#L4#我想要解散家族联盟.#l");
-	else if (status == 1) {
+	}var MC = cm.getServerName();
+	if (status == 0) {
+		cm.sendSimple("#r#e"+MC+"#n#k 家族联盟 - \r\n\r\n#b#L0#我想要知道公会联盟是什么？#l\r\n#L1#我要怎么建立公会联盟呢？#l\r\n#L2#我想要建立公会联盟#l\r\n#L4#我想要解散公会联盟#l");
+	} else if (status == 1) {
 		choice = selection;
 	    if (selection == 0) {
-		    cm.sendNext("家族联盟是, 一个一些家族的联盟形成的一个超级小组。 我是掌管这些家族联盟的人.");
+		    cm.sendOk("公会联盟就是让两方的公会成员可以聊天做一些有趣的事情。");
 			cm.dispose();
 		} else if (selection == 1) {
-			cm.sendNext("要创建一个家族联盟， 需要2个家族主人需要在一个组队中。 这一个组队的队长将会被分配当做家族联盟的主人.");
+			cm.sendOk("为了成立公会联盟，两个公会的会长需要组队，然后这个组队里的队长就会选为公会联盟的会长。");
 			cm.dispose();
 		} else if(selection == 2) {
-			if (cm.getPlayer().getParty() == null) {
-				cm.sendNext("你的队里面没有2个家族的族长，所以不能创建家族联盟。"); //Not real text
+			if (cm.getPlayer().getParty() == null || partymembers == null || partymembers.size() != 2 || !cm.isLeader()) {
+				cm.sendOk("你不能创建一个公会联盟，直到你找到另一个公会。"); //Not real text
 				cm.dispose();
-			} else if (partymembers.get(0).getGuild() == null) {
-				cm.sendNext("你不能直接让家族联盟创建到自己的家族。");
+			} else if (partymembers.get(0).getGuildId() <= 0 || partymembers.get(0).getGuildRank() > 1) {
+				cm.sendOk("你不能创建一个公会联盟，直到你有自己的公会。");
 				cm.dispose();
-			} else if (partymembers.get(1).getGuild() == null) {
-				cm.sendNext("你好像不是家族的族长.");
+			} else if (partymembers.get(1).getGuildId() <= 0 || partymembers.get(1).getGuildRank() > 1) {
+				cm.sendOk("你的成员似乎没有自己的工会。");
 				cm.dispose();
-			} else if (partymembers.get(0).getGuild().getAllianceId() > 0) {
-				cm.sendNext("你是另外的联盟的了，所以不能在加入这个联盟.");
-				cm.dispose();
-			} else if (partymembers.get(1).getGuild().getAllianceId() > 0) {
-				cm.sendNext("你的家族成员已经这个家族联盟的了。");
-				cm.dispose();
-			} else if (partymembers.size() != 2) {
-				cm.sendNext("请确定，只有 2个家族的族长在你的组队当中.");
-				cm.dispose();
-			} else if (cm.partyMembersInMap() != 2) {
-				cm.sendNext("请确定你们两个家族的族长在此地图上.");
-				cm.dispose();
-			} else
-                cm.sendYesNo("哦, 你对家族联盟感兴趣?");
+			} else {
+				var gs = cm.getGuild(cm.getPlayer().getGuildId());
+				var gs2 = cm.getGuild(partymembers.get(1).getGuildId());
+				if (gs.getAllianceId() > 5) {
+					cm.sendOk("你不能再创建因为你已经和其他结为同盟了。");
+					cm.dispose();
+				} else if (gs2.getAllianceId() > 1) {
+					cm.sendOk("你的成员已经和其他公会结为同盟了。");
+					cm.dispose();
+				} else if (cm.partyMembersInMap() < 1) {
+					cm.sendOk("请确保其他成员在同张地图上。");
+					cm.dispose();
+				} else
+                cm.sendYesNo("哦，你有兴趣创建一个公会联盟？");
+			}
 		} else if (selection == 3) {
-		    var rank = cm.getPlayer().getMGC().getAllianceRank();
-			if (rank == 1)
-				cm.sendOk("Not done yet"); //ExpandGuild Text
-			else {
-			    cm.sendNext("只有家族联盟主人能添加联盟的家族的数目.");
+			if (cm.getPlayer().getGuildRank() == 1 && cm.getPlayer().getAllianceRank() == 1) {
+				cm.sendYesNo("为了增加矿大 需要支付 10,000,000 枫币. 你确定要继续吗？"); //ExpandGuild Text
+			} else {
+			    cm.sendOk("只有公会联盟长可以扩大联盟。");
 				cm.dispose();
 			}
 		} else if(selection == 4) {
-		    var rank = cm.getPlayer().getMGC().getAllianceRank();
-			if (rank == 1)
-				cm.sendYesNo("你确定你想要解散你的家族联盟?");
-			else {
-				cm.sendNext("只有家族联盟主人可能解散家族联盟.");
+			if (cm.getPlayer().getGuildRank() == 1 && cm.getPlayer().getAllianceRank() == 1) {
+				cm.sendYesNo("你真的想要解散公会联盟？？");
+			} else {
+				cm.sendOk("只有公会联盟长才可以解散。");
 				cm.dispose();
 			}
 		}
 	} else if(status == 2) {
 	    if (choice == 2) {
-		    cm.sendGetText("现在请输入你的新家族联盟的名字. (max. 12 letters)");
-		} else if (choice == 4) {
-			if (cm.getPlayer().getGuild() == null) {
-				cm.sendNext("你不能够解散不属于你的的家族联盟.");
-				cm.dispose();
-			} else if (cm.getPlayer().getGuild().getAllianceId() <= 0) {
-				cm.sendNext("你不能够解散不属于你的的家族联盟.");
+		    cm.sendGetText("现在请输入你想要的公会联盟名称 (最大字元限制. 12 个字)");
+		} else if (choice == 3) {
+			if (cm.getPlayer().getGuildId() <= 0) {
+				cm.sendOk("你不能增加不存公会联盟。");
 				cm.dispose();
 			} else {
-				MapleAlliance.disbandAlliance(cm.getC(), cm.getPlayer().getGuild().getAllianceId());
-				cm.sendOk("你的家族联盟已经解散");
+				if (cm.addCapacityToAlliance()) {
+					cm.sendOk("你成功增加了公会联盟容量。");
+				} else {
+					cm.sendOk("很抱歉，由于你的公会联盟容量已经满了，所以不能再扩充。");
+				}
+				cm.dispose();
+			}
+		} else if (choice == 4) {
+			if (cm.getPlayer().getGuildId() <= 0) {
+				cm.sendOk("你不能解散不存在的公会联盟。");
+				cm.dispose();
+			} else {
+				if (cm.disbandAlliance()) {
+					cm.sendOk("成功解散公会联盟。");
+				} else {
+					cm.sendOk("解散公会联盟时候发生错误。");
+				}
 				cm.dispose();
 			}
 		}
 	} else if (status == 3) {
 		guildName = cm.getText();
-	    cm.sendYesNo("Will "+ guildName + " be the name of your Guild Union?");
+	    cm.sendYesNo("这个 #b"+ guildName + "#k 是你想要的公会联盟名字吗？？");
 	} else if (status == 4) {
-	    if (!MapleAlliance.canBeUsedAllianceName(guildName)) {
-			cm.sendNext("这个名字不能使用，请你换别的！"); //Not real text
-			status = 1;
-			choice = 2;
-		} else {
-			if (MapleAlliance.createAlliance(partymembers.get(0), partymembers.get(1), guildName) == null)
-				cm.sendOk("发生未知错误！");
-			else
-				cm.sendOk("你成功地创建了家族联盟.");
-			cm.dispose();
-		}
+			if (!cm.createAlliance(guildName)) {
+				cm.sendNext("这个名字不能使用，请尝试其他的。"); //Not real text
+				status = 1;
+				choice = 2;
+			} else
+				cm.sendOk("成功的创建了公会联盟！！");
+				cm.dispose();
 	}
 }

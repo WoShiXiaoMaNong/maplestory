@@ -1,132 +1,69 @@
-/* 
- * 脚本类型: cm
- * 脚本作者: 萌新
- * 制作时间: 2016/8/21
- */
-importPackage(net.sf.cherry.client);
-var status = -1;
-var beauty = 0;
-var tosend = 0;
-var sl;
-var mats;
-var dds;
 function start() {
+    status = -1;
+
     action(1, 0, 0);
 }
-
 function action(mode, type, selection) {
     if (mode == -1) {
         cm.dispose();
-    } else {
-        if (mode == 0 && status == 0) {
+    }
+    else {
+        if (status >= 0 && mode == 0) {
+
+            cm.sendOk("感谢你的光临！");
             cm.dispose();
             return;
         }
         if (mode == 1) {
             status++;
-        } else {
-            if (status == 0) {
-                cm.sendNext("如果需要点卷中介服务在来找我吧。");
-                cm.dispose();
-            }
+        }
+        else {
             status--;
         }
         if (status == 0) {
-                 // cm.getChar().gainCashDD(+1000);
-            var gsjb = "你好，这里是萌新合成系统。\r\n";
-            gsjb += "#L1#萌新武器合成系统#v1492231##l\r\n";
-            gsjb += "#L2#萌新套服合成系统#v1052498##l\r\n";
-            //gsjb += "#L3#萌新首饰合成系统#v1132013##l\r\n";
-            gsjb += "#L4#萌新戒指腰带耳环#v1113040##l\r\n";
-            //gsjb += "#L5#萌新宝石合成系统#v4021007##l\r\n";
-            gsjb += "#L6#萌新矿石合成系统#v4011008##l\r\n";
-            gsjb += "#L7#萌新水晶合成系统#v4251202##l\r\n";
-            gsjb += "#L10#萌新小游戏合成系统#v4080002##l\r\n";
-            //gsjb += "#L8#萌新材料合成系统#v4001017##l\r\n";
-            cm.sendSimple(gsjb);
-        } else if (status == 1) {
-            if (cm.getPlayer() >= 1 && cm.getPlayer() <= 5) {
-                cm.sendOk("GM不能参与兑换。");
-                cm.dispose();
+            var tex2 = "";
+            var text = "";
+            for (i = 0; i < 10; i++) {
+                text += "#e#k#r             欢迎来到礼包领取中心#k#n\r\n1:为避免过度充值影响玩家心态，每月充值超过800将不再赠送礼包哟~\r\n\r\n2：感谢您每一分的赞助给大王冒险岛建设事业带来的帮助，我们会不断更新以提升游戏体验！\r\n\r\n";
+            // text += "#L1##d新服开区大礼包#l\r\n\r\n"//
+            text += "#L2##d#v4310025##z4310025#\t领取累计充值100礼包#l\r\n\r\n"//
+            text += "#L3##d#v4310048##z4310048#\t领取累计充值300礼包#l\r\n\r\n"
+            text += "#L4##d#v4310079##z4310079#\t领取累计充值500礼包#l\r\n\r\n"
+            text += "#L5##d#v4310119##z4310119#\t领取累计充值800礼包#l\r\n\r\n"
+            text += "#L6##d#v4310022##z4310022#\t     领取女侠认证礼包#l\r\n\r\n"
+            //text += "#L7##d#v4310025##z4310025#\t领取累计充值5000礼包#l\r\n\r\n"
+            //text += "#L8##d#v4310010##z4310010#\t领取官方认证老玩家礼包#l\r\n\r\n"
+            cm.sendSimple(text);
             }
-            if (selection == 1) {
-		cm.openNpc(9900004, 111);
-            }else if (selection == 2) {
-		cm.openNpc(9900004, 112);
-            }else if (selection == 3) {
-		cm.openNpc(9900004, 113);
-            }else if (selection == 4) {
-		cm.openNpc(9900004, 114);
-            }else if (selection == 5) {
-		cm.openNpc(9900004, 115);
-            }else if (selection == 6) {
-		cm.openNpc(9900004, 116);
-            }else if (selection == 7) {
-		cm.openNpc(9900004, 117);
-            }else if (selection == 8) {
-		cm.openNpc(9900004, 118);
-            }else if (selection == 9) {
-		cm.openNpc(9900004, 119);
-            }else if (selection == 10) {
-		cm.openNpc(9900004, 110);
-            }
-               
-
-
-			
-			
-			
-			
-			
-        } else if (status == 2) {
-            if (beauty == 0) {
-               if (cm.haveItem(4004004, selection*10)&&cm.haveItem(4001126, selection*10)){
-					 cm.gainItem(4004004, -selection*10);
-                    cm.sendNext("合成物品成功！");
-                   // cm.gainNX(+1000 * selection);
-					cm.gainItem(4005004, selection);
-					 cm.dispose();
-                } else {
-                    cm.sendNext("您的输入的数量错误，无法兑换。");
-                    cm.dispose()
-                }
-            }else if (beauty == 8) {
-                 if (cm.haveItem(4004004, selection*10)&&cm.haveItem(4001126, selection*10)){
-					 cm.gainItem(4004004, -selection*10);
-                    cm.sendNext("合成物品成功！");
-                   // cm.gainNX(+1000 * selection);
-					cm.gainItem(4005004, selection);
-					 cm.dispose();
-                } else {
-                    cm.sendNext("您的输入的数量错误，无法兑换。");
-                    cm.dispose()
-                }
-            }else if (beauty == 23) {
-                 if (cm.getChar().getCashDD() >= selection){
-					
-                    cm.getChar().gainCashDD(-selection);
-                     cm.gainMeso(+500* selection);
-                    //cm.gainItem(2040710, selection);
-                    cm.sendOk("您成功兑了金币： #r" + selection*500 + " #k")
-					 cm.dispose();
-                } else {
-                    cm.sendNext("您的输入的数量错误，无法兑换。");
-                    cm.dispose()
-                }
-            }
-            status = -1;
+        } else if (selection == 1) {
+			 if(cm.getPlayer().getOneTimeLog("kaifulibao") > 0){
+				cm.sendOk("你已经领取过新服开区大礼包，无法继续领取");
+				cm.dispose();
         } else {
-            cm.dispose();
-        }
+				cm.gainItem(5040000, 20);
+				cm.gainItem(5041000, 10);
+				cm.gainNX(900);
+				cm.gainDY(3000);
+				cm.sendOk("恭喜你领取成功。获得20个普通缩地，10个高级缩地，900点券，3000抵用");
+			cm.getPlayer().setOneTimeLog("kaifulibao");
+			Packages.handling.world.World.Broadcast.broadcastMessage(Packages.tools.MaplePacketCreator.serverNotice(12, cm.getClient().getChannel(), "『新服开区大礼包』" + " : " + "恭喜[" + cm.getPlayer().getName() + "]成功领取【新服开区大礼包】,大王冒险岛欢迎你的到来！！"));
+	    }
+        } else if (selection == 2) {
+		cm.openNpc(9900004, 802);
+        } else if (selection == 3) {
+		cm.openNpc(9900004, 803);
+        } else if (selection == 4) {
+		cm.openNpc(9900004, 804);
+        } else if (selection == 5) {
+		cm.openNpc(9900004, 805);
+        } else if (selection == 6) {
+		cm.openNpc(9900004, 806);
+        } else if (selection == 7) {
+		cm.openNpc(9900004, 807);
+        } else if (selection == 8) {
+		cm.openNpc(9900004, 808);
+	}
     }
 }
-
-
-
-
-
-
-
-
 
 

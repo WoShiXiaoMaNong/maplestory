@@ -1,18 +1,22 @@
+/*
+ * Cygnus Skill - Training Never ends
+ */
+
 var status = -1;
 
 function start(mode, type, selection) {
-	if (mode == -1) {
-		qm.dispose();
-	} else {
-		if (mode == 1)
-			status++;
-		else
-			status--;
-		if (status == 0) {
-			qm.sendAcceptDecline("恭喜你已到达#b100级#k，但这并不表示修炼的结束，如果继续努力，偶尔可以去骑士团长那里听听他们的建议。说不定，可以学到什么#b新技能#k……");
-		} else if (status == 1) {
-			qm.completeQuest();
-			qm.dispose();
-		}
+    status++;
+
+    if (status == 0) {
+	qm.askAcceptDecline("#h0#. 你有没有在训练懈怠，因为达到100级？我们都知道你是多么强大，但训练是不完整的。一起来看看这些骑士指挥官。他们训练了一天一夜，准备为自己的黑精灵可能遇到的问题。");
+    } else {
+	if (mode == 1) {
+	    qm.forceStartQuest();
 	}
+	qm.dispose();
+    }
+}
+
+function end(mode, type, selection) {
+    qm.dispose();
 }

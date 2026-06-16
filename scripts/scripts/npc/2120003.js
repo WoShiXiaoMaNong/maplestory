@@ -29,10 +29,10 @@ function start() {
 		inMap += (cPlayer.getJobId() == 900 ? 4 : 1);
 	    }
 	}
-	if (party.size() > 1 || inMap < 1) {
+	if (party.size() > 0 || inMap < 0) {
 	    next = false;
 	}
-	if (next && cm.haveItem(4002001, 1)) {
+	if (next && cm.haveItem(1402128, 1)) {
 	    var em = cm.getEventManager("QiajiPQ");
 	    if (em == null) {
 			cm.sendOk("找不到脚本，请联系GM！");
@@ -53,7 +53,7 @@ function start() {
 		cm.dispose();
 		return;
 		}
-		cm.gainItem(4002001, -1)
+		cm.gainItem(1402128, -1)
     }
     cm.dispose();
 }

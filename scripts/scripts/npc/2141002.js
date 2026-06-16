@@ -1,36 +1,16 @@
-var status = 0;  
-	
-function start() {  
-    status = -1;
-    action(1, 0, 0);  
-}  
+/*
+	NPC Name: 		The Forgotten Temple Manager
+	Map(s): 		Deep in the Shrine - Twilight of the gods
+	Description: 		Pink Bean
+ */
 
-function action(mode, type, selection) {   
-    if (mode == -1) {  
-        cm.dispose();  
-    }  
-    else {   
-        if (mode == 0) {      
-            cm.dispose();   
-            return;   
-        }
-        if (mode == 1) {
-            status++;  
-        }      
-        else {  
-            status--;  
-        }  
-        if (status == 0) {			
-              if (cm.getPlayer().getMap().getMonsterById(8820009) != null) {
-			cm.sendYesNo("��Ҫ��ս�����PB��");
-		} else {
-			cm.sendOk("PB�Ѿ����ٻ���");
-			cm.dispose();
-		}
-        } else if (status == 1) {
-		cm.getPlayer().getMap().killMonster(cm.getPlayer().getMap().getMonsterById(8820009), cm.getPlayer(), false);
-                cm.sendOk("�ǳ��ã����Ͱɣ�ϣ�����ܼ��������");
-                cm.dispose();
-        }
+function start() {
+    cm.sendYesNo("如果你现在离开，你将不得不重新开始。你确定要离开这里到外面去吗？");
+}
+
+function action(mode, type, selection) {
+    if (mode == 1) {
+	cm.warp(270050000, 0);
     }
+    cm.dispose();
 }

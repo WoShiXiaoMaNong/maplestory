@@ -1,4 +1,3 @@
 function enter(pi) {
-	pi.playerMessage("It seems to be locked.");
-	return true;
+    pi.playerMessage("好像已經被上鎖了...");
 }

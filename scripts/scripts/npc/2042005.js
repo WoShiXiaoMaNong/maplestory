@@ -12,7 +12,7 @@ function action(mode, type, selection) {
     else
         cm.dispose();
     if (status == 0 && mode == 1) {
-        var selStr = "Sign up for Monster Carnival!\r\n#L100#Trade Maple Coin.#l";
+        var selStr = "请选择一种擂台赛场地!\r\n#L100#兑换冒险岛纪念币#l";
 	var found = false;
         for (var i = 0; i < 3; i++){
             if (getCPQField(i+1) != "") {
@@ -21,57 +21,76 @@ function action(mode, type, selection) {
             }
         }
         if (cm.getParty() == null) {
-            cm.sendSimple("You are not in a party.\r\n#L100#Trade Maple Coin.#l");
+            cm.sendSimple("请组队再来找我。\r\n#L100#冒险岛纪念币兑换#l");
         } else {
             if (cm.isLeader()) {
+				var pt = cm.getPlayer().getParty();
+				if (pt.getMembers().size() < 2) {
+                if ((cm.getParty() != null && 1 < cm.getParty().getMembers().size() && cm.getParty().getMembers().size() < (selection == 4 || selection == 5 || selection == 8 ? 4 : 3)) || cm.getPlayer().isGM()) {
+                    if (checkLevelsAndMap(51, 120) == 1) {
+                        cm.sendOk("队伍里有人等级不符合。");
+                        cm.dispose();
+                    } else if (checkLevelsAndMap(51, 120) == 2) {
+                        cm.sendOk("在地图上找不到您的队友。");
+                        cm.dispose();
+                    }
+				}
+				}
 		if (found) {
                     cm.sendSimple(selStr);
 		} else {
-		    cm.sendSimple("There are no rooms at the moment.\r\n#L100#Trade Maple Coin.#l");
+		    cm.sendSimple("目前没有房间.\r\n#L100#兑换冒险岛纪念币#l");
 		}
             } else {
-                cm.sendSimple("Please tell your party leader to speak with me.\r\n#L100#Trade Maple Coin.#l");
+                cm.sendSimple("请叫你的队长来找我\r\n#L100#冒险岛纪念币兑换#l");
             }
         }
     } else if (status == 1) {
 	if (selection == 100) {
-	    cm.sendSimple("#b#L0#50 Maple Coin = Spiegelmann Necklace#l\r\n#L1#30 Maple Coin = Spiegelmann Marble#l\r\n#L2#50 Sparkling Maple Coin = Spiegelmann Necklace of Chaos#l#k");
+	    cm.sendSimple("#b#L0#50个冒险岛纪念币 = 休彼得曼的项链#l\r\n#L1#30个冒险岛纪念币 = 休彼得曼的珠子#l\r\n#L2#50个闪耀的冒险岛纪念币 = 休彼得曼的混乱项链#l#k");
 	} else if (selection >= 0 && selection < 3) {
 	    var mapid = 980030000+((selection+1)*1000);
             if (cm.getEventManager("cpq2").getInstance("cpq"+mapid) == null) {
-                if ((cm.getParty() != null && 1 < cm.getParty().getMembers().size() && cm.getParty().getMembers().size() < (selection == 1 ? 4 : 3)) || cm.getPlayer().isGM()) {
-                    if (checkLevelsAndMap(50, 255) == 1) {
-                        cm.sendOk("A player in your party is not the appropriate level.");
+                var party = cm.getParty().getMembers();
+                if (cm.getParty() != null && party.size() == 3) {
+                    if (checkLevelsAndMap(51, 120) == 3) {
+                        cm.sendOk("队伍里有人等级不符合。");
                         cm.dispose();
-                    } else if (checkLevelsAndMap(50, 255) == 2) {
-                        cm.sendOk("Everyone in your party isnt in this map.");
+                    } else if (checkLevelsAndMap(51, 120) == 2) {
+                        cm.sendOk("在地图上找不到您的队友。");
                         cm.dispose();
                     } else {
                         cm.getEventManager("cpq2").startInstance(""+mapid, cm.getPlayer());
                         cm.dispose();
                     }
                 } else {
-                    cm.sendOk("Your party is not the appropriate size.");
+                    cm.sendOk("队伍里人数只能3个人。");
                 }
             } else if (cm.getParty() != null && cm.getEventManager("cpq2").getInstance("cpq"+mapid).getPlayerCount() == cm.getParty().getMembers().size()) {
-                if (checkLevelsAndMap(50, 255) == 1) {
-                    cm.sendOk("A player in your party is not the appropriate level.");
+                if (checkLevelsAndMap(51, 120) == 1) {
+                    cm.sendOk("队伍里有人等级不符合。");
                     cm.dispose();
-                } else if (checkLevelsAndMap(50, 255) == 2) {
-                    cm.sendOk("Everyone in your party isnt in this map.");
+                } else if (checkLevelsAndMap(51, 120) == 2) {
+                    cm.sendOk("在地图上找不到您的队友。");
                     cm.dispose();
                 } else {
+					var pt = cm.getPlayer().getParty();
+					if (pt.getMembers().size() < 2) {
+						cm.sendOk("需要 2 人以上才可以擂台！！");
+						cm.dispose();
+					} else {
                     //Send challenge packet here
                     var owner = cm.getChannelServer().getPlayerStorage().getCharacterByName(cm.getEventManager("cpq2").getInstance("cpq"+mapid).getPlayers().get(0).getParty().getLeader().getName());
                     owner.addCarnivalRequest(cm.getCarnivalChallenge(cm.getChar()));
                     //if (owner.getConversation() != 1) {
                         cm.openNpc(owner.getClient(), 2042006);
                     //}
-                    cm.sendOk("Your challenge has been sent.");
+                    cm.sendOk("您的挑战已经发送。");
                     cm.dispose();
                 }
+				}
             } else {
-                cm.sendOk("The two parties participating in Monster Carnival must have an equal number of party member");
+                cm.sendOk("队伍人数不相符。");
                 cm.dispose();
             }
 	} else {
@@ -80,9 +99,9 @@ function action(mode, type, selection) {
 	} else if (status == 2) {
 	    if (selection == 0) {
 		if (!cm.haveItem(4001129,50)) {
-		    cm.sendOk("You have no items.");
+		    cm.sendOk("很抱歉您并没有#t4001129# #b50#k个");
 		} else if (!cm.canHold(1122007,1)) {
-		    cm.sendOk("Please make room");
+		    cm.sendOk("请清出空间.");
 		} else {
 		    cm.gainItem(1122007,1);
 		    cm.gainItem(4001129,-50);
@@ -90,9 +109,9 @@ function action(mode, type, selection) {
 		cm.dispose();
 	    } else if (selection == 1) {
 		if (!cm.haveItem(4001129,30)) {
-		    cm.sendOk("You have no items.");
+		    cm.sendOk("很抱歉您并没有#t4001129# #b30#k个");
 		} else if (!cm.canHold(2041211,1)) {
-		    cm.sendOk("Please make room");
+		    cm.sendOk("请清出空间.");
 		} else {
 		    cm.gainItem(2041211,1);
 		    cm.gainItem(4001129,-30);
@@ -100,9 +119,9 @@ function action(mode, type, selection) {
 		cm.dispose();
 	    } else if (selection == 2) {
 		if (!cm.haveItem(4001254,50)) {
-		    cm.sendOk("You have no items.");
+		    cm.sendOk("很抱歉您并没有#t4001254# #b50#k个");
 		} else if (!cm.canHold(1122058,1)) {
-		    cm.sendOk("Please make room");
+		    cm.sendOk("请清出空间.");
 		} else {
 		    cm.gainItem(1122058,1);
 		    cm.gainItem(4001254,-50);
@@ -137,16 +156,16 @@ function getCPQField(fieldnumber) {
     if (event1 != null) {
         var event = event1.getInstance("cpq"+(980030000+(fieldnumber*1000)));
         if (event == null && fieldnumber < 1) {
-            status = "Carnival Field "+fieldnumber+"(2v2)";
+            status = "擂台赛场地 "+fieldnumber+"(3v3)";
         } else if (event == null) {
-            status = "Carnival Field "+fieldnumber+"(3v3)";
+            status = "擂台赛场地 "+fieldnumber+"(3v3)";
         } else if (event != null && (event.getProperty("started").equals("false"))) {
             var averagelevel = 0;
             for (i = 0; i < event.getPlayerCount(); i++) {
                 averagelevel += event.getPlayers().get(i).getLevel();
             }
             averagelevel /= event.getPlayerCount();
-            status = event.getPlayers().get(0).getParty().getLeader().getName()+"/"+event.getPlayerCount()+"users/Avg. Level "+averagelevel;
+            status = event.getPlayers().get(0).getParty().getLeader().getName()+"/"+event.getPlayerCount()+"人/平均等级  "+averagelevel;
         }
     }
     return status;

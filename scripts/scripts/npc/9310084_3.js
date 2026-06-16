@@ -27,11 +27,11 @@ function action(mode, type, selection) {
                 text += "";
             }
 			//显示物品ID图片用的代码是  #v这里写入ID#
-            text += "#e#r你好！在线活动每1小时一次，活动开始前会有公告提示，请到相应的频道，点击拍卖传送→系统活动传送进入即可.获得金猪，即可兑换.\r\n\r\n"//3
-            text += "#L1##e#d#v4032226#x 8 兑换 #v2340000#x1\r\n"//3
-            text += "#L2##e#d#v4032226#x 10 兑换 #v4021009#x1#l\r\n"//3
-            text += "#L3##e#d#v4032226#x 10 兑换 #v4011007#x1#l\r\n"//3
-            //text += "#L4##e#d#v4032226#x3 兑换 #v4011007#x1#l\r\n"//3
+            text += "#e#r你好！通过僵尸蘑菇王克获得毒菇，毒菇可兑换五彩水晶.\r\n\r\n"//3
+            text += "#L1##e#d#v4000176#x 4 兑换 #v4251200#x1\r\n"//3
+            text += "#L2##e#d#v4251200#x 4 兑换 #v4251201#x1#l\r\n"//3
+            text += "#L3##e#d#v4251201#x 4 兑换 #v4251202#x1#l\r\n"//3
+            text += "#L4##e#d#v4000040#x 4 兑换 #v4251200#x1#l\r\n"//3
             //text += "#L5##e#d#v1402046#永恒玄冥剑制作#l\r\n"//3
             //text += "#L6##e#d#v1432047#永恒显圣枪制作#l\r\n"//3
             //text += "#L7##e#d#v1442063#永恒神光戟制作#l\r\n"//3
@@ -46,7 +46,7 @@ function action(mode, type, selection) {
         } else if (selection == 3) {
 		cm.openNpc(9310084, 33);
         } else if (selection == 4) {
-		cm.openNpc(9000018, 64);
+		cm.openNpc(9310084, 34);
         } else if (selection == 5) {
 		cm.openNpc(9000018, 65);
         } else if (selection == 6) {

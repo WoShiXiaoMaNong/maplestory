@@ -24,13 +24,13 @@ function action(mode, type, selection) {
 	return;
     }
     if (status == 0) {
-        cm.sendSimple("What would you like to do? If you have never participated in the Monster Carnival, you'll need to know a thing or two about it before joining.\r\n#b#L0# Go to the Monster Carnival Field.#l");
+        cm.sendSimple("听说修菲凯蔓喜欢吃鲍鱼\r\n#b#L0#我要前往怪物擂台#l");
     } else if (status == 1) {
         switch (selection) {
             case 0: {
                 var level = cm.getPlayerStat("LVL");
                 if ( level < 50) {
-                    cm.sendOk("I'm sorry, but only the users Level 50+ may participate in Monster Carnival.");
+                    cm.sendOk("50等以上才能玩怪物擂台赛喔");
                 } else {
                     cm.warp( 980030000, "st00" );
                 }
@@ -46,22 +46,22 @@ function action(mode, type, selection) {
         var carnivalparty = cm.getCarnivalParty();
         if (carnivalparty.getTotalCP() >= 501) {
             rank = "A";
-            exp = 48000;
+            exp = 89000;
         } else if (carnivalparty.getTotalCP() >= 251) {
             rank = "B";
-            exp = 35000;
+            exp = 70000;
         } else if (carnivalparty.getTotalCP() >= 101) {
             rank = "C";
-            exp = 25000;
+            exp = 50000;
         } else if (carnivalparty.getTotalCP() >= 0) {
             rank = "D";
-            exp = 15000;
+            exp = 35000;
         }
 	cm.getPlayer().endPartyQuest(1302);
         if (carnivalparty.isWinner()) {
-            cm.sendOk("You won the battle, despite your amazing performance. Victory is yours. \r\n#bMonster Carnival Rank : " + rank);
+            cm.sendOk("恭喜你赢了 太神啦\r\n#b怪物擂台赛排行 : " + rank);
         } else {
-            cm.sendOk("Unfortunately, you have either tied or lost the battle, despite your amazing performance. Victory should be yours the next time up. \r\n#bMonster Carnival Rank : " + rank);
+            cm.sendOk("虽然输了也不要气馁Q_Q\r\n#b怪物擂台赛排行 : " + rank);
         }
     } else if (status == 101) {
         var carnivalparty = cm.getCarnivalParty();

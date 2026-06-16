@@ -1,29 +1,36 @@
-/*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
-                       Matthias Butz <matze@odinms.de>
-                       Jan Christian Meyer <vimes@odinms.de>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License version 3
-    as published by the Free Software Foundation. You may not use, modify
-    or distribute this program under any other version of the
-    GNU Affero General Public License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-
 function start() {
-	cm.warp(101000000, 0);
-	cm.dispose();
+    cm.sendYesNo("请问你是否要离开呢??");
 }
 
 function action(mode, type, selection) {
+    if (mode == 1) {
+        var map = cm.getMapId();
+        var kill = cm.getMap().killAllMonsters(true);
+
+        var tomap;
+
+        if (map == 108010101) {//法师的
+            kill;
+            tomap = 101000003;//图书馆
+
+        } else if (map == 108010201) {//战士的
+            kill;
+            tomap = 102000003;//- 金银岛 - 战士圣殿
+
+        } else if (map == 108010301) {//弓箭手的
+            kill;
+            tomap = 100000201;//弓箭手培训中心
+
+        } else if (map == 108010401) {//飞侠的
+            kill;
+            tomap = 103000003;//废都酒吧
+
+        } else if (map == 108010501) {//海盗的
+            kill;
+            tomap = 120000101;//- 诺特勒斯号 - 航海室　
+
+        }
+        cm.warp(tomap);
+    }
+    cm.dispose();
 }

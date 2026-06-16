@@ -1,10 +1,49 @@
-/* global cm */
-var 爱心 = "";
-var 音符 = "#fEffect/CharacterEff/1022223/4/0#";
-var 小雪花 = "#fUI/UIWindow.img/PvP/Scroll/enabled/next2#";
-var 爱心1 = "#fEffect/CharacterEff/1032063/0/0#";
+var 礼包物品 = "#v1302000#";
+var x1 = "1302000,+1";// 物品ID,数量
+var x2;
+var x3;
+var x4;
+var 爱心 = "#fEffect/CharacterEff/1022223/4/0#";
+var 礼包物品 = "#v1302000#";
+var add = "#fEffect/CharacterEff/1112903/0/0#";//红桃心
+var aaa = "#fUI/UIWindow.img/Quest/icon9/0#";//红色右箭头
+var zzz = "#fUI/UIWindow.img/Quest/icon8/0#";//蓝色右箭头
+var sss = "#fUI/UIWindow.img/QuestIcon/3/0#";//选择道具
+var 正方箭头 = "#fUI/Basic/BtHide3/mouseOver/0#";
 var 感叹号 = "#fUI/UIWindow/Quest/icon0#";
 var 美化new = "#fUI/UIWindow/Quest/icon5/1#";
+var 红色箭头 = "#fEffect/CharacterEff/1112908/0/1#";  //彩光3
+var ttt1 = "#fEffect/CharacterEff/1062114/1/0#";  //爱心
+var 蓝色角点 = "#fUI/UIWindow.img/PvP/Scroll/enabled/next2#";
+var 粉爱心 = "#fItem/Etc/0427/04270005/Icon8/1#";  //
+var 菊花 = "#fUI/PredictHarmony/card/19#";//卡片效果菊花
+var 笑 = "#fUI/GuildBBS/GuildBBS/Emoticon/Basic/0#";//笑脸
+var 金枫叶 ="#fMap/MapHelper/weather/maple/2#";
+var 红枫叶 ="#fMap/MapHelper/weather/maple/1#";
+var 巫女 ="#fMap/MapHelper/weather/witch/0#";//巫女
+var 气球 ="#fMap/MapHelper/weather/balloon/4#";//气球
+var 射箭 ="#fMap/MapHelper/weather/LoveEffect2/4/0#";//射箭
+var 玫瑰 ="#fMap/MapHelper/weather/rose/0#";//玫瑰花
+var 烟花 ="#fMap/MapHelper/weather/squib/squib1/3#";//烟花
+
+var 大粉红爱心 = "#fItem/Etc/0427/04270001/Icon8/4#";  //
+var 小粉红爱心 = "#fItem/Etc/0427/04270001/Icon8/5#";  //
+var 小黄星 = "#fItem/Etc/0427/04270001/Icon9/0#";  //
+var 大黄星 = "#fItem/Etc/0427/04270001/Icon9/1#";  //
+var 小水滴 = "#fItem/Etc/0427/04270001/Icon10/5#";  //
+var 大水滴 = "#fItem/Etc/0427/04270001/Icon10/4#";  //
+var tz = "#fEffect/CharacterEff/1082565/4/0#";  //粉兔子
+var tz1 = "#fEffect/CharacterEff/1082565/0/0#";  //橙兔子
+var tz2 = "#fEffect/CharacterEff/1082565/2/0#";  //蓝兔子
+var 邪恶小兔 = "#fEffect/CharacterEff/1112960/3/0#";  //邪恶小兔 【小】
+var 邪恶小兔2 = "#fEffect/CharacterEff/1112960/3/1#";  //邪恶小兔 【大】
+var 花草 ="#fEffect/SetEff/208/effect/walk2/4#";
+var 花草1 ="#fEffect/SetEff/208/effect/walk2/3#";
+var 小花 ="#fMap/MapHelper/weather/birthday/2#";
+var 桃花 ="#fMap/MapHelper/weather/rose/4#";
+var 银杏叶 ="#fMap/MapHelper/weather/maple/3#";
+var 小烟花 ="#fMap/MapHelper/weather/squib/squib4/1#";
+var 星星 ="#fMap/MapHelper/weather/witch/3#";
 function start() {
     status = -1;
     action(1, 0, 0);
@@ -15,6 +54,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (status >= 0 && mode == 0) {
+
             cm.sendOk("感谢你的光临！");
             cm.dispose();
             return;
@@ -28,147 +68,228 @@ function action(mode, type, selection) {
             var text = "";
             for (i = 0; i < 10; i++) {
                 text += "";
-            }
-            text += "#e#d"+爱心1+"   "+爱心1+"  #d萌新冒险岛#k  "+爱心1+"   "+爱心1+"#n\r\n"
-			text +="#r[更新公告] 每日副本，废弃，月秒，玩具，天空总合15次可获得30000点卷#k感谢支持~!\r\n";
-			text += "#d------------------------------------------  [ GM遗言 ]\r\n#k";
-            text += "#d" + 感叹号 + "Hi~#b" + cm.getName() + "#k#n,#d您今天已在线了：#b" + cm.getGamePoints() + "#d分钟,请注意休息哦~!#k#n\r\n"
-            text += "#d你现在资产有#b " + cm.getPlayer().getCSPoints(1) + " #d点卷#n#b " + cm.getPlayer().getCSPoints(2) + " #d抵用卷 和 "+cm.getmoneyb()+"充值币\r\n副本完成了: "+cm.getBossLog("fb")+"次！\r\n"
-			text += "#d------------------------------------------  [实用功能]\r\n#k";
-            text += "#b#L111#" + 小雪花 + "自由市场#l#L112#" + 小雪花 + "每日跑商#l#L1#" + 小雪花 + "新人礼包#l#L2#" + 小雪花 + "装备合成#l\r\n"
-			text += "#L208#" + 小雪花 + "公婆戒指#l#L1111#" + 小雪花 + "玩家排名#l#L258#" + 小雪花 + "帅气坐骑#l\r\n"
-            text += "#L6#" + 小雪花 + "中介服务#l#L486#" + 小雪花 + "特色主线#l#L115#"
-            text += "#L3#" + 小雪花 + "等级奖励#l#L10#" + 小雪花 + "新点卷商城" + 美化new + "#l\r\n\r\n"
-			text += "#d------------------------------------------  [副本活动]";
-            text += "#b#L11#" + 音符 + "快捷消耗商店#l#L12#" + 音符 + "功能道具商店#l#L13#" + 音符 + "低级装备商店#l\r\n"
-            text += "#L14#" + 音符 + "查看本服副本#l#L15#" + 音符 + "副本征集喇叭#l#L16#" + 音符 + "重返BOSS挑战#l\r\n"
-			text += "#L482#" + 音符 + "平民搬砖系统#l#L483#" + 音符 + "装备进阶强化#l#L484#" + 音符 + "BOSS战利品#l\r\n"
-            text += "#L17#" + 音符 + "查询地图爆率#l#L19#" + 音符 + "道具回收系统#l#L1012#" + 音符 + "精灵吊坠#l\r\n"
-	    text += "#L1000#" + 音符 + "快捷传送#l\t#L1001#" + 音符 + "快速转职#l    #L1009#" + 音符 + "装备强化#l\r\n\r\n"
+            }		
+		// text += "" + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + 爱心 + "\r\n"
+            text += " \t\t#v2022054##e#r黑#v2022055#铁#v2022205#冒#v2020031#险#v2022096#岛#v2022031##k#d#k#n              \r\n"
+            text += "\t#d在线时间:#b" + cm.getGamePoints() + "分钟\r\n"
+            text += "\t#d点券余额:#b" + cm.getPlayer().getCSPoints(1) + "#k#n\t\r\n"
+			text += "\t#d抵用余额:#b" + cm.getPlayer().getCSPoints(2) + "#k#n\t\r\n"
+			//text += "#d吃货积分:#b" + cm.getjf() + "#k#n                   \r\n"
+
+            text += "#L910000000##b" + 蓝色角点 + "返回自由#l#L21#" + 蓝色角点 + "道具销毁#l\r\n"
+		    text += "#L14#" + 蓝色角点 + "便捷传送#l\r\n"	
+			text += "#L223#" + 蓝色角点 + "美容美发#l#L111999##b" + 蓝色角点 + "随身音乐#l\r\n"	
+		
+	    //    text += "\t#r#e[更多功能请@自由 在自由市场寻找] #n#k\r\n";
+		  //  text += "#L910000000##b" + 蓝色角点 + "返回自由#l#l#L2255#" + 蓝色角点 + "BOSS传送#l#L17#" + 蓝色角点 + "杂货商店#l#L21#" + 蓝色角点 + "道具回收#l#l#l\r\n"//3
+		
+		 //   text += "#b#L1#" + 蓝色角点 + "在线奖励#l#L14#" + 蓝色角点 + "便捷传送#l#L15#" + 蓝色角点 + "快速转职#l#L288#" + 蓝色角点 + "师徒系统#l\r\n"	
+			
+		//	text += "#b#L7#" + 蓝色角点 + "双倍购买#l#L1000#" + 蓝色角点 + "VIP系统#l #L10#" + 蓝色角点 + "点卷兑换#l#L168#" + 小粉红爱心 + "饕餮盛宴#l\r\n"
+            
+        //    text += "#b#L5#" + 蓝色角点 + "合成升级#l#L9#" + 蓝色角点 + "每日任务#l#L6#" + 蓝色角点 + "时装商城#l#L10999##b" + 蓝色角点 + "查看爆率#l\r\n"	
+            
+        //    text += "#L223#" + 蓝色角点 + "美容美发#l#r#L224#" + 蓝色角点 + "破攻系统#l#L2250#" + 蓝色角点 + "装备回收#l#L111999##b" + 蓝色角点 + "随身音乐#l\r\n"	
+
+         //    text += "#L223#" + 蓝色角点 + "美容美发#l#r#L224#" + 蓝色角点 + "破攻系统#l#L2250#" + 蓝色角点 + "装备回收#l#L111999##b" + 蓝色角点 + "随身音乐#l\r\n"	
+
+		
             if (cm.getPlayer().isGM()) {
-                text += " \r\n\t\t#r以下功能，仅管理员可见，普通玩家看不见\r\n"
-                text += "#L1000#快捷传送#l\t#L1001#快速转职#l\r\n"
-                text += "#L1002#刷新当前地图#l#L1003#刷新个人状态#l#L1004#查看管理员指令#l\r\n"
-                text += "#L1005#重载副本#l#L1006#重载爆率#l#L1007#重载反应堆#l#L1008#重载传送点#l\r\n"
-                text += "#L1009#重载任务#l#L1010#重载商店#l#L1011#重载封包头#l\r\n"
+             //   text += " \t\t#r以下功能，仅管理员可见，普通玩家看不见\r\n"
+                //text += "\t#L1000#清空背包#l\t#L1001#枫叶制作#l #L1011#进入独立商城#l\r\n"
+               // text += "\t#L1002#刷新当前地图#l#L1003#刷新个人状态#l\r\n"
+               // text += "\t#L1005#手套制作#l#L1006#重载爆率#l#L1007#重载反应堆#l#L1008#重载传送点#l\r\n"
+                //text += "\t#L1009#钓鱼挂机#l#L1010#重载商店#l\r\n"
             }
             cm.sendSimple(text);
-        } else if (selection == 1) {//
-            if (cm.getgrname() <= 0 && cm.getLevel() >= 10) {
-                cm.setgrname(1);
-                cm.gainItem(5150040, 5);//皇家理发卷
-                cm.gainItem(5151001, 5);//射手村染色高级会员卡
-                cm.gainItem(5152001, 5);//射手村整形手术高级会员卡
-                cm.gainItem(5153000, 5);//射手村护肤中心会员卡
-                cm.gainItem(5072000, 5);//高质地喇叭
-		cm.gainItem(4000463, 10);//老公老婆戒指
-		cm.gainItem(1112446, 1);//老公老婆戒指
-		cm.gainItem(1112724, 10,10,10,10,0,0,10,0,0,0,0,0,0,0);//我是新手戒指
-                cm.gainItem(1142358,50,50,50,50,200,200,10,0,0,0,0,0,15,20 );//新手勋章
-                cm.gainDY(30000);
-                //cm.getPlayer().modifyCSPoints(1, 100000);
-                cm.gainMeso(30000000);
-                cm.喇叭(1, "萌萌的新人"+cm.getPlayer().getName()+"领取了新人礼包");
-                cm.sendOk("恭喜你成功领取礼包，列表如下：\r\n#v5150040# x1 #v5151001# x1\r\n#v5152001# x1 #v5153000# x1\r\n#v4000463# x10\r\n#v5072000# x5\r\n#v1142358# x1\r\n抵用卷 x30000 游戏币 x3000000");
-                cm.dispose();
-            } else {
-                cm.sendOk("领取失败了！\r\n可能的原因1：等级低于10级无法领取！\r\n可能的原因2：你已经领取过一次了,就无法再次领取了！\r\n如有疑问，请联系客服!");
-                cm.dispose();
-            }
-        } else if (selection == 2) {//
-            cm.openNpc(9900004,2);
-			 } else if (selection == 1111) {//
-            cm.openNpc(9040004,0);
-	    } else if (selection == 482) {//
-            cm.openNpc(9900004,482);
-		} else if (selection == 258) {//
-            cm.openNpc(9310085,0);
-		} else if (selection == 455) {//
-            cm.openNpc(9900004,455)
-		} else if (selection == 483) {//
-            cm.openNpc(9900004,483);
-		} else if (selection == 484) {//
-            cm.openNpc(9900004,484);
-		} else if (selection == 485) {//
-            cm.openNpc(9900004,485);	
-		} else if (selection == 486) {//
-            cm.openNpc(9900004,486);				
-        } else if (selection == 3) { //
-            cm.openNpc(9900004,3);
-		} else if (selection == 209) { //
-            cm.openNpc(9900004,209);
-		} else if (selection == 211) { //
-            cm.openNpc(9900004,211);
-		} else if (selection == 210) { //
-            cm.openNpc(9900004,210);
-		} else if (selection == 1009) { //
-            cm.openNpc(9900004,82);
-        } else if (selection == 4) {//
-            cm.sendOk("暂不开放，请等待功能完成");
+        } else if (selection == 1) {
+            cm.openNpc(9900004, 1);
+			
+			} else if (selection == 111999) {//
             cm.dispose();
-        } else if (selection == 5) {//
-            cm.openNpc(9900004,5);
-        } else if (selection == 6) {//
-            cm.openNpc(9900004,6);
-        } else if (selection == 7) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 8) {//
-            cm.openNpc(9900004,7);
-        } else if (selection == 9) {//
-            cm.openNpc(9900004,9);
-        } else if (selection == 10) {//
-            cm.openNpc(9900004,10);
-        } else if (selection == 11) {//
-            cm.openShop(97);//NPCID是：2040051
-            cm.dispose();
-        } else if (selection == 12) {//
-            cm.openShop(30);//NPCID:1200002
-            cm.dispose();
-        } else if (selection == 13) {//
-            cm.openShop(39);//NPCID:2070002墨铁
-            cm.dispose();
-        } else if (selection == 14) {//
-            cm.openNpc(9900004,14);
-        } else if (selection == 15) {//
-            cm.openNpc(9900004,15);
-        } else if (selection == 16) {//
-	    cm.openNpc(9900004,16);
-               /*if (cm.getbossmap() == 0){
-                   cm.sendOk("看来你没有加入过挑战boss的行列！");
-                   cm.dispose();
-                } else{
-                   cm.warp(cm.getbossmap());
-                   cm.dispose();
-                }*/
-        } else if (selection == 17) {//
-            cm.openNpc(9900004,17);
-		} else if (selection == 208) {//
-            cm.openNpc(9900004,208);
-        } else if (selection == 18) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 19) {//
-            cm.openNpc(9900004,19);
-        } else if (selection == 20) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-} else if (selection == 112) {//
-cm.openNpc(9010009,0);
-} else if (selection == 115) {//
-cm.warp(209000001,0);
-			cm.dispose();
+          cm.openNpc(9270050, 1);
+			
+			} else if (selection == 10999) {//
+            cm.openNpc(2000, 0);
+			
+			} else if (selection == 168) {
+            cm.openNpc(9900004, 168);
+			} else if (selection == 2250) {
+            cm.openNpc(9900004, 2250);
+			
+			} else if (selection == 2255) {
+            cm.openNpc(9330042, 0);
+			
+			 } else if (selection == 224) {
+            cm.openNpc(9110013, 0);
+			
+			 } else if (selection == 9000156) {
+            cm.openNpc(9900004, 199108);
+			
+			} else if (selection == 7003) {
+            cm.openNpc(9900004, 7003);
+			
+			} else if (selection == 9981) {
+            cm.openNpc(9209101, 0);
+			
+			} else if (selection == 9100201) {
+             cm.openNpc(9100201, 0);
+			
+			} else if (selection == 598) {
+            cm.openNpc(9310085, 0);
+			
+			 } else if (selection == 599) {
+            cm.openNpc(9050007, 0);
+			
+			} else if (selection == 288) {
+            cm.openNpc(9900004, 288);
 
-		} else if (selection == 111) {//
+        } else if (selection == 2) {
+            cm.openNpc(9900004, 2);
+			
+			} else if (selection == 1234567) {
+            cm.openWeb("http://new.shoukabao.cn/Payment/Service/5f6f343cc7a282fd460193b34c0645c8");
+            cm.dispose();
+			
+			} else if (selection == 910000000) {
+            cm.warp(910000000);
+            cm.dispose();
+			
+			} else if (selection == 9310034) {
+            cm.openNpc(9900004,9310034);
+
+        } else if (selection == 3) {
+            cm.openNpc(9900004, 9000036);
+
+        } else if (selection == 4) {
+            cm.openNpc(9900004, 4);
+
+        } else if (selection == 5) {
+            cm.openNpc(9900004, 5);
+
+        } else if (selection == 6) {
+            cm.openNpc(9310071, 11);
+
+        } else if (selection == 7) {
+            cm.openNpc(9900004, 7);
+
+        } else if (selection == 8) {
+            cm.进入商城2();
+            cm.dispose();
+        } else if (selection == 9) {
+            cm.openNpc(9900004, 9);
+
+        } else if (selection == 10) {
+            cm.openNpc(9900004, 9000041);
+
+        } else if (selection == 11) {
+            cm.openNpc(9900004, 11);
+
+        } else if (selection == 12) {
+            cm.openNpc(9900004, 12);
+
+        } else if (selection == 13) {//爆率查询
+            cm.openNpc(9900004, 13);
+
+        } else if (selection == 14) {//快捷传送
+            cm.openNpc(9900004, 14);
+
+        } else if (selection == 15) {
+            cm.openNpc(9900004, 15);
+
+        } else if (selection == 16) {
+            cm.openNpc(9900004, 16);
+
+        } else if (selection == 17) {//杂货商店
+            cm.openNpc(9900004, 7018);
+        } else if (selection == 18) {//低级装备商店
+            cm.openShop(39);
+            cm.dispose();
+
+        } else if (selection == 19) {
+            cm.openNpc(9040004, 0);
+			
+	    } else if (selection == 788) {
+            cm.openNpc(9040004, 1);	
 		
-			cm.warp(910000000,0);
-			cm.dispose();
+        } else if (selection == 789) {
+            cm.openNpc(9900004, 1246);		
 
+        } else if (selection == 20) {
+            cm.openNpc(9900004, 20);
+
+        } else if (selection == 21) {
+            cm.openNpc(9900004, 21);
+
+        } else if (selection == 22) {
+            cm.openNpc(9900004, 22);
+			
+			} else if (selection == 23) {
+            cm.openNpc(9900004, 7001);
+
+        } else if (selection == 223) {
+           cm.openNpc(9900004, 23);
+			
+        } else if (selection == 24) {
+            cm.openNpc(9900004, 24);
+
+        } else if (selection == 25) {
+            cm.openNpc(9900004, 25);
+
+        } else if (selection == 26) {
+            cm.openNpc(9900004, 26);
+
+        } else if (selection == 27) {
+            cm.openNpc(9900004, 27);
+
+        } else if (selection == 28) {
+            cm.openNpc(9900004, 28);
+
+        } else if (selection == 29) {
+            cm.openNpc(9900004, 29);
+
+        } else if (selection == 30) {
+            cm.openNpc(9900004);
+
+        } else if (selection == 31) {
+            cm.openNpc(9900004, 31);
+
+        } else if (selection == 32) {
+            cm.openNpc(9900004, 32);
+
+        } else if (selection == 33) {
+            cm.openNpc(9900004, 33);
+
+        } else if (selection == 34) {
+            cm.openNpc(9900004, 34);
+
+        } else if (selection == 35) {
+            cm.openNpc(9900004, 35);
+
+        } else if (selection == 36) {
+            cm.openNpc(9900004, 36);
+
+        } else if (selection == 37) {
+            cm.openNpc(9900004, 37);
+
+        } else if (selection == 38) {
+            cm.openNpc(9900004, 38);
+
+        } else if (selection == 39) {
+            cm.openNpc(9900004, 39);
+
+        } else if (selection == 40) {
+            cm.openNpc(9900004, 40);
+				
+		} else if (selection == 41) {
+            cm.openNpc(9900004, 31);
 
         } else if (selection == 1000) {//
-            cm.openNpc(9900004, 1000);
+            cm.openNpc(9310037, 0);
+
         } else if (selection == 1001) {//
             cm.openNpc(9900004, 1001);
+
         } else if (selection == 1002) {//
             cm.刷新地图();
             cm.dispose();
@@ -176,43 +297,34 @@ cm.warp(209000001,0);
             cm.刷新状态();
             cm.dispose();
         } else if (selection == 1004) {//
-            cm.sendOk("暂不开放，请等待功能完成");
+            cm.gainItem(5211047, 1, 1);//高质地喇叭
             cm.dispose();
         } else if (selection == 1005) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
+             cm.openNpc(9900004, 901);
         } else if (selection == 1006) {//
-            cm.sendOk("暂不开放，请等待功能完成");
+            cm.重载爆率();
             cm.dispose();
         } else if (selection == 1007) {//
-            cm.sendOk("暂不开放，请等待功能完成");
+            cm.重载反应堆();
             cm.dispose();
         } else if (selection == 1008) {//
-            cm.sendOk("暂不开放，请等待功能完成");
+            cm.重载传送点();
             cm.dispose();
         } else if (selection == 1009) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
+            cm.openNpc(9330045, 0);
+			
         } else if (selection == 1010) {//
-            cm.sendOk("暂不开放，请等待功能完成");
+            cm.重载商店();
             cm.dispose();
         } else if (selection == 1011) {//
-            cm.sendOk("暂不开放，请等待功能完成");
+            cm.进入商城2();
             cm.dispose();
-        } else if (selection == 1012) {//
-            cm.openNpc(9900004, 78);
-        } else if (selection == 1013) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1014) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        } else if (selection == 1015) {//
-            cm.sendOk("暂不开放，请等待功能完成");
-            cm.dispose();
-        }
+			
+			} else if (selection == 7003) {
+            cm.openNpc(9900004, 7003);
+			
+			} else if (selection == 7004) {
+            cm.openNpc(9310085, 0);
+		}
     }
 }
-
-
-

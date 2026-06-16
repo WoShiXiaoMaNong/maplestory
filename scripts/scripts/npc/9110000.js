@@ -1,25 +1,41 @@
-var status = 0;
-var cost = 3000;
-function start() {
-    cm.sendYesNo("ÇëÎÊÊÇ·ñÏëÈ¥ÈÕ±¾ÉñÉç?? 3000·ã±ÒÒ»´Î~~~~");
-}
+var é›ªå±± = "#fEffect/SkillName1.img/1001003/é›ªå±±#";
+var status = -1;
+var map = 209000001;
+var num = 15;
+var maxp = 1;
 
 function action(mode, type, selection) {
-    if (mode != 1) {
-        if (mode == 0)
-        cm.sendOk("¼ÈÈ»Äã²»ÒªÄÇ¾ÍËãÁË~~~");
-        cm.dispose();
-        return;
+    if (mode == 1) {
+	status++;
+    } else {
+	if (status <= 1) {
+	    cm.dispose();
+	    return;
+	}
+	status--;
     }
-    status++;
-    if (status == 1) {
-		if(cm.getMeso() < cost) {
-		cm.sendOk("¸ÉÃ»Ç®»¹¸ÒÈ¥ÈÕ±¾ÉñÉç!!");
-		cm.dispose();
+    if (status == 0) {
+		var selStr = " - ";
+		for (var i = 1; i < num; i++) {
+			selStr += "\r\n#b#L" + i + "#å¥‡é‡" + i + " (" + cm.getPlayerCount(map + i) + "/" + maxp + ")#l#k";
+		}
+	cm.sendSimple(selStr);
+    } else if (status == 1) {
+		if (selection < 0 || selection >= num) {
+			cm.dispose();
+		} else if (cm.getPlayer().getClient().getChannel() !=1 ) {
+			cm.sendOk("åªæœ‰ #r2#k çº¿æ‰å¯ä»¥è¿›å…¥ã€‚");
+			cm.dispose();
+            cm.dispose();
+		} else if (cm.getPlayerCount(map + selection) >= maxp) {
+			cm.sendNext("è¿™ä¸ªæˆ¿é—´å·²ç»æ»¡äººï¼Œè¯·ç¨åå†å°è¯•!");
+			status = -1;
 		} else {
-		cm.gainMeso(-cost);
-		cm.warp(800000000, 0);
-        cm.dispose();
+			cm.warp(map + selection, 0);
+			cm.setBossLog("kjfj");
+			cm.worldMessage(6,"ç©å®¶ "+cm.getName()+" ä»Šæ—¥ç¬¬ "+ cm.getChar().getBossLog("kjfj")+" æ¬¡è¿›å…¥ã€æåº¦ææƒ§çš„æ€ªç‰©æˆ¿é—´ã€‘ã€‚");
+			cm.dispose();
+
+		}
     }
-}
 }
