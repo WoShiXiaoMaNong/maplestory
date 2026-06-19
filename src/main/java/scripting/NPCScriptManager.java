@@ -1,17 +1,18 @@
 package scripting;
 
+import java.io.File;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.locks.Lock;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+
 import client.MapleClient;
 import constants.GameConstants;
 import server.quest.MapleQuest;
 import tools.FileoutputUtil;
 import tools.MaplePacketCreator;
-
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import java.io.File;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.locks.Lock;
 
 public class NPCScriptManager extends AbstractScriptManager {
     private final Map<MapleClient, NPCConversationManager> mapleClientNPCConversationManagerMap = new WeakHashMap<>();
@@ -269,5 +270,4 @@ public class NPCScriptManager extends AbstractScriptManager {
     public final NPCConversationManager getCM(final MapleClient c) {
         return this.mapleClientNPCConversationManagerMap.get(c);
     }
-
 }
