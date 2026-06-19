@@ -1,7 +1,7 @@
 package client;
 
-import server.*;
-import server.life.*;
+import server.MapleStatEffect;
+import server.life.Element;
 
 public interface ISkill
 {

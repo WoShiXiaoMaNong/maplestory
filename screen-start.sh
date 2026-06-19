@@ -1,0 +1,1 @@
+screen -d -m -S "maplestory" ./jdk/jre/bin/java -cp ./target/maple.jar -server -DhomePath=./config/ -DscriptsPath=./scripts/ -DwzPath=./scripts/wz -Xms512m -Xmx2048m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:MaxNewSize=512m server.Start nogui

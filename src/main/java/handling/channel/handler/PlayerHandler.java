@@ -911,7 +911,9 @@ public class PlayerHandler
         }
         chr.checkFollow();
         chr.getMap().broadcastMessage(chr, MaplePacketCreator.magicAttack(chr.getId(), attack.tbyte, attack.skill, skillLevel, attack.display, attack.animation, attack.speed, attack.allDamage, attack.charge, chr.getLevel(), attack.unk), chr.getPosition());
-        DamageParse.applyAttackMagic(attack, skill, c.getPlayer(), effect);
+        
+        applyAttackMagicWithDelay(skill, attack, c, chr, effect,0);
+
         final WeakReference<MapleCharacter>[] clones = chr.getClones();
         for (int i = 0; i < clones.length; ++i) {
             if (clones[i].get() != null) {
@@ -920,16 +922,54 @@ public class PlayerHandler
                 final MapleStatEffect eff2 = effect;
                 final int skillLevel2 = skillLevel;
                 final AttackInfo attack2 = DamageParse.DivideAttack(attack, chr.isGM() ? 1 : 4);
+                int cloneActionStartDelay = 500 * i + 500; 
                 Timer.CloneTimer.getInstance().schedule(new Runnable() {
                     @Override
                     public void run() {
                         clone.getMap().broadcastMessage(MaplePacketCreator.magicAttack(clone.getId(), attack2.tbyte, attack2.skill, skillLevel2, attack2.display, attack2.animation, attack2.speed, attack2.allDamage, attack2.charge, clone.getLevel(), attack2.unk));
                         DamageParse.applyAttackMagic(attack2, skil2, chr, eff2);
                     }
-                }, 500 * i + 500);
+                }, cloneActionStartDelay);
+                applyAttackMagicWithDelay(skil2, attack2, c, chr, eff2, cloneActionStartDelay);
             }
         }
     }
+
+    private static void applyAttackMagicWithDelay(final ISkill skill, final AttackInfo attack, final MapleClient c, final MapleCharacter chr, final MapleStatEffect effect, int extraDelay) {
+        int animationDelay = 0; // 弹道时间
+        if (skill != null) {
+            animationDelay = skill.getAnimationTime(); 
+        }
+        
+     
+        if (animationDelay <= 0) {
+            animationDelay = 0;
+        }
+        
+        //  结合攻速（attack.speed）对 WZ 正式延迟进行加权计算
+        if (attack.speed > 0 && animationDelay > 0) {
+            animationDelay = (animationDelay * (attack.speed + 10)) / 16;
+        }
+
+        //  累加传入的额外延迟（主要是给分身用的时序差，本体传 0 即可）
+        animationDelay += extraDelay;
+
+        if (animationDelay > 0) {
+            server.Timer.MapTimer.getInstance().schedule(new Runnable() {
+                @Override
+                public void run() {
+                    if (chr.getMap() != null && chr.isAlive()) {
+                        // 弹道飞到怪物身上后，触发真正的扣血
+                        DamageParse.applyAttackMagic(attack, skill, c.getPlayer(), effect);
+                    }
+                }
+            }, animationDelay);
+        } else {
+            // 零延迟技能直接即时结算
+            DamageParse.applyAttackMagic(attack, skill, c.getPlayer(), effect);
+        }
+    }
+
     
     public static void DropMeso(final int meso, final MapleCharacter chr) {
         if (!chr.isAlive() || meso < 10 || meso > 50000 || meso > chr.getMeso()) {
