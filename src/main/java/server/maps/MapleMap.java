@@ -50,6 +50,7 @@ import server.MaplePortal;
 import server.MapleSquad;
 import server.MapleStatEffect;
 import server.Randomizer;
+import server.ServerProperties;
 import server.SpeedRunner;
 import server.Timer;
 import server.events.MapleEvent;
@@ -1993,6 +1994,21 @@ public class MapleMap
                 }
             }
             chr.getClient().getSession().write(MaplePacketCreator.musicChange(music));
+        }
+
+        // =========================================================
+        //  ：首位玩家踏入新地圖時，100% 消除首次刷怪延遲
+        // =========================================================
+        boolean instantFirstSpawnOnMapWakeup = Boolean.parseBoolean(ServerProperties.getProperty("RoyMS.instantFirstSpawnOnMapWakeup", "false"));
+
+        if (instantFirstSpawnOnMapWakeup && !chr.isClone() && this.getCharacters().size() == 1) {
+            
+            //  2. 欺騙 canSpawn() 閥門：將最後刷怪時間強制往前挪，瞬間打破 5~15 秒的冷卻限制
+            this.lastSpawnTime = System.currentTimeMillis() - this.createMobInterval - 1000L;
+            
+            //  3. 精准召喚：在換圖成功的第 0 毫秒，直接手動強制觸發全圖出怪！
+            // 傳入 false 完美適配你線程裡的方法定義
+            this.respawn(false); 
         }
     }
     
