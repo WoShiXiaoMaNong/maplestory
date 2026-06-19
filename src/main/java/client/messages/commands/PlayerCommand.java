@@ -3,13 +3,11 @@ package client.messages.commands;
 import java.util.Arrays;
 
 import client.MapleClient;
-import client.messages.CommandProcessorUtil;
 import client.messages.commands.PlayerCommand.Mob;
 import client.messages.commands.PlayerCommand.Mobdrop;
 import constants.ServerConstants;
 import handling.world.World;
 import scripting.NPCScriptManager;
-import server.life.MapleLifeFactory;
 import server.life.MapleMonster;
 import server.maps.MapleMapObject;
 import server.maps.MapleMapObjectType;
@@ -51,9 +49,7 @@ public class PlayerCommand
     {
     }
     
-    public static class 破攻 extends pg
-    {
-    }
+
 
     public static class 查看 extends CommandExecute
     {
@@ -184,12 +180,12 @@ public class PlayerCommand
         @Override
         public int execute(final MapleClient c, final String[] splitted) {
             c.getPlayer().dropMessage(5, "指令列表 :");
-            c.getPlayer().dropMessage(5, "@解卡/@查看/@ea  <解除异常+查看当前状态>");
-            c.getPlayer().dropMessage(5, "@爆率 爆率       <查询当前地图怪物爆率>");
-            c.getPlayer().dropMessage(5, "@自由/@zy     < 立即回到自于市场 >");
+            c.getPlayer().dropMessage(5, "@解卡/@查看/@ea  < 解除异常+查看当前状态 >");
+            c.getPlayer().dropMessage(5, "@爆率 爆率       < 查询当前地图怪物爆率 >");
+            c.getPlayer().dropMessage(5, "@自由/@zy        < 立即回到自于市场 >");
             c.getPlayer().dropMessage(5, "@万能/@wn        < 打开多功能NPC >");
-            c.getPlayer().dropMessage(5, "@怪物/@Mob  <查看身边怪物信息/血量>");
-            c.getPlayer().dropMessage(5, "@abc   召唤怪物\n(蜗牛、黑木妖、火独眼兽、小石球、海胆、鲨鱼、骷髅龙、小铜人、银人、小金人)\n最高可召唤100只 每天召唤10次");
+           // c.getPlayer().dropMessage(5, "@怪物/@Mob       < 查看身边怪物信息/血量>");
+            //c.getPlayer().dropMessage(5, "@abc   召唤怪物\n(蜗牛、黑木妖、火独眼兽、小石球、海胆、鲨鱼、骷髅龙、小铜人、银人、小金人)\n最高可召唤100只 每天召唤10次");
             return 1;
         }
     }
@@ -198,53 +194,55 @@ public class PlayerCommand
     {
         @Override
         public int execute(final MapleClient c, final String[] splitted) {
-            if(c.getPlayer().getVipexpired() < System.currentTimeMillis()) {
-                c.getPlayer().dropMessage("你不是VIP玩家或者VIP过期，请联系管理员");
-                return 0;
-            }
-            if (splitted.length < 2) {
-                return 0;
-            }
-            String name = splitted[1];
-            int mid = 0;
-            if("小金人".equals(name)) {
-                mid = 9600019;
-            }else if("银人".equals(name)) {
-                mid = 9600024;
-            }else if("小铜人".equals(name)) {
-                mid = 9600020;
-            }else if("骷髅龙".equals(name)) {
-                mid = 8190003;
-            }else if("鲨鱼".equals(name)) {
-                mid = 8150100;
-            }else if("海胆".equals(name)) {
-                mid = 2230108;
-            }else if("小石球".equals(name)) {
-                mid = 5200000;
-            }else if("火独眼兽".equals(name)) {
-                mid = 2230100;
-            }else if("黑木妖".equals(name)) {
-                mid = 1110101;
-            }else if("蜗牛".equals(name)){
-                mid = 100100;
-            } else{
-                c.getPlayer().dropMessage("暂不支持召唤: "+name);
-                return 0;
-            }
-            if(c.getPlayer().getBossLog(name) > 9) {
-                c.getPlayer().dropMessage(6,"今日召唤已超过10次，请明天再来吧");
-                return 0;
-            }
-            c.getPlayer().setBossLog(name);
-            int num = Math.min(CommandProcessorUtil.getOptionalIntArg(splitted, 2, 1), 500);
-            if (num > 100) {
-                num = 100;
-            }
-            for (int i = 0; i < num; ++i) {
-                final MapleMonster mob = MapleLifeFactory.getMonster(mid);
-                c.getPlayer().getMap().spawnMonsterOnGroundBelow(mob, c.getPlayer().getPosition());
-            }
-            return 1;
+            c.getPlayer().dropMessage("此功能暂未开放");
+            return 0;
+            // if(c.getPlayer().getVipexpired() < System.currentTimeMillis()) {
+            //     c.getPlayer().dropMessage("你不是VIP玩家或者VIP过期，请联系管理员");
+            //     return 0;
+            // }
+            // if (splitted.length < 2) {
+            //     return 0;
+            // }
+            // String name = splitted[1];
+            // int mid = 0;
+            // if("小金人".equals(name)) {
+            //     mid = 9600019;
+            // }else if("银人".equals(name)) {
+            //     mid = 9600024;
+            // }else if("小铜人".equals(name)) {
+            //     mid = 9600020;
+            // }else if("骷髅龙".equals(name)) {
+            //     mid = 8190003;
+            // }else if("鲨鱼".equals(name)) {
+            //     mid = 8150100;
+            // }else if("海胆".equals(name)) {
+            //     mid = 2230108;
+            // }else if("小石球".equals(name)) {
+            //     mid = 5200000;
+            // }else if("火独眼兽".equals(name)) {
+            //     mid = 2230100;
+            // }else if("黑木妖".equals(name)) {
+            //     mid = 1110101;
+            // }else if("蜗牛".equals(name)){
+            //     mid = 100100;
+            // } else{
+            //     c.getPlayer().dropMessage("暂不支持召唤: "+name);
+            //     return 0;
+            // }
+            // if(c.getPlayer().getBossLog(name) > 9) {
+            //     c.getPlayer().dropMessage(6,"今日召唤已超过10次，请明天再来吧");
+            //     return 0;
+            // }
+            // c.getPlayer().setBossLog(name);
+            // int num = Math.min(CommandProcessorUtil.getOptionalIntArg(splitted, 2, 1), 500);
+            // if (num > 100) {
+            //     num = 100;
+            // }
+            // for (int i = 0; i < num; ++i) {
+            //     final MapleMonster mob = MapleLifeFactory.getMonster(mid);
+            //     c.getPlayer().getMap().spawnMonsterOnGroundBelow(mob, c.getPlayer().getPosition());
+            // }
+            // return 1;
         }
         public String getMessage() {
             return new StringBuilder().append("!abc <怪物ID>  - 召唤怪物").toString();
