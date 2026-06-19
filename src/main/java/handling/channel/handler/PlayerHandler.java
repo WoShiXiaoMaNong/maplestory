@@ -40,6 +40,7 @@ import server.maps.MapleMapObject;
 import server.maps.MapleMapObjectType;
 import server.movement.LifeMovementFragment;
 import server.quest.MapleQuest;
+import tools.AttackPair;
 import tools.MaplePacketCreator;
 import tools.data.input.LittleEndianAccessor;
 import tools.data.input.SeekableLittleEndianAccessor;
@@ -936,23 +937,8 @@ public class PlayerHandler
     }
 
     private static void applyAttackMagicWithDelay(final ISkill skill, final AttackInfo attack, final MapleClient c, final MapleCharacter chr, final MapleStatEffect effect, int extraDelay) {
-        int animationDelay = 0; // 弹道时间
-        if (skill != null) {
-            animationDelay = skill.getAnimationTime(); 
-        }
+        int animationDelay = calculateAttackDelay(skill, attack, chr, extraDelay);
         
-     
-        if (animationDelay <= 0) {
-            animationDelay = 0;
-        }
-        
-        //  结合攻速（attack.speed）对 WZ 正式延迟进行加权计算
-        if (attack.speed > 0 && animationDelay > 0) {
-            animationDelay = (animationDelay * (attack.speed + 10)) / 16;
-        }
-
-        //  累加传入的额外延迟（主要是给分身用的时序差，本体传 0 即可）
-        animationDelay += extraDelay;
 
         if (animationDelay > 0) {
             server.Timer.MapTimer.getInstance().schedule(new Runnable() {
@@ -968,6 +954,76 @@ public class PlayerHandler
             // 零延迟技能直接即时结算
             DamageParse.applyAttackMagic(attack, skill, c.getPlayer(), effect);
         }
+    }
+
+    private static int calculateAttackDelay(ISkill skill, AttackInfo attack, MapleCharacter chr, int extraDelay) {
+        //  1. 优先获取 WZ 里的官方原生总延迟
+        int wzAnimationTime = (skill != null) ? skill.getAnimationTime() : 0;
+
+        int baseDelay = 0;
+        double projectileSpeed = 0.0;
+
+        //  2. 核心判定：根据 display 提取物理弹道特性
+        if (attack.display == 28 || attack.display == 29) { // 投掷类/魔法弹类
+            baseDelay = 150;
+            projectileSpeed = 0.95;
+        } else if (attack.display == 22) { // 火球类/常规射击类
+            baseDelay = 200;
+            projectileSpeed = 1.10;
+        } else if (attack.display == 24 || attack.display == 25) { // 假设这是冰箭/火焰箭的动作编码
+            baseDelay = 250;
+            projectileSpeed = 1.20; // 冰火箭飞行速度通常更快
+        }
+
+        //  3. 动态融合：如果 WZ 里有正式延迟，我们用 WZ 的数据作为前摇基准（更精准）
+        if (wzAnimationTime > 0) {
+            // 如果该技能带有物理飞弹速度，说明 WZ 里的总延迟 = 前摇 + 飞弹极限时间
+            if (projectileSpeed > 0) {
+                baseDelay = (int) (wzAnimationTime * 0.4); // 行业公认算法：前摇大约占总动作时间的 40%
+            } else {
+                baseDelay = wzAnimationTime; // 无弹道的纯范围大招，前摇即是总延迟
+            }
+        }
+
+        //  4. 针对每只怪，完美计算其实时空间距离延迟
+        int finalAnimationDelay = baseDelay;
+
+        //  核心算法：计算玩家到“所有受击怪物”的平均物理距离
+        if (projectileSpeed > 0 && attack.targets > 0 && attack.allDamage != null && !attack.allDamage.isEmpty()) {
+            Point playerPos = chr.getPosition();
+            double totalDistance = 0;
+            int validMonsterCount = 0;
+
+            // 累加所有怪的距离
+            for (Object obj : attack.allDamage) {
+                AttackPair attackPair = (AttackPair) obj;
+                server.life.MapleMonster monster = chr.getMap().getMonsterByOid(attackPair.objectid);
+                if (monster != null && playerPos != null && monster.getPosition() != null) {
+                    double deltaX = playerPos.getX() - monster.getPosition().getX();
+                    double deltaY = playerPos.getY() - monster.getPosition().getY();
+                    totalDistance += Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                    validMonsterCount++;
+                }
+            }
+
+            // 算出平均距离和平均飞行时间
+            if (validMonsterCount > 0) {
+                double averageDistance = totalDistance / validMonsterCount;
+                int flightTime = (int) (averageDistance / projectileSpeed);
+                finalAnimationDelay = baseDelay + flightTime; // 抬手 + 平均飞行时间
+            } else {
+                finalAnimationDelay = 450; // 兜底
+            }
+        }
+
+        // 攻速加权、分身时序加权（保持不变）
+        if (attack.speed > 0 && baseDelay > 0) {
+            int scaledBase = (baseDelay * (attack.speed + 10)) / 16;
+            finalAnimationDelay = finalAnimationDelay - baseDelay + scaledBase;
+        }
+        finalAnimationDelay += extraDelay;
+
+        return finalAnimationDelay;
     }
 
     

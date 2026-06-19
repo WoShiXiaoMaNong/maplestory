@@ -1,5 +1,7 @@
 package server.life;
 
+import java.awt.Point;
+
 import client.ISkill;
 import client.MapleBuffStat;
 import client.MapleCharacter;
@@ -18,6 +20,7 @@ import handling.MaplePacket;
 import handling.channel.ChannelServer;
 import handling.world.MapleParty;
 import handling.world.MaplePartyCharacter;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import scripting.EventInstanceManager;
 import server.MapleItemInformationProvider;
 import server.Randomizer;
@@ -74,6 +78,7 @@ public class MapleMonster extends AbstractLoadedMapleLife
     private int stolen;
     private ScheduledFuture<?> dropItemSchedule;
     private boolean shouldDropItem;
+    private Point calculatedHitPoint;
     
     public MapleMonster(final int id, final MapleMonsterStats stats) {
         super(id);
@@ -129,6 +134,17 @@ public class MapleMonster extends AbstractLoadedMapleLife
         if (stats.getNoSkills() > 0) {
             this.usedSkills = new HashMap<Integer, Long>();
         }
+    }
+
+    public void setCalculatedHitPoint(Point calculatedHitPoint) {
+        if(this.calculatedHitPoint == null){
+            this.calculatedHitPoint = new Point(calculatedHitPoint);
+        }else{
+            this.calculatedHitPoint.setLocation(calculatedHitPoint);
+        }
+    }
+    public Point getCalculatedHitPoint() {
+        return this.calculatedHitPoint;
     }
     
     public MapleMonsterStats getStats() {
@@ -324,6 +340,7 @@ public class MapleMonster extends AbstractLoadedMapleLife
                 }
             }
         }
+        this.setCalculatedHitPoint(this.getPosition());
         this.startDropItemSchedule();
     }
     

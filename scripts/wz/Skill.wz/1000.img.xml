@@ -19,11 +19,6 @@
                 <vector name="origin" x="0" y="32" />
                 <int name="z" value="0" />
             </canvas>
-             <imgdir name="effect">
-                <imgdir name="0">
-                    <int name="delay" value="450" />
-                </imgdir>
-            </imgdir>
             <imgdir name="level">
                 <imgdir name="1">
                     <string name="hs" value="h1" />

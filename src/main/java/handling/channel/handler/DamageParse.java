@@ -408,6 +408,7 @@ public class    DamageParse
                 final MapleMonsterStats monsterstats = monster.getStats();
                 final int fixeddmg = monsterstats.getFixedDamage();
                 byte overallAttackCount = 0;
+              
                 for (final Pair<Integer, Boolean> eachde : oned.attack) {
                     Integer eachd = eachde.left;
                     ++overallAttackCount;

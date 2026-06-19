@@ -470,12 +470,18 @@ public class MapleMap
         }
         final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
         final byte droptype = (byte)(mob.getStats().isExplosiveReward() ? 3 : (mob.getStats().isFfaLoot() ? 2 : ((chr.getParty() != null) ? 1 : 0)));
-        final int mobpos = mob.getPosition().x;
+
+        final int mobpos = mob.getCalculatedHitPoint() == null ? mob.getPosition().x : mob.getCalculatedHitPoint().x;
+        final Point pos = new Point(0,
+                                     mob.getCalculatedHitPoint() == null? mob.getPosition().y:mob.getCalculatedHitPoint().y//change to hit poistion
+                                    );
+
+
         final int cmServerrate = ChannelServer.getInstance(this.channel).getMesoRate();
         int chServerrate = ChannelServer.getInstance(this.channel).getDropRate();
         final int caServerrate = ChannelServer.getInstance(this.channel).getCashRate();
         byte d = 1;
-        final Point pos = new Point(0, mob.getPosition().y);
+       
         double showdown = 100.0;
         final MonsterStatusEffect mse = mob.getBuff(MonsterStatus.挑衅);
         if (mse != null) {
