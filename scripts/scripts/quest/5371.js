@@ -12,7 +12,7 @@ function start(mode, type, selection) {
         qm.sendAcceptDecline("你确定要领勋章了吗??");
     else if (status == 1) {
         qm.sendOk("恭喜你完成。");
-        qm.gainItem(1142103, 1)
+		qm.gainItem(1142103,1)
         qm.forceCompleteQuest();
         qm.dispose();
     }

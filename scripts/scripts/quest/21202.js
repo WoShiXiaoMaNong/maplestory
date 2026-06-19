@@ -1,7 +1,11 @@
+/*
+ ZEVMSå†’é™©å²›(079)æ¸¸æˆæœåŠ¡ç«¯
+ */
 var status = -1;
+var skills = Array(21001003, 21000000, 21100000, 21100002, 21100004, 21100005, 21110002);
 
 function start(mode, type, selection) {
-    qm.sendNext("You want a pole arm? Hah! You don't look strong at all. Way outta your league. If you want a pole arm, prove me wrong by hunting #r#o9001012#s#k to the west of here, and find 30 #b#t4032311##k!");
+    qm.sendNext("ä½ æƒ³è¦æ’‘æ†è‡‚å—ï¼Ÿå“ˆï¼ä½ çœ‹èµ·æ¥ä¸€ç‚¹ä¹Ÿä¸å¼ºå£®ã€‚è¶…è¶Šä½ çš„è”ç›Ÿã€‚å¦‚æœä½ æƒ³è¦ä¸€ä¸ªæ†è‡‚ï¼Œé‚£å°±åœ¨æˆ‘çš„è¥¿è¾¹æ‰“çŒï¼Œè¯æ˜æˆ‘é”™äº†ï¼Œæ‰¾åˆ°äº†30 ä¸ª#b#v4032311##k!");
     qm.forceStartQuest();
     qm.dispose();
 }
@@ -13,22 +17,24 @@ function end(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        qm.sendNext("¹ş£¡ÄãÒÑ¾­Ö¤Ã÷ÁË×Ô¼ºµÄ¼ÛÖµ¡£Äã»áµÃµ½ÄãÏëÒªµÄ£¬ÊÇ·ñ×ªÖ°£¿");
+        qm.sendNext("å“ˆï¼ä½ å·²ç»è¯æ˜äº†ä½ çš„ä»·å€¼â€¦ä½ ä¼šå¾—åˆ°ä½ æƒ³è¦çš„ï¼Œæœ€å¥½çš„æ†è‡‚æ˜¯å¯èƒ½çš„ï¼");
     } else if (status == 1) {
         if (qm.getPlayerStat("RSP") > (qm.getPlayerStat("LVL") - 30) * 3) {
-            qm.sendNext("ÄãÓĞÌ«¶àÎ´ÓÃÍêµÄ #bSP#k. ÎÒÇ¿ÁÒ½¨ÒéÄãÔÚÄãµÄÒ»×ªºÍ¶ş×ª¼¼ÄÜÉÏÊ¹ÓÃ¸ü¶àµÄSP¡£.");
+            qm.sendNext("ä½ è¿˜æœ‰æŠ€èƒ½ç‚¹æ²¡ä½¿ç”¨å®Œã€‚");
             qm.dispose();
             return;
         }
-        qm.sendNextS("ÎÒµÄ»ØÒäÓÖ»ØÀ´ÁË¡­", 2);
+        qm.sendNextS("æˆ‘çš„è®°å¿†æ­£åœ¨å›å½’â€¦", 2);
         qm.changeJob(2110);
         qm.gainItem(1142130, 1);
         qm.gainItem(4032311, -30);
-		qm.teachSkill(21100000,0,20);//¸øÓë¾«×¼Ã¬
         qm.forceCompleteQuest(21201);
+        for (var i = 0; i < skills.length; i++) {
+            qm.teachSkill(skills[i], qm.getPlayer().getSkillLevel(skills[i]));
+        }
         qm.forceCompleteQuest();
     } else if (status == 2) {
-        qm.sendOk("¹ş¹ş!ÄãÒÑ¾­µÃµ½ÄãÏëÒªµÄÁË£¬¶ş×ª³É¹¦¡£ÏÖÔÚÀë¿ª£¡");
+        qm.sendOk("å“ˆå“ˆï¼ä½ å·²ç»å¾—åˆ°ä½ æƒ³è¦çš„äº†ï¼Œç°åœ¨ç¦»å¼€ï¼");
         qm.dispose();
     }
 }

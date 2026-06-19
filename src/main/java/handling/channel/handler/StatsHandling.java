@@ -242,6 +242,10 @@ public class StatsHandling
             }
         }
         final ISkill skill = SkillFactory.getSkill(skillid);
+        if(skill == null) {
+            log.error("玩家 {} 尝试学习不存在的技能 {}", chr.getName(), skillid);
+            return;
+        }
         if (skill.hasRequiredSkill() && chr.getSkillLevel(SkillFactory.getSkill(skill.getRequiredSkillId())) < skill.getRequiredSkillLevel()) {
             return;
         }

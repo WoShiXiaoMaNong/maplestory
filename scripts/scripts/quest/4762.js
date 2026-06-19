@@ -1,3 +1,8 @@
+/*
+ ZEVMS冒险岛(079)游戏服务端
+ 10级奖励
+ */
+var huoqu = "#fUI/UIWindow.img/QuestIcon/4/0#";
 var status = -1;
 
 function start(mode, type, selection) {
@@ -14,12 +19,11 @@ function start(mode, type, selection) {
                 qm.completeQuest();
                 qm.dispose();
             } else {
-                qm.sendNext("恭喜你当前等级已经到达#b10#k级。");
+                qm.sendNext("恭喜你当前等级已经到达 #b10#k 级。\r\n\r\n" + huoqu + " 金币 x #b100000#k");
             }
         } else if (status == 1) {
-            qm.sendOk("恭喜你获得系统奖励！\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n100000金币#v5030001#");
-            qm.gainMeso(100000);
-            qm.gainItem(5030001, 1);
+            qm.sendOk("下一次奖励为 #b15#k 级。");
+            qm.gainMeso(10 * 10000);
             qm.completeQuest();
             qm.dispose();
         }

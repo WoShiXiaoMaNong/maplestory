@@ -1,7 +1,7 @@
 /*
- NPC Name: 		Commander Grauda
- Description: 		Quest - Elliminate Dunas Squad
- */
+	NPC Name: 		Commander Grauda
+	Description: 		Quest - Elliminate Dunas Squad
+*/
 var status = -1;
 
 function start(mode, type, selection) {

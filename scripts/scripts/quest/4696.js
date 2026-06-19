@@ -1,7 +1,7 @@
 /*
- NPC Name: 		Old Fox Flagship Al
- Description: 		Quest - Battling Nibergen
- */
+	NPC Name: 		Old Fox Flagship Al
+	Description: 		Quest - Battling Nibergen
+*/
 var status = -1;
 
 function start(mode, type, selection) {

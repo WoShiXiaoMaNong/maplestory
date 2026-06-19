@@ -21,6 +21,10 @@ var bosses = 0;
 var fuben = 0;
 var feixing = 0;
 
+// 在处理第一阶段（显示菜单）和第二阶段（扣费传送）前，先计算动态费用
+
+var town_fee =5000;  // 基础费用，实际费用为 town_fee+ (cm.getPlayer().getLevel() * 350); // 20级收8000，100级收32000
+
 //------------------------------------------------------------------------
 
 var bossmaps = Array( 
@@ -98,49 +102,49 @@ var monstermaps = Array(
 
 var townmaps = Array(
 		//Array(209080100,0,"【泡点地图】圣诞组队室"), 
-		Array(701000210,0,"大擂台"), 		
-		Array(1000000,0,"彩虹岛新手村"), 
-		Array(104000000,0,"明珠港"), 
-		Array(100000000,0,"射手村"), 
-		Array(101000000,0,"魔法密林"), 
-		Array(102000000,0,"勇士部落"), 
-		Array(103000000,0,"废弃都市"), 
-		Array(120000000,0,"诺特勒斯号码头"),
-		Array(105040300,0,"林中之城"),
-		Array(140000000,0,"里恩"),
-		Array(200000000,0,"天空之城"),
-		Array(211000000,0,"冰峰雪域"), 
-		Array(230000000,0,"水下世界"),  
-		Array(222000000,0,"童话村"), 
-		Array(220000000,0,"玩具城"),
-		Array(701000000,0,"东方神州"),
-		Array(250000000,0,"武陵"), 
-		Array(702000000,0,"少林寺"), 
-		Array(500000000,0,"泰国"),
-		Array(260000000,0,"阿里安特"),  
-		Array(600000000,0,"新叶城"), 
-		Array(240000000,0,"神木村"),  
-		Array(261000000,0,"马加提亚"), 
-		Array(221000000,0,"地球防御本部"), 
-		Array(251000000,0,"百草堂"),
-		Array(701000200,0,"上海豫园"),
-		Array(550000000,0,"吉隆大都市"),
-		Array(130000000,0,"圣地"),
-		Array(551000000,0,"甘榜村"),
-		Array(801000000,0,"昭和村"), 
-		Array(540010000,0,"新加坡机场"),
-		Array(541000000,0,"新加坡码头"),
-		Array(300000000,0,"艾林森林"), 
-		Array(270000100,0,"时间神殿"), 
-		Array(702100000,0,"藏经阁"), 
-		Array(800000000,0,"古代神社"), 
-		Array(130000200,0,"圣地岔路"),
-		Array(741000208,0,"钓鱼场"),
-		Array(925020000,0,"武陵道场入口"),
-		//Array(930000000,0,"毒雾森林"),
-		//Array(930000010,0,"森林入口"),	
-		Array(702090101,0,"英语村"),  
-		Array(700000000,0,"红鸾宫")
+		Array(701000210,town_fee,"大擂台"), 		
+		Array(1000000,town_fee,"彩虹岛新手村"), 
+		Array(104000000,town_fee,"明珠港"), 
+		Array(100000000,town_fee,"射手村"), 
+		Array(101000000,town_fee,"魔法密林"), 
+		Array(102000000,town_fee,"勇士部落"), 
+		Array(103000000,town_fee,"废弃都市"), 
+		Array(120000000,town_fee,"诺特勒斯号码头"),
+		Array(105040300,town_fee,"林中之城"),
+		Array(140000000,town_fee,"里恩"),
+		Array(200000000,town_fee,"天空之城"),
+		Array(211000000,town_fee,"冰峰雪域"), 
+		Array(230000000,town_fee,"水下世界"),  
+		Array(222000000,town_fee,"童话村"), 
+		Array(220000000,town_fee,"玩具城"),
+		Array(701000000,town_fee,"东方神州"),
+		Array(250000000,town_fee,"武陵"), 
+		Array(702000000,town_fee,"少林寺"), 
+		Array(500000000,town_fee,"泰国"),
+		Array(260000000,town_fee,"阿里安特"),  
+		Array(600000000,town_fee,"新叶城"), 
+		Array(240000000,town_fee,"神木村"),  
+		Array(261000000,town_fee,"马加提亚"), 
+		Array(221000000,town_fee,"地球防御本部"), 
+		Array(251000000,town_fee,"百草堂"),
+		Array(701000200,town_fee,"上海豫园"),
+		Array(550000000,town_fee,"吉隆大都市"),
+		Array(130000000,town_fee,"圣地"),
+		Array(551000000,town_fee,"甘榜村"),
+		Array(801000000,town_fee,"昭和村"), 
+		Array(540010000,town_fee,"新加坡机场"),
+		Array(541000000,town_fee,"新加坡码头"),
+		Array(300000000,town_fee,"艾林森林"), 
+		Array(270000100,town_fee,"时间神殿"), 
+		Array(702100000,town_fee,"藏经阁"), 
+		Array(800000000,town_fee,"古代神社"), 
+		Array(130000200,town_fee,"圣地岔路"),
+		Array(741000208,town_fee,"钓鱼场"),
+		Array(925020000,town_fee,"武陵道场入口"),
+		//Array(930000000,town_fee,"毒雾森林"),
+		//Array(930000010,town_fee,"森林入口"),	
+		Array(702090101,town_fee,"英语村"),  
+		Array(700000000,town_fee,"红鸾宫")
 		//Array(749020000,0,"国庆蛋糕地图")
 		);
 
@@ -220,12 +224,12 @@ var feixing = Array(
 
 		add += "#L0##b#e城镇传送#l\r\n\r\n ";
 
-		add += "#L1##b练级传送#l";
+		//add += "#L1##b练级传送#l";
 		
 
 		//add += "#L3##r小BOSS传送#l";
 
-		  add += "#L4##d跳跳专区#l"; 
+	//	  add += "#L4##d跳跳专区#l"; 
 		
 		//add += "#L6##d坐船地图#l";
 		
@@ -237,7 +241,7 @@ var feixing = Array(
 	} else if (status == 1) {
 
 	if (selection == 0){
-		var selStr = "#d　　　　　　　　　选择你的目的地吧.#k#b";
+		var selStr = "#d　　选择你的目的地吧!(等级越高，费用越高).#k#b";
 		for (var i = 0; i < townmaps.length; i++) {
 		selStr += "\r\n#L" + i + "#" + townmaps[i][2] + "";
 		}
@@ -295,22 +299,30 @@ var feixing = Array(
 	} else if (status == 2) {
 
 	if (towns == 1) {
-		cm.sendYesNo("你确定要去 " + townmaps[selection][2] + "?");
+		var fee_base = townmaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + townmaps[selection][2] + "? (需要支付 " + fee + " 金币)");
 		chosenMap = selection;
 		towns = 2;
 
 	} else if (monsters == 1) {
-		cm.sendYesNo("你确定要去 " + monstermaps[selection][2] + "?");
+		var fee_base = monstermaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + monstermaps[selection][2] + "? (需要支付 " + fee + " 金币)");
 		chosenMap = selection;
 		monsters = 2;
 
 	} else if (bosses == 1) {
-		cm.sendYesNo("你确定要去 " + bossmaps[selection][2] + "?");
+		var fee_base = bossmaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + bossmaps[selection][2] + "? (需要支付 " + fee + " 金币)");
 		chosenMap = selection;
 		bosses = 2;
 
 	} else if (fuben == 1) {
-		cm.sendYesNo("你确定要去 " + fubenmaps[selection][2] + "?");
+		var fee_base = fubenmaps[selection][1];
+		var fee = getFee(fee_base);
+		cm.sendYesNo("你确定要去 " + fubenmaps[selection][2] + "? (需要支付 " + fee + " 金币)");
 		chosenMap = selection;
 		fuben = 2;
 
@@ -321,36 +333,44 @@ var feixing = Array(
 	} else if (status == 3) {
 
 	if (towns == 2) {
-		if(cm.getMeso()>=townmaps[chosenMap][1]){
-		cm.warp(townmaps[chosenMap][0], 0);
-		cm.gainMeso(-townmaps[chosenMap][1]);
+		var fee_base = townmaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
+			cm.warp(townmaps[chosenMap][0], 0);
+			cm.gainMeso(-fee);
 		}else{
-		cm.sendOk("你没有足够的金币哦!");
+			cm.sendOk("你没有足够的金币哦!");
 		}
 		cm.dispose();
 
 	} else if (monsters == 2) {
-		if(cm.getMeso()>=monstermaps[chosenMap][1]){
+		var fee_base = monstermaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
 		cm.warp(monstermaps[chosenMap][0], 0);
-		cm.gainMeso(-monstermaps[chosenMap][1]);
+		cm.gainMeso(-fee);
 		}else{
 		cm.sendOk("你没有足够的金币哦!");
 		}
 		cm.dispose();
 
 	} else if (bosses == 2) {
-		if(cm.getMeso()>=bossmaps[chosenMap][1]){
+		var fee_base =bossmaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
 		cm.warp(bossmaps[chosenMap][0], 0);
-		cm.gainMeso(-bossmaps[chosenMap][1]);
+		cm.gainMeso(-fee);
 		}else{
 		cm.sendOk("你没有足够的金币哦!");
 		}
 		cm.dispose();
 
 	} else if (fuben == 2) {
-		if(cm.getMeso()>=fubenmaps[chosenMap][1]){
+		var fee_base = fubenmaps[chosenMap][1];
+		var fee = getFee(fee_base);
+		if(cm.getMeso()>=fee){
 		cm.warp(fubenmaps[chosenMap][0], 0);
-		cm.gainMeso(-fubenmaps[chosenMap][1]);
+		cm.gainMeso(-fee);
 		}else{
 		cm.sendOk("你没有足够的金币哦!");
 		}
@@ -364,3 +384,24 @@ var feixing = Array(
 		}
 		}
 
+function getFee(baseFee) {
+    // 此时 cm 已经有效了，可以安全使用
+    var level = cm.getPlayer().getLevel();
+    var coefficient = 0; // 动态等级系数
+
+    // 1. 新手阶段（1 ~ 30级）：低系数，保护新手口袋
+    if (level <= 30) {
+        coefficient = 300 * level; 
+    } 
+    // 2. 发展阶段（31 ~ 70级）：中系数，平滑过渡
+    else if (level > 30 && level <= 70) {
+        coefficient = 800 * level;  
+    } 
+    // 3. 后期四转阶段（71级以上）：高系数，精准回收金币
+    else if (level > 70) {
+        coefficient = 60000; 
+    }
+
+    // 严格遵循你要求的：基础价 + 等级 * 阶段动态系数
+    return Math.floor(baseFee + coefficient);
+}

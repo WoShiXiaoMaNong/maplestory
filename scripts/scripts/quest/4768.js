@@ -1,3 +1,8 @@
+/*
+ ZEVMS冒险岛(079)游戏服务端
+ 60级奖励
+ */
+var huoqu = "#fUI/UIWindow.img/QuestIcon/4/0#";
 var status = -1;
 
 function start(mode, type, selection) {
@@ -9,16 +14,21 @@ function start(mode, type, selection) {
         else
             status--;
         if (status == 0) {
+            if (qm.判断背包特殊栏().isFull()) {
+                qm.sendNext("特殊栏必须有一个空位。");
+                qm.对话结束();
+                return;
+            }
             if (qm.getQuestStatus(4768) == 2) {
                 qm.sendOk("你已经领取过奖励，继续努力到70级可以获得更多奖励喔");
                 qm.completeQuest();
                 qm.dispose();
             } else {
-                qm.sendNext("恭喜你当前等级已经到达#b60#k级。");
+                qm.sendNext("恭喜你当前等级已经到达 #b60#k 级。\r\n\r\n" + huoqu + " #v5072000# x 10");
             }
         } else if (status == 1) {
-            qm.sendOk("恭喜你获得系统奖励！\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v2000019# 100个");
-            qm.gainItem(2000019, 100);
+            qm.sendOk("下一次奖励为 #b70#k 级。");
+            qm.gainItem(5072000, 10);
             qm.completeQuest();
             qm.dispose();
         }

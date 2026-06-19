@@ -1,7 +1,4 @@
-/*
- NPC Name: 		Asia
- Description: 		Quest - Asia
- */
+
 var status = -1;
 
 function start(mode, type, selection) {

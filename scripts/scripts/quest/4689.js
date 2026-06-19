@@ -1,7 +1,7 @@
 /*
- NPC Name: 		Dida
- Description: 		Quest - Attack! Maverick Platoon of Robots
- */
+	NPC Name: 		Dida
+	Description: 		Quest - Attack! Maverick Platoon of Robots
+*/
 var status = -1;
 
 function start(mode, type, selection) {

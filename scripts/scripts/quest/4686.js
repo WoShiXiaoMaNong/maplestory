@@ -1,7 +1,7 @@
 /*
- NPC Name: 		Ponicher
- Description: 		Quest - A Battle Against Vergamot
- */
+	NPC Name: 		Ponicher
+	Description: 		Quest - A Battle Against Vergamot
+*/
 var status = -1;
 
 function start(mode, type, selection) {

@@ -1,3 +1,6 @@
+/*
+ ZEVMSÃ°ÏÕµº(079)ÓÎÏ··şÎñ¶Ë
+ */
 var status = -1;
 
 function start(mode, type, selection) {

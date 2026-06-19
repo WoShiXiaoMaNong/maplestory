@@ -53,6 +53,12 @@ mvn clean install
 - 网关端口：8600
 - 客户端端口：2525~2530
 
+### 5. Debug
+- mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
+- 用VsCode Debug
+    - startdebug
+    - attach
+
 ## 说明
 
 - 请先确保数据库已正确启动并可连接。

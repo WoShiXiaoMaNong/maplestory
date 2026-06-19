@@ -5,7 +5,7 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 0) {
-            qm.sendNext("不！ 战神拒绝了！");
+            qm.sendNext("不！ 狂狼勇士拒绝了！");
             qm.dispose();
             return;
         }
@@ -31,7 +31,7 @@ function end(mode, type, selection) {
             qm.sendNext("孩子呢？ 倘若您救了那些孩子，就快点让他们上来吧！");
             qm.dispose();
             return;
-        } else if (status == 8) { // watching the introduction
+        } else if (status == 8) {
             if (qm.haveItem(4001271)) {
                 qm.gainItem(4001271, -1);
             }
@@ -54,19 +54,18 @@ function end(mode, type, selection) {
     } else if (status == 4) {
         qm.sendNextPrevS("立刻出发！", 3);
     } else if (status == 5) {
-        qm.sendNextPrev("战神！你也坐上方舟吧！我虽然了解您想火拚到最后一刻的心情...可是已经太迟了！打仗这个任务就交给您的同伴，跟我们一起前往明珠港吧！");
+        qm.sendNextPrev("狂狼勇士！你也坐上方舟吧！我虽然了解您想火拚到最后一刻的心情...可是已经太迟了！打仗这个任务就交给您的同伴，跟我们一起前往维多利亚岛吧！");
     } else if (status == 6) {
         qm.sendNextPrevS("绝对不行！", 3);
     } else if (status == 7) {
-        qm.sendNextPrevS("赫丽娜，您先去明珠港吧！我绝对不会死心的，我们后会有期。我要和同伴们一起去对付黑魔法师！", 3);
+        qm.sendNextPrevS("赫丽娜，您先去维多利亚岛吧！我绝对不会死心的，我们后会有期。我要和同伴们一起去对付黑魔法师！", 3);
     } else if (status == 8) {
-        qm.sendYesNo("请问您想跳过动画吗？");
-    } else if (status == 9) { // Not watching
         if (qm.haveItem(4001271)) {
             qm.gainItem(4001271, -1);
         }
+        qm.MovieClipIntroUI(true);
         qm.forceCompleteQuest();
-        qm.warp(140090000, 0);
+        qm.warp(914090010, 0);
         qm.dispose();
     }
 }
