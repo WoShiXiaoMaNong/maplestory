@@ -4,7 +4,7 @@
  */
 var huoqu = "#fUI/UIWindow.img/QuestIcon/4/0#";
 var status = -1;
-
+importPackage(Packages.client.inventory);
 function start(mode, type, selection) {
     if (mode == -1) {
         qm.dispose();
@@ -14,7 +14,7 @@ function start(mode, type, selection) {
         else
             status--;
         if (status == 0) {
-            if (qm.判断背包消耗栏().isFull()) {
+            if (qm.getChar().getInventory(MapleInventoryType.USE).isFull()) {
                 qm.sendNext("消耗栏必须有一个空位。");
                 qm.对话结束();
                 return;
