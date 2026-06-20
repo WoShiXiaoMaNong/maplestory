@@ -1274,6 +1274,7 @@ CREATE TABLE `dueyitems` (
   `expiredate` bigint(20) NOT NULL DEFAULT '-1',
   `type` tinyint(1) NOT NULL DEFAULT '0',
   `sender` varchar(15) NOT NULL DEFAULT '',
+  `equipOnlyId` int DEFAULT NULL,
   PRIMARY KEY (`inventoryitemid`) USING BTREE,
   KEY `inventoryitems_ibfk_1` (`characterid`) USING BTREE,
   KEY `characterid` (`characterid`) USING BTREE,

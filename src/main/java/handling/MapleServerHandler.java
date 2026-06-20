@@ -416,9 +416,11 @@ public class MapleServerHandler extends IoHandlerAdapter implements MapleServerH
         switch (header) {
             case PONG: {
                 c.pongReceived();
+                break;
             }
             case PACKET_ERROR: {
                 PacketErrorHandler.handlePacket(slea, c);
+                break;
             }
             case LOGIN_PASSWORD: {
                 CharLoginHandler.login(slea, c);

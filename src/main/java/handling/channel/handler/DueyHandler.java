@@ -18,6 +18,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import server.MapleDueyActions;
 import server.MapleInventoryManipulator;
 import server.MapleItemInformationProvider;
@@ -27,7 +30,22 @@ import tools.data.input.SeekableLittleEndianAccessor;
 
 public class DueyHandler
 {
+   
+    private static final Logger log = LoggerFactory.getLogger((Class)StatsHandling.class);
+    
+    private static final java.util.concurrent.locks.ReentrantLock dueyLock = new java.util.concurrent.locks.ReentrantLock();
+
     public static void DueyOperation(final SeekableLittleEndianAccessor slea, final MapleClient c) {
+            dueyLock.lock();
+            try {
+                doDueyOperation(slea, c);
+            }
+            finally {
+                dueyLock.unlock();
+            }
+    }
+
+    private static void doDueyOperation(final SeekableLittleEndianAccessor slea, final MapleClient c) {
         final byte operation = slea.readByte();
         switch (operation) {
             case 1: {
@@ -119,6 +137,7 @@ public class DueyHandler
                 final int packageid = slea.readInt();
                 final MapleDueyActions dp = loadSingleItem(packageid, c.getPlayer().getId());
                 if (dp == null) {
+                    c.getSession().write(MaplePacketCreator.enableActions()); 
                     return;
                 }
                 if (dp.getItem() != null && !MapleInventoryManipulator.checkSpace(c, dp.getItem().getItemId(), dp.getItem().getQuantity(), dp.getItem().getOwner())) {
@@ -129,14 +148,17 @@ public class DueyHandler
                     c.getSession().write(MaplePacketCreator.sendDuey((byte)17, null));
                     return;
                 }
+
                 removeItemFromDB(packageid, c.getPlayer().getId());
+
                 if (dp.getItem() != null) {
-                    MapleInventoryManipulator.addFromDrop(c, dp.getItem(), false);
+                    MapleInventoryManipulator.addFromDrop(c, dp.getItem(), true);
                 }
                 if (dp.getMesos() != 0) {
-                    c.getPlayer().gainMeso(dp.getMesos(), false);
+                    c.getPlayer().gainMeso(dp.getMesos(), true);
                 }
                 c.getSession().write(MaplePacketCreator.removeItemFromDuey(false, packageid));
+                c.getSession().write(MaplePacketCreator.sendDuey((byte)9, DueyHandler.loadItems(c.getPlayer())));
                 break;
             }
             case 6: {
@@ -146,6 +168,7 @@ public class DueyHandler
                 final int packageid = slea.readInt();
                 removeItemFromDB(packageid, c.getPlayer().getId());
                 c.getSession().write(MaplePacketCreator.removeItemFromDuey(true, packageid));
+                c.getSession().write(MaplePacketCreator.sendDuey((byte)9, DueyHandler.loadItems(c.getPlayer())));
                 break;
             }
             case 8: {
@@ -174,7 +197,7 @@ public class DueyHandler
             return true;
         }
         catch (SQLException se) {
-            se.printStackTrace();
+            log.error("Failed to add mesos to DB for duey.", se);
             return false;
         }
     }
@@ -192,14 +215,16 @@ public class DueyHandler
             ps.executeUpdate();
             final ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                ItemLoader.DUEY.saveItems(Collections.singletonList(new Pair<IItem, MapleInventoryType>(item, GameConstants.getInventoryType(item.getItemId()))), rs.getInt(1));
+                IItem cloneItem =item.copy();
+                cloneItem.setQuantity((short)quantity);
+                ItemLoader.DUEY.saveItems(Collections.singletonList(new Pair<IItem, MapleInventoryType>(cloneItem, GameConstants.getInventoryType(item.getItemId()))), rs.getInt(1));
             }
             rs.close();
             ps.close();
             return true;
         }
         catch (SQLException se) {
-            se.printStackTrace();
+            log.error("Failed to add item to DB for duey.", se);
             return false;
         }
     }
@@ -223,7 +248,7 @@ public class DueyHandler
             return packages;
         }
         catch (SQLException se) {
-            se.printStackTrace();
+            log.error("Failed to load items for duey.", se);
             return null;
         }
     }
@@ -248,9 +273,11 @@ public class DueyHandler
             }
             rs.close();
             ps.close();
+            log.warn("Trying to load single duey item with packageid {} and charid {}, but it was not found.", (Object)packageid, (Object)charid);
             return null;
         }
         catch (SQLException se) {
+            log.error("Failed to load single item for duey.", se);
             return null;
         }
     }
@@ -270,17 +297,48 @@ public class DueyHandler
     
     private static void removeItemFromDB(final int packageid, final int charid) {
         final Connection con = DatabaseConnection.getConnection();
+       
+        PreparedStatement psPackages    = null;
+        PreparedStatement psItems       = null;
         try {
-            final PreparedStatement ps = con.prepareStatement("DELETE FROM dueypackages WHERE PackageId = ? and RecieverId = ?");
-            ps.setInt(1, packageid);
-            ps.setInt(2, charid);
-            ps.executeUpdate();
-            ps.close();
+            psPackages = con.prepareStatement("DELETE FROM dueypackages WHERE PackageId = ? and RecieverId = ?");
+            psPackages.setInt(1, packageid);
+            psPackages.setInt(2, charid);
+            psPackages.executeUpdate();
+          
+
+            psItems = con.prepareStatement("DELETE FROM dueyitems WHERE PackageId = ?");
+            psItems.setInt(1, packageid);
+            psItems.executeUpdate();
+         
         }
         catch (SQLException se) {
-            se.printStackTrace();
+            log.error("remote item from db(Duey) error!",se);
+        }finally{
+            if(psPackages != null){
+                try {
+                    psPackages.close();
+                } catch (SQLException e) {
+                    log.error("Error closing psPackages", e);
+                }
+            }
+            if(psItems != null){
+                try {
+                    psItems.close();
+                } catch (SQLException e) {
+                    log.error("Error closing psItems", e);
+                }
+            }
+       
+            try{
+                 con.close();
+            }catch (SQLException e) {
+                log.error("Error closing connection", e);
+            }
         }
     }
+
+   
     
     private static MapleDueyActions getItemByPID(final int packageid) {
         try {

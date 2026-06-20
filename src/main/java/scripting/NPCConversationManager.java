@@ -19,6 +19,7 @@ import database.DatabaseConnection;
 import handling.cashshop.CashShopServer;
 import handling.channel.ChannelServer;
 import handling.channel.MapleGuildRanking;
+import handling.channel.handler.DueyHandler;
 import handling.login.LoginServer;
 import handling.world.CharacterTransfer;
 import handling.world.MapleMessengerCharacter;
@@ -1092,8 +1093,11 @@ public class NPCConversationManager extends AbstractPlayerInteraction
     }
     
     public void openDuey() {
+        
+       // this.c.getSession().write(MaplePacketCreator.getChannelWorldTime(System.currentTimeMillis()));
+    
         this.c.getPlayer().setConversation(2);
-        this.c.getSession().write(MaplePacketCreator.sendDuey((byte)9, null));
+        this.c.getSession().write(MaplePacketCreator.sendDuey((byte)9, DueyHandler.loadItems(getChar())));
     }
     
     public void openMerchantItemStore() {

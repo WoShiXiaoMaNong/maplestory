@@ -1,5 +1,26 @@
 package tools;
 
+import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import client.BuddyEntry;
 import client.MapleBuffStat;
 import client.MapleCharacter;
@@ -33,23 +54,6 @@ import handling.world.guild.MapleBBSThread;
 import handling.world.guild.MapleGuild;
 import handling.world.guild.MapleGuildAlliance;
 import handling.world.guild.MapleGuildCharacter;
-import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import server.MapleDueyActions;
 import server.MapleItemInformationProvider;
 import server.MapleShopItem;
@@ -75,7 +79,8 @@ import tools.data.output.MaplePacketLittleEndianWriter;
 import tools.packet.PacketHelper;
 
 public class MaplePacketCreator
-{
+{ 
+    private static final Logger log = LoggerFactory.getLogger((Class)MaplePacketCreator.class);
     public static List<Pair<MapleStat, Integer>> EMPTY_STATUPDATE;
     private static final byte[] CHAR_INFO_MAGIC;
     private static final boolean showPacket = false;
@@ -5419,10 +5424,20 @@ public class MaplePacketCreator
         if (ServerConstants.调试输出封包) {
             System.out.println("removeItemFromDuey--------------------");
         }
-        mplew.writeShort(SendPacketOpcode.DUEY.getValue());
-        mplew.write(23);
-        mplew.writeInt(Package);
-        mplew.write(remove ? 3 : 4);
+
+        mplew.writeShort(SendPacketOpcode.DUEY.getValue()); //总操作码
+        int subCode = 0x17; // 0x16 领取成功
+        mplew.write(subCode);                 // 子操作码，079 客户端中 0x16 = 领取成功，0x17 = 删除成功
+
+        mplew.writeInt(Package);        // package id
+        
+        //  mplew.write(remove ? 3 : 4);
+        int removeCode = 2;
+        mplew.write(removeCode);
+       
+        
+       // mplew.write(0);   //
+
         if (ServerConstants.PACKET_ERROR_OFF) {
             final ServerConstants ERROR = new ServerConstants();
             ERROR.setPACKET_ERROR(" 暂未定义 ：\r\n" + mplew.getPacket() + "\r\n\r\n");
@@ -5431,6 +5446,8 @@ public class MaplePacketCreator
     }
     
     public static MaplePacket sendDuey(final byte operation, final List<MapleDueyActions> packages) {
+        final long expirationDays = 29;
+
         final MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
         if (ServerConstants.调试输出封包) {
             System.out.println("sendDuey--------------------");
@@ -5442,24 +5459,40 @@ public class MaplePacketCreator
                 mplew.write(1);
                 break;
             }
-            case 9: {
+            case 9:
+            case 10: {
                 mplew.write(0);
-                mplew.write(packages.size());
-                for (final MapleDueyActions dp : packages) {
-                    mplew.writeInt(dp.getPackageId());
-                    mplew.writeAsciiString(dp.getSender(), 15);
-                    mplew.writeInt(dp.getMesos());
-                    mplew.writeLong(KoreanDateUtil.getFileTimestamp(dp.getSentTime(), false));
-                    mplew.writeZeroBytes(205);
-                    if (dp.getItem() != null) {
-                        mplew.write(1);
-                        PacketHelper.addItemInfo(mplew, dp.getItem(), true, true);
+                if (packages == null || packages.isEmpty()) {
+                    mplew.write(0);              // 包裹数量为 0 (1字节)
+                    mplew.writeLong(0);          // 占位时间戳 (8字节)
+                    mplew.writeZeroBytes(13);   // 精确填充 13 个 0 字节，对齐 079 客户端空邮箱读取边界
+               } else {
+                    mplew.write(packages.size()); // 包裹真实数量
+                    for (final MapleDueyActions dp : packages) {
+                        mplew.writeInt(dp.getPackageId());
+                        mplew.writeAsciiString(dp.getSender(), 13);
+                        mplew.writeInt(dp.getMesos());
+                       // mplew.writeLong(KoreanDateUtil.getFileTimestamp( System.currentTimeMillis() + (3L * 24L * 60L * 60L * 1000L), false));
+
+                       //有效期为30天，单位为毫秒
+                       long expirationTime =KoreanDateUtil.getFileTimestamp(dp.getSentTime()+ (expirationDays * 24L * 60L * 60L * 1000L), false);
+                        mplew.writeLong(expirationTime);
+                        mplew.writeZeroBytes(205); // 客户端预留的物品/文本空白数据填充
+                        if (dp.getItem() != null) {
+                            mplew.write(1);
+                            PacketHelper.addItemInfo(mplew, dp.getItem(), true, true);
+                        } else {
+                            mplew.write(0);
+                        }
                     }
-                    else {
-                        mplew.write(0);
-                    }
+                     mplew.write(0);  //最后的结尾校验符
                 }
-                mplew.write(0);
+              
+
+                break;
+            }
+            default: {
+                log.warn("未知操作码：" + operation);
                 break;
             }
         }
@@ -6970,6 +7003,37 @@ public class MaplePacketCreator
     public static MaplePacket getInventoryStatus() {
         return modifyInventory(false, Collections.EMPTY_LIST);
     }
+
+
+
+    // static short testvalue = 0;
+    // private static boolean getv(short i){
+    //     boolean cannuse = true;
+    //     for(SendPacketOpcode code : SendPacketOpcode.values()){
+    //         if(code.getValue() == i){
+    //             cannuse = false;
+    //             break;
+    //         }
+    //     }
+    //     return cannuse;
+    // }
+    // public static MaplePacket getChannelWorldTime(long time) {
+    //     MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
+        
+    //     // 1. 精准调用你在 sendops 里定义的全局 PING 或者是时间包头 0x14 (十进制 20)
+        
+    //     //mplew.writeShort(SendPacketOpcode.PING.getValue()); 
+    //     while(!getv(testvalue++)){
+            
+    //     }
+    //     mplew.writeShort(testvalue); // 0x14
+    //     System.err.println("发送时间包，包头: " + testvalue);
+        
+    //     // 2. 注入高精度 8 字节微软 FILETIME。这一行会把你服务器此时此刻 2026 年的毫秒数完美转为 18 位长整数发射出去！
+    //     mplew.writeLong(KoreanDateUtil.getFileTimestamp(time, false)); 
+        
+    //     return mplew.getPacket();
+    // }
     
     static {
         MaplePacketCreator.EMPTY_STATUPDATE = Collections.emptyList();
